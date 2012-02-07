@@ -5,14 +5,68 @@
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
     <h2>
-        Welcome to ASP.NET! hi. this is spencer making a change! yay. Max should be able to see this now
-        Another small change
+        Welcome to the Study Participant Portal! 
     </h2>
+    <h2>
+        </h2>
+    <asp:Panel ID="PnlMain" runat="server">
+        <asp:Button ID="btnResearcher" runat="server" Text="Researcher" Width="105px" 
+            onclick="btnResearcher_Click"/>
+        <br />
+        <asp:Button ID="btnParticipant" runat="server" Text="Participant" Width="105px" 
+            onclick="btnParticipant_Click" />
+
+        <asp:Panel ID="pnlResearcher" runat="server" Visible = "false">
+            <asp:Label ID="lblResLogin" runat="server" Text="Login"></asp:Label>
+            <br />             
+            <asp:Label ID="lblResUser" runat="server" Text="User" Width="75px"></asp:Label>
+            <asp:TextBox ID="tbResUser" runat="server" Width="173px"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblResPassword" runat="server" Text="Password" Width="75px"></asp:Label>
+            <asp:TextBox ID="tbResPassword" runat="server" Width="173px" TextMode="Password"></asp:TextBox>
+            <br />
+            <asp:Button ID="btnResSubmit" runat="server" Text="Submit" Width="75" 
+                onclick="btnResSubmit_Click" />
+            <br />
+            <br />
+            <asp:Label ID="lblResCreateAcc" runat="server" Text="Don't have an account? Create one here: "></asp:Label>       
+            <br />
+            <asp:Button ID="btnResCreateAcc" runat="server" Text="Create New Account" 
+                onclick="btnResCreateAcc_Click" />
+            <br />
+            <br />
+            <asp:Button ID="btnResCancel" runat="server" Text="Cancel" 
+                onclick="btnResCancel_Click" />
+        </asp:Panel>
+
+        <asp:Panel ID="pnlParticipant" runat="server" Visible = "false">
+            <asp:Label ID="lblParLogin" runat="server" Text="Login"></asp:Label>
+            <br />             
+            <asp:Label ID="lblParUser" runat="server" Text="User" Width="75px"></asp:Label>
+            <asp:TextBox ID="tbParUser" runat="server" Width="173px"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblParPassword" runat="server" Text="Password" Width="75px"></asp:Label>
+            <asp:TextBox ID="tbParPassword" runat="server" Width="173px" TextMode="Password"></asp:TextBox>
+            <br />
+            <asp:Button ID="btnParSubmit" runat="server" Text="Submit" Width="75" 
+                onclick="btnParSubmit_Click" />
+            <br />
+            <br />
+            <asp:Label ID="lblParCreateAcc" runat="server" Text="Don't have an account? Create one here: "></asp:Label>       
+            <br />
+            <asp:Button ID="btnParCreateAcc" runat="server" Text="Create New Account" 
+                onclick="btnParCreateAcc_Click" />
+            <br />
+            <br />
+            <asp:Button ID="btnParCancel" runat="server" Text="Cancel" 
+                onclick="btnParCancel_Click" />
+        </asp:Panel>
+    </asp:Panel>
+    <h2>
+        &nbsp;</h2>
+    <h2>
+        &nbsp;</h2>
     <p>
-        To learn more about ASP.NET visit <a href="http://www.asp.net" title="ASP.NET Website">www.asp.net</a>.
-    </p>
-    <p>
-        You can also find <a href="http://go.microsoft.com/fwlink/?LinkID=152368&amp;clcid=0x409"
-            title="MSDN ASP.NET Docs">documentation on ASP.NET at MSDN</a>.
+        To learn more about ASP.NET visit <a href="http://www.asp.net" title="Study Participant Portal">www.asp.net</a>.
     </p>
 </asp:Content>
