@@ -9,7 +9,8 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+        DatabaseQuery db = new DatabaseQuery("Select * from Participant");
+        String[] sArray = db.results;
     }
     protected void btnResearcher_Click(object sender, EventArgs e)
     {
