@@ -7,7 +7,9 @@ using System.Web;
 /// Summary description for Class1
 /// </summary>
 public class Participant: SuperUser {
+    
 	public Participant() {
+        type = Type.Participant;
 		//
 		// TODO: Add constructor logic here
 		//
