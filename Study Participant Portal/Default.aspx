@@ -17,7 +17,7 @@
             onclick="btnParticipant_Click" />
 
         <asp:Panel ID="pnlResearcher" runat="server" Visible = "false">
-            <asp:Label ID="lblResLogin" runat="server" Text="Login"></asp:Label>
+            <asp:Label ID="lblResLogin" runat="server" Text="Researcher Login"></asp:Label>
             <br />             
             <asp:Label ID="lblResUser" runat="server" Text="User" Width="75px"></asp:Label>
             <asp:TextBox ID="tbResUser" runat="server" Width="173px"></asp:TextBox>
@@ -40,7 +40,7 @@
         </asp:Panel>
 
         <asp:Panel ID="pnlParticipant" runat="server" Visible = "false">
-            <asp:Label ID="lblParLogin" runat="server" Text="Login"></asp:Label>
+            <asp:Label ID="lblParLogin" runat="server" Text="Participant Login"></asp:Label>
             <br />             
             <asp:Label ID="lblParUser" runat="server" Text="User" Width="75px"></asp:Label>
             <asp:TextBox ID="tbParUser" runat="server" Width="173px"></asp:TextBox>
