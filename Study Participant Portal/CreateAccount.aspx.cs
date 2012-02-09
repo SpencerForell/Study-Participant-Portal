@@ -8,10 +8,10 @@ using System.Web.UI.WebControls;
 public partial class CreateAccount : System.Web.UI.Page {
     protected void Page_Load(object sender, EventArgs e) {
         string user = Request.QueryString["user"];
-        if (user == SuperUser.Type.Researcher.ToString().ToLower()) {
+        if (user == SuperUser.UserType.Researcher.ToString().ToLower()) {
             pnlResearcher.Visible = true;
         }
-        else if (user == SuperUser.Type.Participant.ToString().ToLower()) {
+        else if (user == SuperUser.UserType.Participant.ToString().ToLower()) {
             pnlParticipant.Visible = true;
         }
 
@@ -22,10 +22,9 @@ public partial class CreateAccount : System.Web.UI.Page {
         }
         else {
             string queryString = "insert into Researcher" +
-                                 " (Res_ID, Name, Email, Password, Num_Ratings)" + 
+                                 " (Name, Email, Password, Num_Ratings)" + 
                                  " values " +
-                                 " (1,'" + tbResUser.Text + "', '" + tbResEmail.Text + "', '" + tbResPassword.Text + "',0)";
-            //1 is hardcoded as the ID, this needs to be setup as a sequence
+                                 " ('" + tbResUser.Text + "', '" + tbResEmail.Text + "', '" + tbResPassword.Text + "',0)";
             DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
             lblResStatus.Text = "";
         }
