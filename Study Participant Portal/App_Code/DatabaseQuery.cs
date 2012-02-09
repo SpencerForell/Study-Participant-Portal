@@ -37,6 +37,7 @@ public class DatabaseQuery {
         connection.Open();
 
         switch (type) {
+            //this needs to be edited to return better data
             case Type.Select:
                 Reader = command.ExecuteReader();
                 while (Reader.Read())         {

@@ -12,7 +12,7 @@ public abstract class SuperUser {
     protected string user;
     protected string email;
 
-    protected enum Type {
+    public enum Type {
         Researcher,
         Participant
     }

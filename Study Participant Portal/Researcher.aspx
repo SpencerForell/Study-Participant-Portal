@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="About Us" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
-    CodeFile="Participant.aspx.cs" Inherits="Researcher" %>
+    CodeFile="Researcher.aspx.cs" Inherits="Researcher" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
