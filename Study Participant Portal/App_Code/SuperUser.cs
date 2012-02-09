@@ -7,17 +7,18 @@ using System.Web;
 /// Parent of both child and researcher so we can reuse code from here
 /// </summary>
 public abstract class SuperUser {
-    protected Type type;
-    protected int userID; //not sure if this should be userID or user_ID
+
+    protected UserType type;
+    protected int user_ID; 
     protected string user;
     protected string email;
 
-    public enum Type {
+    public enum UserType {
         Researcher,
         Participant
     }
 
-    public Type getType() {
+    public UserType getType() {
         return type;
     }
     

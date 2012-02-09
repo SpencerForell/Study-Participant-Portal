@@ -9,7 +9,7 @@ using System.Web;
 public class Researcher: SuperUser {
 
     public Researcher() {
-        //type = Type.Researcher;
+        type = UserType.Researcher;
         //
 		// TODO: Add constructor logic here
 		//

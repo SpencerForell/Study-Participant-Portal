@@ -5,13 +5,13 @@ AutoEventWireup="true" CodeFile="CreateAccount.aspx.cs" Inherits="CreateAccount"
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" Runat="Server">
     <p>
-        <asp:Panel ID="pnlResearcher" runat="server" Visible = "false">
+        &nbsp;<asp:Panel ID="pnlResearcher" runat="server" Visible = "false">
             <asp:Label ID="lblResLogin" runat="server" Text="Researcher Create Account"></asp:Label>
             <br />
             <asp:Label ID="lblResStatus" runat="server" Text="" ForeColor="Red"></asp:Label>
             <br />             
             <asp:Label ID="lblResUser" runat="server" Text="User" Width="158px"></asp:Label>
-            <asp:TextBox ID="tbResUser" runat="server" Width="173px"></asp:TextBox>
+            <asp:TextBox ID="tbResUser" runat="server" Width="173px" Height="22px"></asp:TextBox>
             <br />
             <asp:Label ID="lblResPassword" runat="server" Text="Password" Width="158px"></asp:Label>
             <asp:TextBox ID="tbResPassword" runat="server" Width="158px" TextMode="Password"></asp:TextBox>
