@@ -9,7 +9,7 @@ using System.Web;
 public class Participant: SuperUser {
     
 	public Participant() {
-        type = Type.Participant;
+        type = UserType.Participant;
 		//
 		// TODO: Add constructor logic here
 		//

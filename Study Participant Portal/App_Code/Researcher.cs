@@ -8,6 +8,8 @@ using System.Web;
 /// </summary>
 public class Researcher: SuperUser {
 
+    
+
     public Researcher() {
         //type = Type.Researcher;
         //
