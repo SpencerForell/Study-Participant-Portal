@@ -8,10 +8,32 @@ using System.Web;
 /// </summary>
 public abstract class SuperUser {
 
+    // Protected variables
     protected UserType type;
-    protected int user_ID; 
+    protected int user_ID; //not sure if this should be userID or user_ID    
     protected string user;
     protected string email;
+
+    // public properties
+    public UserType Type {
+        get { return type; }
+        set { type = value; }
+    }
+
+    public int User_ID {
+        get { return user_ID; }
+        set { user_ID = value; }
+    }
+
+    public string User {
+        get { return user; }
+        set { user = value; }
+    }
+         
+    public string Email {
+        get { return email; }
+        set { email = value; }
+    }
 
     public enum UserType {
         Researcher,
