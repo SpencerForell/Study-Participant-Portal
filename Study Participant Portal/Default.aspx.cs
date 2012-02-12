@@ -6,20 +6,12 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page {
-    /*CODING CONVENTIONS*
-     * pnlResAccount =  panel researcher account
-     * tbParAccount = textbox participant account
-     * lbl = label
-     * btn = button 
-     * /
-
-
 
     /* EVENT HANDLERS*/
 
     protected void Page_Load(object sender, EventArgs e) {
         DatabaseQuery db = new DatabaseQuery("Select * from Researcher", DatabaseQuery.Type.Select);
-        String[] sArray = db.getResults();
+        List<List<string>> sArray = db.getResults();
         int x = 5;
     }
 
