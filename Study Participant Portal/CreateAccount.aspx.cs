@@ -72,6 +72,10 @@ public partial class CreateAccount : System.Web.UI.Page {
                                  " ('" + tbResUser.Text + "', '" + tbResFirstName.Text + "','" + tbResLastName.Text + "', '" + tbResEmail.Text + "', '" + tbResPassword.Text + "',0)";
             DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
             lblResStatus.Text = "";
+            //todo fill in constructor with fields from form
+            Researcher res = new Researcher(tbResUser.Text, tbResFirstName.Text, tbResLastName.Text, tbResEmail.Text);
+            Session["User"] = res;
+            Response.Redirect("ResearcherForm");
         }
     }
 

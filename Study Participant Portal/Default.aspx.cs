@@ -55,23 +55,37 @@ public partial class _Default : System.Web.UI.Page {
         if (query.Results.Count == 0) {
             lblResSatus.Text = "Invalid login. Please try again.";
         }
-        else {
-            Participant par = new Participant();
+        else if (query.Results.Count == 1) {
+            string user_name = query.Results[0][0];
+            string first_name = query.Results[0][1];
+            string last_name = query.Results[0][2];
+            string email = query.Results[0][3];
+            Participant par = new Participant(user_name, first_name, last_name, email);
             Session["User"] = par;
-            Response.Redirect("Participant.aspx");
+            Response.Redirect("ParticipantForm.aspx");
+        }
+        else {
+            throw new Exception("submitting user_name: " + tbParUser.Text + " returned incorrect number of rows: " + query.Results.Count);
         }
     }
 
     protected void btnResSubmit_Click(object sender, EventArgs e) {
-        string queryString = "select * from Researcher where user_name = '" + tbResUser.Text + "' and password = '" + tbResPassword.Text + "'";
+        string queryString = "select user_name, first_name, last_name, email from Researcher where user_name = '" + tbResUser.Text + "' and password = '" + tbResPassword.Text + "'";
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
         if (query.Results.Count == 0) {
             lblResSatus.Text = "Invalid login. Please try again.";
         }
-        else {
-            Researcher res = new Researcher();
+        else if (query.Results.Count == 1) {
+            string user_name = query.Results[0][0];
+            string first_name = query.Results[0][1];
+            string last_name = query.Results[0][2];
+            string email = query.Results[0][3];
+            Researcher res = new Researcher(user_name, first_name, last_name, email);
             Session["User"] = res;
-            Response.Redirect("Researcher.aspx");
+            Response.Redirect("ResearcherForm.aspx");
+        }
+        else {
+            throw new Exception("submitting user_name: " + tbResUser.Text + " returned incorrect number of rows: " + query.Results.Count);
         }
     }
 }
