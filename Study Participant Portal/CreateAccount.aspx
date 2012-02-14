@@ -4,14 +4,19 @@ AutoEventWireup="true" CodeFile="CreateAccount.aspx.cs" Inherits="CreateAccount"
 <asp:Content ID="HeaderContent" ContentPlaceHolderID="HeadContent" Runat="Server">
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" Runat="Server">
-    <p>
         <asp:Panel ID="pnlResearcher" runat="server" Visible = "false">
             <asp:Label ID="lblResLogin" runat="server" Text="Researcher Create Account"></asp:Label>
             <br />
             <asp:Label ID="lblResStatus" runat="server" Text="" ForeColor="Red"></asp:Label>
             <br />             
-            <asp:Label ID="lblResUser" runat="server" Text="User" Width="158px"></asp:Label>
+            <asp:Label ID="lblResUser" runat="server" Text="User Name" Width="158px"></asp:Label>
             <asp:TextBox ID="tbResUser" runat="server" Width="173px" Height="22px"></asp:TextBox>
+            <br />             
+            <asp:Label ID="lblResFirstName" runat="server" Text="First Name" Width="158px"></asp:Label>
+            <asp:TextBox ID="tbResFirstName" runat="server" Width="173px" Height="22px"></asp:TextBox>
+            <br />             
+            <asp:Label ID="lblResLastName" runat="server" Text="Last Name" Width="158px"></asp:Label>
+            <asp:TextBox ID="tbResLastName" runat="server" Width="173px" Height="22px"></asp:TextBox>
             <br />
             <asp:Label ID="lblResPassword" runat="server" Text="Password" Width="158px"></asp:Label>
             <asp:TextBox ID="tbResPassword" runat="server" Width="158px" TextMode="Password"></asp:TextBox>
@@ -35,8 +40,14 @@ AutoEventWireup="true" CodeFile="CreateAccount.aspx.cs" Inherits="CreateAccount"
             <br />
             <asp:Label ID="lblParStatus" runat="server" Text="" ForeColor="Red"></asp:Label>
             <br />             
-            <asp:Label ID="lblParUser" runat="server" Text="User" Width="158px"></asp:Label>
+            <asp:Label ID="lblParUser" runat="server" Text="User Name" Width="158px"></asp:Label>
             <asp:TextBox ID="tbParUser" runat="server" Width="173px"></asp:TextBox>
+            <br />             
+            <asp:Label ID="lblParFirstName" runat="server" Text="First Name" Width="158px"></asp:Label>
+            <asp:TextBox ID="tbParFirstName" runat="server" Width="173px"></asp:TextBox>
+            <br />             
+            <asp:Label ID="lblParLastName" runat="server" Text="Last Name" Width="158px"></asp:Label>
+            <asp:TextBox ID="tbParLastName" runat="server" Width="173px"></asp:TextBox>
             <br />
             <asp:Label ID="lblParPassword" runat="server" Text="Password" Width="158px"></asp:Label>
             <asp:TextBox ID="tbParPassword" runat="server" Width="158px" TextMode="Password"></asp:TextBox>
@@ -55,6 +66,5 @@ AutoEventWireup="true" CodeFile="CreateAccount.aspx.cs" Inherits="CreateAccount"
             <asp:Button ID="btnParCancel" runat="server" Text="Cancel" 
                 onclick="btnParCancel_Click"/>
         </asp:Panel>
-    </p>
 </asp:Content>
 

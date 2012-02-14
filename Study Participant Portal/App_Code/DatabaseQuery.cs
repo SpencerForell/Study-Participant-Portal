@@ -22,8 +22,8 @@ public class DatabaseQuery {
         Delete
     }
 
-    public List<List<string>> getResults() {
-        return results;
+    public List<List<string>> Results {
+        get { return results; }
     }
 
     /// <summary>

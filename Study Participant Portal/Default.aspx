@@ -18,6 +18,8 @@
 
         <asp:Panel ID="pnlResearcher" runat="server" Visible = "false">
             <asp:Label ID="lblResLogin" runat="server" Text="Researcher Login"></asp:Label>
+            <br />
+            <asp:Label ID="lblResSatus" runat="server" ForeColor="Red" Text=""></asp:Label>
             <br />             
             <asp:Label ID="lblResUser" runat="server" Text="User" Width="75px"></asp:Label>
             <asp:TextBox ID="tbResUser" runat="server" Width="173px"></asp:TextBox>

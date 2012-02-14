@@ -11,8 +11,7 @@ public partial class _Default : System.Web.UI.Page {
 
     protected void Page_Load(object sender, EventArgs e) {
         DatabaseQuery db = new DatabaseQuery("Select * from Researcher", DatabaseQuery.Type.Select);
-        List<List<string>> sArray = db.getResults();
-        int x = 5;
+        List<List<string>> sArray = db.Results;
     }
 
     protected void btnResearcher_Click(object sender, EventArgs e) {
@@ -51,15 +50,28 @@ public partial class _Default : System.Web.UI.Page {
     }
 
     protected void btnParSubmit_Click(object sender, EventArgs e) {
-        //validate login
-        //go into participant page
-        Response.Redirect("Participant.aspx");
+        string queryString = "select * from Participant where user_name = '" + tbParUser.Text + "' and password = '" + tbParPassword.Text + "'";
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+        if (query.Results.Count == 0) {
+            lblResSatus.Text = "Invalid login. Please try again.";
+        }
+        else {
+            Participant par = new Participant();
+            Session["User"] = par;
+            Response.Redirect("Participant.aspx");
+        }
     }
 
     protected void btnResSubmit_Click(object sender, EventArgs e) {
-
-        //validate login
-        //go into participant page
-        Response.Redirect("Researcher.aspx");
+        string queryString = "select * from Researcher where user_name = '" + tbResUser.Text + "' and password = '" + tbResPassword.Text + "'";
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+        if (query.Results.Count == 0) {
+            lblResSatus.Text = "Invalid login. Please try again.";
+        }
+        else {
+            Researcher res = new Researcher();
+            Session["User"] = res;
+            Response.Redirect("Researcher.aspx");
+        }
     }
 }

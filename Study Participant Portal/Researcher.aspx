@@ -9,8 +9,7 @@
     </h2>
     <asp:Panel ID="PnlMain" runat="server" Height="329px">
         <asp:Button ID="btnResEdit" runat="server" Text="Edit Profile" Width="100px" />
-        <asp:Button ID="btnResLogout" runat="server" Margin="-100px" 
-            onclick="logout_Click" Text="Logout" Width="100px" />
+        <asp:Button ID="btnResLogout" runat="server" onclick="logout_Click" Text="Logout" Width="100px" />
         <br />
         <br />
         <asp:Button ID="btnResCreate" runat="server" Text="Create Study" 

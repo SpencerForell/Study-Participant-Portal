@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 public partial class Researcher : System.Web.UI.Page {
 
     protected void Page_Load(object sender, EventArgs e) {
-
+        Researcher res = (Researcher)Session["User"];
     }
     protected void logout_Click(object sender, EventArgs e) {
         Response.Redirect("Default.aspx");
