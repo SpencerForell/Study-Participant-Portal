@@ -15,8 +15,9 @@ public partial class CreateStudy : System.Web.UI.Page
         Response.Redirect("Researcher.aspx");
     }
     protected void BtnStdSubmit_Click(object sender, EventArgs e) {
-        if (title.Text.Equals(string.Empty) || description.Text.Equals(string.Empty)) {
-            errorLable.Text = "Please fill out the necassary fields.";
+        if (tbTitle.Text.Equals(string.Empty) || tbDescription.Text.Equals(string.Empty)) {
+            lblError.Text = "Please fill out the necassary fields.";
+            
         }
 
         //SQL insert statements will be here.
