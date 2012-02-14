@@ -7,29 +7,29 @@
     <h2>
         Create Your Study
     </h2>
-    <asp:Panel>
-        <asp:Label ID="titleLable" runat="server" Text="Provide A Study Title"></asp:Label>
+    <asp:Panel runat="server">
+        <asp:Label ID="lblTitle" runat="server" Text="Provide A Study Title"></asp:Label>
         <br />
-        <asp:TextBox ID="title" runat="server" Width="333px"></asp:TextBox>
+        <asp:TextBox ID="tbTitle" runat="server" Width="333px"></asp:TextBox>
         <br />    
-        <asp:Label ID="descLable" runat="server" Text="Please Describe Your Study."></asp:Label>        
+        <asp:Label ID="lblDesc" runat="server" Text="Please Describe Your Study."></asp:Label>        
         <br />
-        <asp:TextBox ID="description" TextMode="multiline" runat="server" Height="166px" Width="334px"></asp:TextBox>
+        <asp:TextBox ID="tbDescription" TextMode="multiline" runat="server" Height="166px" Width="334px"></asp:TextBox>
         <br />
         (maximum 100 chars please)
         <br />
         <br />
-        <asp:Label ID="errorLable" runat="server" ForeColor = "Red"></asp:Label>
+        <asp:Label ID="errorLabel" runat="server" ForeColor = "Red"></asp:Label>
         <br />
-        <asp:Button ID="BtnStdQual" runat="server" Text="Select Qualifiers" />
+        <asp:Button ID="btnStdQual" runat="server" Text="Select Qualifiers" />
         <br />
         <br />
-        <asp:Button ID="BtnStdSubmit" runat="server" Text="Submit" 
+        <asp:Button ID="btnStdSubmit" runat="server" Text="Submit" 
             onclick="BtnStdSubmit_Click" />
-        <asp:Button ID="BtnStdCancel" runat="server" Text="Cancel" 
+        <asp:Button ID="btnStdCancel" runat="server" Text="Cancel" 
             onclick="BtnStdCancel_Click" />
     </asp:Panel>
-    <asp:Panel>
+    <asp:Panel ID= runat="server">
     
     </asp:Panel>
     
