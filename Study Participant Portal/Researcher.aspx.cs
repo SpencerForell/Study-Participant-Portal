@@ -6,7 +6,15 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class Researcher : System.Web.UI.Page {
+
     protected void Page_Load(object sender, EventArgs e) {
 
+    }
+    protected void logout_Click(object sender, EventArgs e) {
+        Response.Redirect("Default.aspx");
+    }
+
+    protected void btnResCreate_Click(object sender, EventArgs e) {
+        Response.Redirect("CreateStudy.aspx");
     }
 }

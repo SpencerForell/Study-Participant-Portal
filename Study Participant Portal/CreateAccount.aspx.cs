@@ -18,6 +18,7 @@ public partial class CreateAccount : System.Web.UI.Page {
         }
 
     }
+
     protected void btnResSubmit_Click(object sender, EventArgs e) {
         if (tbResPassword.Text != tbResPasswordConfirm.Text) {
             lblResStatus.Text = "Passwords did not match!";
@@ -32,6 +33,7 @@ public partial class CreateAccount : System.Web.UI.Page {
         }
 
     }
+
     protected void btnParSubmit_Click(object sender, EventArgs e) {
         //database connection stuff
 

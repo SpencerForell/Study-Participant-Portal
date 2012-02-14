@@ -9,7 +9,12 @@ using MySql.Data.MySqlClient;
 /// The results of the query are stored in the variable "results"
 /// </summary>
 public class DatabaseQuery {
-    private string[] results;
+
+    private string item;
+
+    private List<string> record = new List<string>();
+
+    private List<List<string>> results = new List<List<string>>();
 
     public enum Type {
         Select,
@@ -17,7 +22,7 @@ public class DatabaseQuery {
         Delete
     }
 
-    public String[] getResults() {
+    public List<List<string>> getResults() {
         return results;
     }
 
@@ -37,15 +42,17 @@ public class DatabaseQuery {
         connection.Open();
 
         switch (type) {
-            //this needs to be edited to return better data
+            /*
+             * The select statement populates a list of a list of strings.
+             */
             case Type.Select:
                 Reader = command.ExecuteReader();
                 while (Reader.Read())         {
-                    string thisrow = "";
                     for (int i = 0; i < Reader.FieldCount; i++) {
-                        thisrow += Reader.GetValue(i).ToString() + ",";
-                        this.results[i] = Reader.GetValue(i).ToString();
-                    }            
+                        item = Reader.GetValue(i).ToString();
+                        record.Add(item);                
+                    }
+                    results.Add(record);
                 }
                 break;
             case Type.Insert:
