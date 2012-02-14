@@ -17,22 +17,18 @@ public abstract class SuperUser {
     // public properties
     public UserType Type {
         get { return type; }
-        set { type = value; }
     }
 
     public int User_ID {
         get { return user_ID; }
-        set { user_ID = value; }
     }
 
     public string User {
         get { return user; }
-        set { user = value; }
     }
          
     public string Email {
         get { return email; }
-        set { email = value; }
     }
 
     public enum UserType {
