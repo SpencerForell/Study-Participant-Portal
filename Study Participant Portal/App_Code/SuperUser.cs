@@ -35,11 +35,7 @@ public abstract class SuperUser {
         Researcher,
         Participant
     }
-
-    public UserType getType() {
-        return type;
-    }
-    
+        
     public SuperUser() {
 		//
 		// TODO: Add constructor logic here
