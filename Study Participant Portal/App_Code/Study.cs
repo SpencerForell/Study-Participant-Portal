@@ -15,22 +15,18 @@ public class Study
 
     public string StudyName {
         get { return studyName; }
-        set { studyName = value; }
     }
 
     public string StudyDescript {
         get { return studyDescript; }
-        set { studyDescript = value; }
     }
 
     public bool Expired {
         get { return expired; }
-        set { expired = value; }
     }
 
     public string DateCreated {
         get { return dateCreated; }
-        set { dateCreated = value; }
     }
 
 	public Study()
