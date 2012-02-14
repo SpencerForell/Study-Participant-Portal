@@ -19,7 +19,7 @@
         (maximum 100 chars please)
         <br />
         <br />
-        <asp:Label ID="errorLabel" runat="server" ForeColor = "Red"></asp:Label>
+        <asp:Label ID="lblError" runat="server" ForeColor = "Red"></asp:Label>
         <br />
         <asp:Button ID="btnStdQual" runat="server" Text="Select Qualifiers" />
         <br />
@@ -29,7 +29,7 @@
         <asp:Button ID="btnStdCancel" runat="server" Text="Cancel" 
             onclick="BtnStdCancel_Click" />
     </asp:Panel>
-    <asp:Panel ID= runat="server">
+    <asp:Panel ID="pnlQuals" runat="server">
     
     </asp:Panel>
     

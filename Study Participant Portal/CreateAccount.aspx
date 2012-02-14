@@ -5,7 +5,7 @@ AutoEventWireup="true" CodeFile="CreateAccount.aspx.cs" Inherits="CreateAccount"
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" Runat="Server">
     <p>
-        &nbsp;<asp:Panel ID="pnlResearcher" runat="server" Visible = "false">
+        <asp:Panel ID="pnlResearcher" runat="server" Visible = "false">
             <asp:Label ID="lblResLogin" runat="server" Text="Researcher Create Account"></asp:Label>
             <br />
             <asp:Label ID="lblResStatus" runat="server" Text="" ForeColor="Red"></asp:Label>

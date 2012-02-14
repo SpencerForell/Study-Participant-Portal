@@ -15,7 +15,7 @@
         <br />
         <asp:Button ID="btnResCreate" runat="server" Text="Create Study" 
             Width="100px" onclick="btnResCreate_Click" />
-        <asp:Button ID="btnResEditStdy" runat="server" Text="Edit" Width="100px" />
+        <asp:Button ID="btnResEditStdy" runat="server" Text="Edit Study" Width="100px" />
         <br />
         <br />
         <asp:Label ID="stdyListLabel" runat="server" Text="Your Studies"></asp:Label>
