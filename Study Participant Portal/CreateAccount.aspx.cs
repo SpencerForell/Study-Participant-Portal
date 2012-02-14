@@ -6,12 +6,14 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class CreateAccount : System.Web.UI.Page {
+    
     protected void Page_Load(object sender, EventArgs e) {
+        
         string user = Request.QueryString["user"];
-        if (user == SuperUser.UserType.Researcher.ToString().ToLower()) {
+        if (user == SuperUser.UserType.Researcher.ToString()) {
             pnlResearcher.Visible = true;
         }
-        else if (user == SuperUser.UserType.Participant.ToString().ToLower()) {
+        else if (user == SuperUser.UserType.Participant.ToString()) {
             pnlParticipant.Visible = true;
         }
 

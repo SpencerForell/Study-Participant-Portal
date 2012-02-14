@@ -18,9 +18,10 @@ public partial class _Default : System.Web.UI.Page {
     /* EVENT HANDLERS*/
 
     protected void Page_Load(object sender, EventArgs e) {
-        DatabaseQuery db = new DatabaseQuery("Select * from Researcher", DatabaseQuery.Type.Select);
-        String[] sArray = db.getResults();
-        int x = 5;
+       //DatabaseQuery db = new DatabaseQuery("Select * from Researcher", DatabaseQuery.Type.Select);
+       // String[] sArray = db.getResults();
+        //int x = 5;
+        DatabaseQuery db = new DatabaseQuery("select * from table", DatabaseQuery.Type.Select);
     }
 
     protected void btnResearcher_Click(object sender, EventArgs e) {
@@ -43,7 +44,7 @@ public partial class _Default : System.Web.UI.Page {
 
     protected void btnResCreateAcc_Click(object sender, EventArgs e) {
         
-        Response.Redirect("CreateAccount.aspx?user=researcher"); 
+        Response.Redirect("CreateAccount.aspx?user=Researcher"); 
     }
 
 
@@ -55,7 +56,7 @@ public partial class _Default : System.Web.UI.Page {
     }
 
     protected void btnParCreateAcc_Click(object sender, EventArgs e) {
-        Response.Redirect("CreateAccount.aspx?user=participant");
+        Response.Redirect("CreateAccount.aspx?user=Participant");
     }
 
     protected void btnParSubmit_Click(object sender, EventArgs e) {

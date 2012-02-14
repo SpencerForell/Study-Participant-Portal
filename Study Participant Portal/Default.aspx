@@ -67,6 +67,6 @@
     <h2>
         &nbsp;</h2>
     <p>
-        To learn more about ASP.NET visit <a href="http://www.asp.net" title="Study Participant Portal">www.asp.net</a>.
+        To learn more about ASP.NET visit net</a>.
     </p>
 </asp:Content>
