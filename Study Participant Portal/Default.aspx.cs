@@ -70,18 +70,20 @@ public partial class _Default : System.Web.UI.Page {
     }
 
     protected void btnResSubmit_Click(object sender, EventArgs e) {
-        string queryString = "select user_name, first_name, last_name, email from Researcher where user_name = '" + tbResUser.Text + "' and password = '" + tbResPassword.Text + "'";
+        string queryString = "select Res_ID, user_name, first_name, last_name, email from Researcher where user_name = '" + tbResUser.Text + "' and password = '" + tbResPassword.Text + "'";
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
         if (query.Results.Count == 0) {
             lblResSatus.Text = "Invalid login. Please try again.";
         }
         else if (query.Results.Count == 1) {
-            string user_name = query.Results[0][0];
-            string first_name = query.Results[0][1];
-            string last_name = query.Results[0][2];
-            string email = query.Results[0][3];
+            int res_ID = Convert.ToInt32(query.Results[0][0]);
+            string user_name = query.Results[0][1];
+            string first_name = query.Results[0][2];
+            string last_name = query.Results[0][3];
+            string email = query.Results[0][4];
             Researcher res = new Researcher(user_name, first_name, last_name, email);
             Session["User"] = res;
+            Session["ResID"] = res_ID;
             Response.Redirect("ResearcherForm.aspx");
         }
         else {
