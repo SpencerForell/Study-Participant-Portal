@@ -48,7 +48,9 @@ public class DatabaseQuery {
              */
             case Type.Select:
                 Reader = command.ExecuteReader();
-                while (Reader.Read())         {
+                while (Reader.Read()) {
+                    object[] o1 = new object[5];
+                    int jk = Reader.GetValues(o1);
                     for (int i = 0; i < Reader.FieldCount; i++) {
                         item = Reader.GetValue(i).ToString();
                         record.Add(item);                

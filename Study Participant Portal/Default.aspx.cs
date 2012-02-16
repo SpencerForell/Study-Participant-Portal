@@ -10,8 +10,7 @@ public partial class _Default : System.Web.UI.Page {
     /* EVENT HANDLERS*/
 
     protected void Page_Load(object sender, EventArgs e) {
-        DatabaseQuery db = new DatabaseQuery("Select * from Researcher", DatabaseQuery.Type.Select);
-        List<List<string>> sArray = db.Results;
+
     }
 
     protected void btnResearcher_Click(object sender, EventArgs e) {

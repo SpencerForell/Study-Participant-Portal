@@ -7,9 +7,9 @@
     <h2>
         Welcome to the Study Participant Portal! 
     </h2>
-    <h2>
-        </h2>
     <asp:Panel ID="PnlMain" runat="server">
+        To begin, click on the appropriate button below.
+        <br />
         <asp:Button ID="btnResearcher" runat="server" Text="Researcher" Width="105px" 
             onclick="btnResearcher_Click"/>
         <br />
@@ -64,11 +64,4 @@
                 onclick="btnParCancel_Click" />
         </asp:Panel>
     </asp:Panel>
-    <h2>
-        &nbsp;</h2>
-    <h2>
-        &nbsp;</h2>
-    <p>
-        To learn more about ASP.NET visit net</a>.
-    </p>
 </asp:Content>

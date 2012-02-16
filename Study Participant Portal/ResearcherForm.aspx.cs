@@ -7,13 +7,17 @@ using System.Web.UI.WebControls;
 
 public partial class ResearcherForm : System.Web.UI.Page {
 
+    /// <summary>
+    /// Populate the listbox with all the studies, order by Name
+    /// </summary>
+    /// <param name="user_id"></param>
     private void populateListbox(int user_id) {
         lboxStudyList.Items.Clear();
-        string queryString = "Select Study_ID from Study where Res_ID = " + user_id;
+        string queryString = "Select Study_ID, Name from Study where Res_ID = " + user_id + " order by Name";
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
         int resultNum = 0;
         while (query.Results.Count > resultNum) {
-            Study study = new Study(Convert.ToInt32(query.Results[0][resultNum]));
+            Study study = new Study(Convert.ToInt32(query.Results[resultNum][0]));
             ListItem item = new ListItem(study.StudyName, study.Study_ID.ToString());
             lboxStudyList.Items.Add(item);
             resultNum++;
