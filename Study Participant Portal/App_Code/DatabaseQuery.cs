@@ -19,6 +19,7 @@ public class DatabaseQuery {
     public enum Type {
         Select,
         Insert,
+        Update,
         Delete
     }
 
@@ -58,7 +59,9 @@ public class DatabaseQuery {
             case Type.Insert:
                 command.ExecuteNonQuery();
                 break;
-
+            case Type.Update:
+                command.ExecuteNonQuery();
+                break;
             case Type.Delete:
                 command.ExecuteNonQuery();
                 break;
