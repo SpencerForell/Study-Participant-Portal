@@ -18,6 +18,7 @@
         <br />
         (maximum 100 chars please)
         <br />
+        <asp:Calendar id="calDate" runat="server"></asp:Calendar>
         <br />
         <asp:Label ID="lblError" runat="server" ForeColor = "Red"></asp:Label>
         <br />

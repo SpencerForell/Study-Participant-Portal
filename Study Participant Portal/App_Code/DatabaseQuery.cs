@@ -12,7 +12,7 @@ public class DatabaseQuery {
 
     private string item;
 
-    private List<string> record = new List<string>();
+    private List<string> record = null;
 
     private List<List<string>> results = new List<List<string>>();
 
@@ -49,8 +49,7 @@ public class DatabaseQuery {
             case Type.Select:
                 Reader = command.ExecuteReader();
                 while (Reader.Read()) {
-                    object[] o1 = new object[5];
-                    int jk = Reader.GetValues(o1);
+                    record = new List<string>();
                     for (int i = 0; i < Reader.FieldCount; i++) {
                         item = Reader.GetValue(i).ToString();
                         record.Add(item);                
