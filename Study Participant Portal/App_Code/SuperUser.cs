@@ -10,7 +10,7 @@ public abstract class SuperUser {
 
     // Protected variables
     protected UserType type;
-    protected int user_ID; //not sure if this should be userID or user_ID    
+    protected int user_id;    
     protected string user_name;
     protected string first_name;
     protected string last_name;
@@ -21,8 +21,8 @@ public abstract class SuperUser {
         get { return type; }
     }
 
-    public int User_ID {
-        get { return user_ID; }
+    public int User_id {
+        get { return user_id; }
     }
 
     public string User_Name {

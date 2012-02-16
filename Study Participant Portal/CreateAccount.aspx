@@ -10,7 +10,7 @@ AutoEventWireup="true" CodeFile="CreateAccount.aspx.cs" Inherits="CreateAccount"
             <asp:Label ID="lblResStatus" runat="server" Text="" ForeColor="Red"></asp:Label>
             <br />             
             <asp:Label ID="lblResUser" runat="server" Text="User Name" Width="158px"></asp:Label>
-            <asp:TextBox ID="tbResUser" runat="server" Width="173px" Height="22px"></asp:TextBox>
+            <asp:TextBox ID="tbResUserName" runat="server" Width="173px" Height="22px"></asp:TextBox>
             <br />             
             <asp:Label ID="lblResFirstName" runat="server" Text="First Name" Width="158px"></asp:Label>
             <asp:TextBox ID="tbResFirstName" runat="server" Width="173px" Height="22px"></asp:TextBox>
@@ -19,7 +19,7 @@ AutoEventWireup="true" CodeFile="CreateAccount.aspx.cs" Inherits="CreateAccount"
             <asp:TextBox ID="tbResLastName" runat="server" Width="173px" Height="22px"></asp:TextBox>
             <br />
             <asp:Label ID="lblResPassword" runat="server" Text="Password" Width="158px"></asp:Label>
-            <asp:TextBox ID="tbResPassword" runat="server" Width="158px" TextMode="Password"></asp:TextBox>
+            <asp:TextBox ID="tbResPassword" runat="server" Width="173px" TextMode="Password"></asp:TextBox>
             <br />
             <asp:Label ID="lblResPasswordConfirm" runat="server" Text="Repeat Password" 
                 Width="158px"></asp:Label>
@@ -27,13 +27,11 @@ AutoEventWireup="true" CodeFile="CreateAccount.aspx.cs" Inherits="CreateAccount"
                 Width="173px"></asp:TextBox>
             <br />
             <asp:Label ID="lblResEmail" runat="server" Text="Email Address" Width="158"></asp:Label>
-            <asp:TextBox ID="tbResEmail" runat="server" Width="125px"></asp:TextBox>
+            <asp:TextBox ID="tbResEmail" runat="server" Width="173px"></asp:TextBox>
             <br />           
             <br />
-            <asp:Button ID="btnResSubmit" runat="server" Text="Submit" 
-                onclick="btnResSubmit_Click" /><br />
-            <asp:Button ID="btnResCancel" runat="server" Text="Cancel" 
-                onclick="btnResCancel_Click"/>
+            <asp:Button ID="btnResSubmit" runat="server" Text="Submit" onclick="btnResSubmit_Click" /><br />
+            <asp:Button ID="btnResCancel" runat="server" Text="Cancel" onclick="btnResCancel_Click"/>
         </asp:Panel>
         <asp:Panel ID="pnlParticipant" runat="server" Visible = "false">
             <asp:Label ID="lblParCreateAccount" runat="server" Text="Participant Create Account"></asp:Label>
@@ -50,15 +48,13 @@ AutoEventWireup="true" CodeFile="CreateAccount.aspx.cs" Inherits="CreateAccount"
             <asp:TextBox ID="tbParLastName" runat="server" Width="173px"></asp:TextBox>
             <br />
             <asp:Label ID="lblParPassword" runat="server" Text="Password" Width="158px"></asp:Label>
-            <asp:TextBox ID="tbParPassword" runat="server" Width="158px" TextMode="Password"></asp:TextBox>
+            <asp:TextBox ID="tbParPassword" runat="server" Width="173px" TextMode="Password"></asp:TextBox>
             <br />
-            <asp:Label ID="lblParPasswordConfirm" runat="server" Text="Repeat Password" 
-                Width="158px"></asp:Label>
-            <asp:TextBox ID="tbParPasswordConfirm" runat="server" TextMode="Password" 
-                Width="173px"></asp:TextBox>
+            <asp:Label ID="lblParPasswordConfirm" runat="server" Text="Repeat Password" Width="158px"></asp:Label>
+            <asp:TextBox ID="tbParPasswordConfirm" runat="server" TextMode="Password" Width="173px"></asp:TextBox>
             <br />
             <asp:Label ID="lblParEmail" runat="server" Text="Email Address" Width="158"></asp:Label>
-            <asp:TextBox ID="tbParEmail" runat="server" Width="125px"></asp:TextBox>
+            <asp:TextBox ID="tbParEmail" runat="server" Width="173px"></asp:TextBox>
             <br />           
             <br />
             <asp:Button ID="btnParSubmit" runat="server" Text="Submit" 

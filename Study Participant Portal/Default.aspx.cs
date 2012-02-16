@@ -61,7 +61,7 @@ public partial class _Default : System.Web.UI.Page {
             string last_name = query.Results[0][2];
             string email = query.Results[0][3];
             Participant par = new Participant(user_name, first_name, last_name, email);
-            Session["User"] = par;
+            Session["user"] = par;
             Response.Redirect("ParticipantForm.aspx");
         }
         else {
@@ -76,14 +76,13 @@ public partial class _Default : System.Web.UI.Page {
             lblResSatus.Text = "Invalid login. Please try again.";
         }
         else if (query.Results.Count == 1) {
-            int res_ID = Convert.ToInt32(query.Results[0][0]);
+            int user_id = Convert.ToInt32(query.Results[0][0]);
             string user_name = query.Results[0][1];
             string first_name = query.Results[0][2];
             string last_name = query.Results[0][3];
             string email = query.Results[0][4];
-            Researcher res = new Researcher(user_name, first_name, last_name, email);
-            Session["User"] = res;
-            Session["ResID"] = res_ID;
+            Researcher res = new Researcher(user_id, user_name, first_name, last_name, email);
+            Session["user"] = res;
             Response.Redirect("ResearcherForm.aspx");
         }
         else {

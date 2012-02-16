@@ -42,7 +42,7 @@ public partial class CreateAccount : System.Web.UI.Page {
                 if (tbResFirstName.Text == "") {
                     lblResStatus.Text = "Please enter your First Name";
                 }
-                if (tbResUser.Text == "") {
+                if (tbResUserName.Text == "") {
                     lblResStatus.Text = "Please enter a User Name";
                 }
                 if (lblResStatus.Text != "") {
@@ -69,20 +69,16 @@ public partial class CreateAccount : System.Web.UI.Page {
             string queryString = "insert into Researcher" +
                                  " (User_Name, First_Name, Last_Name, Email, Password, Num_Ratings)" + 
                                  " values " +
-                                 " ('" + tbResUser.Text + "', '" + tbResFirstName.Text + "','" + tbResLastName.Text + "', '" + tbResEmail.Text + "', '" + tbResPassword.Text + "',0)";
+                                 " ('" + tbResUserName.Text + "', '" + tbResFirstName.Text + "','" + tbResLastName.Text + "', '" + tbResEmail.Text + "', '" + tbResPassword.Text + "',0)";
             DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
             lblResStatus.Text = "";
 
-            // get Res_ID to store in a session variable so we can load it as a foreign key for the Study.
-            queryString = "select Res_ID from Researcher where First_Name = " +
-                          "'" + tbResFirstName.Text + "'" + " and Last_Name = " + "'" + tbResLastName.Text + "'";
+            queryString = "select Res_ID from Researcher where User_Name = '" + tbResUserName.Text + "'";
             query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
-            string Res_ID = query.Results[0][0];
+            int user_id = Convert.ToInt32(query.Results[0][0]);
 
-            //todo fill in constructor with fields from form
-            Researcher res = new Researcher(tbResUser.Text, tbResFirstName.Text, tbResLastName.Text, tbResEmail.Text);
-            Session["User"] = res;
-            Session["ResID"] = Res_ID;
+            Researcher res = new Researcher(user_id, tbResUserName.Text, tbResFirstName.Text, tbResLastName.Text, tbResEmail.Text);
+            Session["user"] = res;
 
             Response.Redirect("ResearcherForm.aspx");
         }
