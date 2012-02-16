@@ -16,6 +16,8 @@
         <asp:Button ID="btnResEditStdy" runat="server" Text="Edit Study" Width="100px" onclick="btnResEditStdy_Click" />
         <br />
         <br />
+        <asp:Label ID="lblStatus" runat="server" Text="" ForeColor="Red"></asp:Label>
+        <br />
         <asp:Label ID="lblStudyList" runat="server" Text="Your Studies"></asp:Label>
         <br />
         <asp:ListBox ID="lboxStudyList" runat="server" Height="204px" Width="401px"></asp:ListBox>     

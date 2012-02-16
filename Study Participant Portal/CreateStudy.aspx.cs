@@ -9,7 +9,11 @@ using System.Web.UI.WebControls;
 public partial class CreateStudy : System.Web.UI.Page {
 
     protected void Page_Load(object sender, EventArgs e) {
-
+        if (!IsPostBack && Request.QueryString["edit"] == "true") {
+            Study study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
+            tbTitle.Text = study.StudyName;
+            tbDescription.Text = study.StudyDescription;
+        }
     }
     protected void BtnStdCancel_Click(object sender, EventArgs e) {
         Response.Redirect("ResearcherForm.aspx");
@@ -19,7 +23,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             lblError.Text = "Please fill out the necassary fields.";
         }
 
-        bool isNewStudy = Convert.ToBoolean(Request.QueryString["edit"]);
+        bool isNewStudy = !Convert.ToBoolean(Request.QueryString["edit"]);
         Researcher res = (Researcher)Session["user"];
         StringBuilder queryString = null;
         DatabaseQuery query = null;
@@ -35,7 +39,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             case false:
                 queryString = new StringBuilder("update Study");
                 queryString.Append(" set Name = '" + tbTitle.Text + "'" );
-                queryString.Append(", Description = '" + tbDescription + "'");
+                queryString.Append(", Description = '" + tbDescription.Text + "'");
                 queryString.Append(" where Study_ID = " + Request.QueryString["study_id"]);
                 query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Update);
                 break;
