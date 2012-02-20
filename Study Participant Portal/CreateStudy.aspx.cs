@@ -13,6 +13,12 @@ public partial class CreateStudy : System.Web.UI.Page {
             Study study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
             tbTitle.Text = study.StudyName;
             tbDescription.Text = study.StudyDescription;
+            if (study.Expired == true) {
+                cbStdExpired.Checked = true;
+            }
+            else {
+                cbStdExpired.Checked = false;
+            }
         }
     }
     protected void BtnStdCancel_Click(object sender, EventArgs e) {
@@ -51,5 +57,31 @@ public partial class CreateStudy : System.Web.UI.Page {
         int study_id = Convert.ToInt32(query.Results[0][0]);
 
         Response.Redirect("StudyForm.aspx?study_id=" + study_id);
+    }
+    protected void cbStdExpired_CheckedChanged(object sender, EventArgs e) {
+        bool isNewStudy = !Convert.ToBoolean(Request.QueryString["edit"]);
+        lblError.Visible = false;
+        DatabaseQuery query = null;
+        StringBuilder queryString = null;
+
+        if (isNewStudy) {
+            lblError.Text = "A brand new study cannot be expired.";
+            lblError.Visible = true;
+        }
+        else {
+
+            queryString = new StringBuilder("update Study");
+
+            if (cbStdExpired.Checked == true) {
+                queryString.Append(" set Expired = " + "1");
+                queryString.Append(" where Study_ID = " + Request.QueryString["study_id"]);
+                query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Update);
+            }
+            else {
+                queryString.Append(" set Expired = " + "0");
+                queryString.Append(" where Study_ID = " + Request.QueryString["study_id"]);
+                query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Update);
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@ public partial class StudyForm : System.Web.UI.Page {
         lblStdCreator.Text = res.First_name + " " + res.Last_Name;
         lblStdDate.Text = study.DateCreated.ToString();
         tbStdDescription.Text = study.StudyDescription;
+        tbStdDescription.ReadOnly = true;
         
     }
 }
