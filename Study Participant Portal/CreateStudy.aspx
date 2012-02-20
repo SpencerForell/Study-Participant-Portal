@@ -18,8 +18,7 @@
         <br />
         (maximum 100 chars please)
         <br />
-        <asp:CheckBox ID="cbStdExpired" runat="server" 
-            oncheckedchanged="cbStdExpired_CheckedChanged" />
+        <asp:CheckBox ID="cbStdExpired" runat="server" />
         <asp:Label ID="lblExpired" runat="server" Text="This study is expired."></asp:Label>
         <br />
         <asp:Label ID="lblError" runat="server" ForeColor = "Red"></asp:Label>
