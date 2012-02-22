@@ -26,13 +26,15 @@
         <asp:Button ID="btnStdQual" runat="server" Text="Select Qualifiers" />
         <br />
         <br />
-        <asp:Button ID="btnStdSubmit" runat="server" Text="Submit" 
+        <asp:Button ID="btnStdSubmit" runat="server" Text="Continue" 
             onclick="BtnStdSubmit_Click" />
         <asp:Button ID="btnStdCancel" runat="server" Text="Cancel" 
             onclick="BtnStdCancel_Click" />
     </asp:Panel>
-    <asp:Panel ID="pnlQuals" runat="server">
-    
+    <asp:Panel ID="pnlQuals" runat="server" Height="377px">
+        <h2>
+            Please Select Qualifiers For Your Study.
+        </h2>
     </asp:Panel>
     
 </asp:Content>
