@@ -8,11 +8,19 @@ using System.Web.UI.WebControls;
 
 public partial class CreateStudy : System.Web.UI.Page {
 
+    Study study = null;
+
     protected void Page_Load(object sender, EventArgs e) {
         if (!IsPostBack && Request.QueryString["edit"] == "true") {
-            Study study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
+            study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
             tbTitle.Text = study.StudyName;
             tbDescription.Text = study.StudyDescription;
+            if (study.Expired == true) {
+                cbStdExpired.Checked = true;
+            }
+            else {
+                cbStdExpired.Checked = false;
+            }
         }
     }
     protected void BtnStdCancel_Click(object sender, EventArgs e) {
@@ -29,6 +37,11 @@ public partial class CreateStudy : System.Web.UI.Page {
         DatabaseQuery query = null;
         switch (isNewStudy) {
             case true:
+                if (cbStdExpired.Checked == true) {
+                    lblError.Text = "Cannot set a new study to expired.";
+                    lblError.Visible = true;
+                    return;
+                }
                 queryString = new StringBuilder("insert into Study");
                 queryString.Append(" (Name, Description, Creation_date, Expired, Res_ID)");
                 queryString.Append(" values ");
@@ -40,6 +53,8 @@ public partial class CreateStudy : System.Web.UI.Page {
                 queryString = new StringBuilder("update Study");
                 queryString.Append(" set Name = '" + tbTitle.Text + "'" );
                 queryString.Append(", Description = '" + tbDescription.Text + "'");
+                if (cbStdExpired.Checked == true) queryString.Append(", Expired = " + "1");
+                else queryString.Append(", Expired = " + "0");
                 queryString.Append(" where Study_ID = " + Request.QueryString["study_id"]);
                 query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Update);
                 break;
