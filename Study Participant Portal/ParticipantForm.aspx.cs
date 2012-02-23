@@ -25,4 +25,13 @@ public partial class ParticipantForm: System.Web.UI.Page {
             resultNum++;
         }
     }
+    protected void btnView_Click(object sender, EventArgs e) {
+        if (lboxStudyList.SelectedIndex < 0) {
+            lblError.Text = "Please select a study to view.";
+        }
+        else {
+            int studyID = Convert.ToInt32(lboxStudyList.SelectedValue);
+            Response.Redirect("StudyForm.aspx?study_id=" + studyID);
+        }
+    }
 }
