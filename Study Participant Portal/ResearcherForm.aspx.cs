@@ -13,7 +13,7 @@ public partial class ResearcherForm : System.Web.UI.Page {
     /// <param name="user_id"></param>
     private void populateListbox(int user_id) {
         lboxStudyList.Items.Clear();
-        string queryString = "Select Study_ID, Name from Study where Res_ID = " + user_id + " order by Name";
+        string queryString = "Select Study_ID from Study where Res_ID = " + user_id + " order by Name";
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
         int resultNum = 0;
         while (query.Results.Count > resultNum) {

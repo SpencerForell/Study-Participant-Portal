@@ -10,7 +10,11 @@ public partial class _Default : System.Web.UI.Page {
     /* EVENT HANDLERS*/
 
     protected void Page_Load(object sender, EventArgs e) {
+        if (!IsPostBack) {
+            if (Session["user"] == null) {
 
+            }
+        }
     }
 
     protected void btnResearcher_Click(object sender, EventArgs e) {
