@@ -23,11 +23,25 @@ public partial class CreateStudy : System.Web.UI.Page {
                 cbStdExpired.Checked = false;
             }
         }
+        else {
+            int stdid = 0;
+            if (Session["studyID"] != null) {
+                stdid = (int)Session["studyID"];
+            }
+            DatabaseQuery query = null;
+            string queryString = "select Name from Study where Study_ID = " + stdid.ToString();
+            query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+
+            if (query.Results.Count() == 0) {
+                pnlQuals.Enabled = false;
+            }
+        }
     }
     protected void BtnStdCancel_Click(object sender, EventArgs e) {
         Response.Redirect("ResearcherForm.aspx");
     }
     protected void BtnStdSubmit_Click(object sender, EventArgs e) {
+        pnlQuals.Enabled = true;
         if (tbTitle.Text.Equals(string.Empty) || tbDescription.Text.Equals(string.Empty)) {
             lblError.Text = "Please fill out the necassary fields.";
         }
@@ -66,7 +80,10 @@ public partial class CreateStudy : System.Web.UI.Page {
         query = new DatabaseQuery(studyQuery, DatabaseQuery.Type.Select);
         int study_id = Convert.ToInt32(query.Results[0][0]);
 
-        Response.Redirect("StudyForm.aspx?study_id=" + study_id);
+        // set a studyid session variable
+        Session["studyID"] = study_id;
+
+        //Response.Redirect("StudyForm.aspx?study_id=" + study_id);
     }
     protected void btnAddAnswer_Click(object sender, EventArgs e) {
         if (tbAnswer.Text.Equals(string.Empty) || tbRank.Text.Equals(string.Empty)) {
@@ -75,6 +92,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         else {
             if (tbQuestion.Enabled == false) {
                 lbAnswerList.Items[editIndex].Text = tbAnswer.Text + " [" + tbRank.Text + "]";
+                tbQualDesc.Enabled = true;
                 tbQuestion.Enabled = true;
                 lbAnswerList.Enabled = true;
                 btnRemove.Enabled = true;
@@ -127,6 +145,7 @@ public partial class CreateStudy : System.Web.UI.Page {
                     if (combo.Substring(j, 1).Equals("]")) {
                         seperated.Add(combo.Substring(0, i - 1));
                         seperated.Add(combo.Substring(i + 1, j - i - 1));
+                        tbQualDesc.Enabled = false;
                         tbQuestion.Enabled = false;
                         lbAnswerList.Enabled = false;
                         btnRemove.Enabled = false;
@@ -142,5 +161,60 @@ public partial class CreateStudy : System.Web.UI.Page {
             }
         }
         return seperated; 
+    }
+    protected void btnContinue_Click(object sender, EventArgs e) {
+        if (tbQualDesc.Text.Equals(string.Empty) || tbQuestion.Text.Equals(string.Empty) || lbAnswerList.Items.Count == 0) {
+            // error label logic here
+        }
+        int qualID;
+        int studyID;
+        List<string> answerRank = null;
+        StringBuilder queryString = null;
+        DatabaseQuery query = null;
+
+        // get the study ID
+        queryString = new StringBuilder("select Study_ID");
+        queryString.Append(" from Study");
+        queryString.Append(" where Name = '" + tbTitle.Text + "'");
+        query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Select);
+        studyID = Convert.ToInt32(query.Results[0][0]);
+
+        // insert current qualifier record into Qualifiers
+        queryString = new StringBuilder("insert into Qualifiers");
+        queryString.Append(" (Question, Description)");
+        queryString.Append(" values ");
+        queryString.Append(" ('" + tbQuestion.Text + "', '" + tbQualDesc.Text + "')");
+        query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Insert);
+
+        // get the qualifier ID
+        queryString = new StringBuilder("select Qual_ID");
+        queryString.Append(" from Qualifiers");
+        queryString.Append(" where Question = '" + tbQuestion.Text + "'");
+        query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Select);
+        qualID = Convert.ToInt32(query.Results[0][0]);
+
+        // insert current study and qualifier id into Study_Qualifiers
+        queryString = new StringBuilder("insert into Study_Qualifiers");
+        queryString.Append(" (Study_ID, Qual_ID)");
+        queryString.Append(" values ");
+        queryString.Append(" (" + studyID.ToString() + ", " + qualID.ToString() + ")");
+        query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Insert);
+
+        // insert answers into Answer table
+        for (int i = 0; i < lbAnswerList.Items.Count; i++) {
+            answerRank = sepearateAnswerAndRank(lbAnswerList.Items[i].Text);
+            queryString = new StringBuilder("insert into Answers");
+            queryString.Append(" (Qual_ID, Answer, Rank)");
+            queryString.Append(" values ");
+            queryString.Append(" (" + qualID.ToString() + ", '" + answerRank[0] + "', " + answerRank[1] + ")");
+            query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Insert);
+        }
+
+        // clear the contents of the fields for new entries
+        tbQualDesc.Text = string.Empty;
+        tbQuestion.Text = string.Empty;
+        tbAnswer.Text = string.Empty;
+        tbRank.Text = string.Empty;
+        lbAnswerList.Items.Clear();
     }
 }

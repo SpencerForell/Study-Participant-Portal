@@ -23,18 +23,21 @@
         <br />
         <asp:Label ID="lblError" runat="server" ForeColor = "Red"></asp:Label>
         <br />
-        <asp:Button ID="btnStdQual" runat="server" Text="Select Qualifiers" />
+        <asp:Button ID="btnStdQual" runat="server" Text="Select Qualifiers"
+            onclick="BtnStdSubmit_Click" /> />
         <br />
         <br />
-        <asp:Button ID="btnStdSubmit" runat="server" Text="Continue" 
-            onclick="BtnStdSubmit_Click" />
         <asp:Button ID="btnStdCancel" runat="server" Text="Cancel" 
             onclick="BtnStdCancel_Click" />
     </asp:Panel>
-    <asp:Panel ID="pnlQuals" runat="server" Height="418px">
+    <asp:Panel ID="pnlQuals" runat="server" Height="564px">
         <h2>
             Please Select Qualifiers For Your Study.
         </h2>
+        <br />
+        <asp:Label ID="lblQualDesc" runat="server" Text="Please describe a description for this qualifying question."></asp:Label>
+        <br />
+        <asp:TextBox ID="tbQualDesc" runat="server" TextMode="MultiLine" Height="100px" Width="368"></asp:TextBox>
         <br />
         <asp:Label ID="lblQualQuestion" runat="server" Text="Please phrase your qualifier in the form of a question."></asp:Label>
         <br />
@@ -61,7 +64,8 @@
         <br />
         <asp:Label ID="lblQualContinue" runat="server" Text="Please click 'Continue' if you are ready to submit this qualifier and would like to add another one."></asp:Label>
         <br />
-        <asp:Button ID="btnContinue" runat="server" Text="Continue" Width="100px" />
+        <asp:Button ID="btnContinue" runat="server" Text="Continue" Width="100px" 
+            onclick="btnContinue_Click" />
         <br />
         <br />
         <asp:Label ID="lblFinished" runat="server" Text="Please click 'Finished' if you are ready to submit this qualifier and do not want to add more."></asp:Label>
