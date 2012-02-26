@@ -51,6 +51,7 @@
         <asp:Button ID="btnAddAnswer" runat="server" Text="Add" Width="70px" 
             onclick="btnAddAnswer_Click" />
         <br />
+        <asp:Label ID="lblErrorAdd" runat="server" ForeColor="Red"></asp:Label>
         <br />
         <asp:ListBox ID="lbAnswerList" runat="server" Width="368px"></asp:ListBox>
         <br />
@@ -67,9 +68,12 @@
         <asp:Button ID="btnContinue" runat="server" Text="Continue" Width="100px" 
             onclick="btnContinue_Click" />
         <br />
+        <asp:Label ID="lblErrorCont" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red"></asp:Label>
         <br />
         <asp:Label ID="lblFinished" runat="server" Text="Please click 'Finished' if you are ready to submit this qualifier and do not want to add more."></asp:Label>
         <br />
-        <asp:Button ID="btnFinished" runat="server" Text="Finished" Width="100px" />
+        <asp:Button ID="btnFinished" runat="server" Text="Finished" Width="100px" 
+            onclick="btnFinished_Click" />
+        <asp:Label ID="lblErrirFinish" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red"></asp:Label>
     </asp:Panel>
 </asp:Content>
