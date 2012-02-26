@@ -21,7 +21,6 @@ public partial class ResearcherForm : System.Web.UI.Page {
 
         // Clear any unwanted data out of the list box
         lboxStudyList.Items.Clear();
-        lboxOtherStudies.Items.Clear();
 
         // loop to populate researchers own studies
         while (query.Results.Count > resultNum) {
@@ -29,19 +28,6 @@ public partial class ResearcherForm : System.Web.UI.Page {
             item = new ListItem(study.StudyName, study.Study_ID.ToString());
             lboxStudyList.Items.Add(item);
             resultNum++;
-        }
-
-        
-        queryString = "Select Study_ID, Name from Study where Res_id != " + user_id + " order by Name";
-        query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
-        resultNum = 0;
-
-        // loop to populate other studies for viewing purposes
-        while (query.Results.Count > resultNum) {
-            study = new Study(Convert.ToInt32(query.Results[resultNum][0]));
-            item = new ListItem(study.StudyName, study.Study_ID.ToString());
-            lboxOtherStudies.Items.Add(item);
-            resultNum++;         
         }
     }
 
@@ -67,15 +53,6 @@ public partial class ResearcherForm : System.Web.UI.Page {
         else {
             int study_id = Convert.ToInt32(lboxStudyList.SelectedValue);
             Response.Redirect("CreateStudy.aspx?edit=true&study_id=" + study_id);
-        }
-    }
-    protected void btnResStudyView_Click(object sender, EventArgs e) {
-        if (lboxOtherStudies.SelectedIndex < 0) {
-            lblOtherStat.Text = "Please select a Study to view";
-        }
-        else {
-            int study_id = Convert.ToInt32(lboxOtherStudies.SelectedValue);
-            Response.Redirect("StudyForm.aspx?study_id=" + study_id);
         }
     }
 }

@@ -31,10 +31,41 @@
         <asp:Button ID="btnStdCancel" runat="server" Text="Cancel" 
             onclick="BtnStdCancel_Click" />
     </asp:Panel>
-    <asp:Panel ID="pnlQuals" runat="server" Height="377px">
+    <asp:Panel ID="pnlQuals" runat="server" Height="418px">
         <h2>
             Please Select Qualifiers For Your Study.
         </h2>
+        <br />
+        <asp:Label ID="lblQualQuestion" runat="server" Text="Please phrase your qualifier in the form of a question."></asp:Label>
+        <br />
+        <asp:TextBox ID="tbQuestion" runat="server" Width="368px"></asp:TextBox>
+        <br />
+        <asp:Label ID="lblQualAnswer" runat="server" Text="Please provide all answer candatidtes"></asp:Label>
+        <asp:Label ID="lblQualRank" runat="server" Text="  Rank of answer"></asp:Label>
+        <br />
+        <asp:TextBox ID="tbAnswer" runat="server" Width="264px"></asp:TextBox>
+        <asp:TextBox ID="tbRank" runat="server" Width="104px"></asp:TextBox>
+        <asp:Button ID="btnAddAnswer" runat="server" Text="Add" Width="70px" 
+            onclick="btnAddAnswer_Click" />
+        <br />
+        <br />
+        <asp:ListBox ID="lbAnswerList" runat="server" Width="368px"></asp:ListBox>
+        <br />
+        <asp:Button ID="btnRemove" runat="server" Text="Remove Answer" Width="100px" 
+            onclick="btnRemove_Click" />
+        <asp:Button ID="btnClear" runat="server" Text="Clear Answers" Width="100px" 
+            onclick="btnClear_Click" />
+        <asp:Button ID="btnEdit" runat="server" Text="Edit Answer" Width="100px" 
+            onclick="btnEdit_Click" />
+        <br />
+        <br />
+        <asp:Label ID="lblQualContinue" runat="server" Text="Please click 'Continue' if you are ready to submit this qualifier and would like to add another one."></asp:Label>
+        <br />
+        <asp:Button ID="btnContinue" runat="server" Text="Continue" Width="100px" />
+        <br />
+        <br />
+        <asp:Label ID="lblFinished" runat="server" Text="Please click 'Finished' if you are ready to submit this qualifier and do not want to add more."></asp:Label>
+        <br />
+        <asp:Button ID="btnFinished" runat="server" Text="Finished" Width="100px" />
     </asp:Panel>
-    
 </asp:Content>

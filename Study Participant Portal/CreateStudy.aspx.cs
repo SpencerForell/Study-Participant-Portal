@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 public partial class CreateStudy : System.Web.UI.Page {
 
     Study study = null;
+    private int editIndex = 0;
 
     protected void Page_Load(object sender, EventArgs e) {
         if (!IsPostBack && Request.QueryString["edit"] == "true") {
@@ -66,5 +67,80 @@ public partial class CreateStudy : System.Web.UI.Page {
         int study_id = Convert.ToInt32(query.Results[0][0]);
 
         Response.Redirect("StudyForm.aspx?study_id=" + study_id);
+    }
+    protected void btnAddAnswer_Click(object sender, EventArgs e) {
+        if (tbAnswer.Text.Equals(string.Empty) || tbRank.Text.Equals(string.Empty)) {
+            //error label logic here
+        }
+        else {
+            if (tbQuestion.Enabled == false) {
+                lbAnswerList.Items[editIndex].Text = tbAnswer.Text + " [" + tbRank.Text + "]";
+                tbQuestion.Enabled = true;
+                lbAnswerList.Enabled = true;
+                btnRemove.Enabled = true;
+                btnClear.Enabled = true;
+                btnEdit.Enabled = true;
+                btnContinue.Enabled = true;
+                btnFinished.Enabled = true;
+                editIndex = 0;
+
+            }
+            else {
+                lbAnswerList.Items.Add(tbAnswer.Text + " [" + tbRank.Text + "]");                
+            }
+            tbAnswer.Text = string.Empty;
+            tbRank.Text = string.Empty;
+        }
+    }
+    protected void btnRemove_Click(object sender, EventArgs e) {
+        if (lbAnswerList.SelectedIndex == -1) {
+            //error label logic here
+        }
+        else {
+            lbAnswerList.Items.Remove(lbAnswerList.SelectedItem.Text);
+        }
+    }
+    protected void btnClear_Click(object sender, EventArgs e) {
+        lbAnswerList.Items.Clear();
+    }
+    protected void btnEdit_Click(object sender, EventArgs e) {
+        List<string> answerRank;
+
+        if (lbAnswerList.SelectedIndex == -1) {
+            //error label logic here
+        }
+        else {
+            answerRank = sepearateAnswerAndRank(lbAnswerList.SelectedItem.Text);
+            tbAnswer.Text = answerRank[0];
+            tbRank.Text = answerRank[1];
+            
+
+        }
+    }
+
+    private List<string> sepearateAnswerAndRank(string combo) {
+        List<string> seperated = new List<string>();
+
+        for (int i = 0; i < combo.Length; i++) {
+            if (combo.Substring(i, 1).Equals("[")) {
+                for (int j = i + 1; j < combo.Length; j++) {
+                    if (combo.Substring(j, 1).Equals("]")) {
+                        seperated.Add(combo.Substring(0, i - 1));
+                        seperated.Add(combo.Substring(i + 1, j - i - 1));
+                        tbQuestion.Enabled = false;
+                        lbAnswerList.Enabled = false;
+                        btnRemove.Enabled = false;
+                        btnClear.Enabled = false;
+                        btnEdit.Enabled = false;
+                        btnContinue.Enabled = false;
+                        btnFinished.Enabled = false;
+                        editIndex = lbAnswerList.SelectedIndex;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+        return seperated; 
     }
 }

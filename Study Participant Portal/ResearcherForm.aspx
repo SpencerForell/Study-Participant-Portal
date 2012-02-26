@@ -22,12 +22,5 @@
         <br />
         <asp:ListBox ID="lboxStudyList" runat="server" Height="204px" Width="401px"></asp:ListBox>
         <br />
-        <asp:Label ID="lblOtherStudies" runat="server" Text="Other Studies"></asp:Label> 
-        <br />
-        <asp:ListBox ID="lboxOtherStudies" runat="server" Height="204px" Width="401px"></asp:ListBox>
-        <br /> 
-        <asp:Label ID="lblOtherStat" runat="server" Text="" ForeColor="Red"></asp:Label>
-        <br />
-        <asp:Button ID="btnResStudyView" runat="server" Text="View Study" Width="100px" onclick="btnResStudyView_Click" />
     </asp:Panel>
     </asp:Content>
