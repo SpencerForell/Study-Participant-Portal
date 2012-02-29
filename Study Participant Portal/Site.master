@@ -17,6 +17,9 @@
                     Study Participant Portal
                 </h1>
             </div>
+            <div class="loginDisplay">
+                <asp:Button ID="btnLogout" Text="Logout" Visible="true" runat="server" onclick="btnLogout_Click"></asp:Button>
+            </div>
             <div class="clear hideSkiplink">
                 <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
                     <Items>

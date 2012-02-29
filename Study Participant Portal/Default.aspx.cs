@@ -13,7 +13,7 @@ public partial class _Default : System.Web.UI.Page {
         if (!IsPostBack) {
             
             if (Session["user"] == null) {
-
+                
             }
             else {
                 SuperUser user = (SuperUser) Session["user"];
