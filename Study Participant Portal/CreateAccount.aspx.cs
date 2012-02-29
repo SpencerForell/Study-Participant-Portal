@@ -25,7 +25,7 @@ public partial class CreateAccount : System.Web.UI.Page {
                 if (tbParFirstName.Text == "") {
                     lblParStatus.Text = "Please enter your First Name";
                 }
-                if (tbParUser.Text == "") {
+                if (tbParUserName.Text == "") {
                     lblParStatus.Text = "Please enter a User Name";
                 }
                 if (lblParStatus.Text != "") {
@@ -53,14 +53,41 @@ public partial class CreateAccount : System.Web.UI.Page {
         return true;
     }
 
+    private void autoFillForms(SuperUser.UserType userType) {
+        SuperUser user = (SuperUser)Session["user"];
+        int userID = user.UserID;
+        switch (userType) {
+            case SuperUser.UserType.Researcher:
+                Researcher res = new Researcher(userID);
+                tbResUserName.Text = res.UserName;
+                tbResFirstName.Text = res.FirstName;
+                tbResLastName.Text = res.LastName;
+                tbResEmail.Text = res.Email;
+                break;
+            case SuperUser.UserType.Participant:
+                Participant par = new Participant(userID);
+                tbParUserName.Text = par.UserName;
+                tbParFirstName.Text = par.FirstName;
+                tbParLastName.Text = par.LastName;
+                tbParEmail.Text = par.Email;
+                break;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e) {
         
         string user = Request.QueryString["user"];
         if (user == SuperUser.UserType.Researcher.ToString()) {
             pnlResearcher.Visible = true;
+            if (Request.QueryString["edit"] == "true") {
+                autoFillForms(SuperUser.UserType.Researcher);
+            }
         }
         else if (user == SuperUser.UserType.Participant.ToString()) {
             pnlParticipant.Visible = true;
+            if (Request.QueryString["edit"] == "true") {
+                autoFillForms(SuperUser.UserType.Participant);
+            }
         }
     }
 
@@ -89,9 +116,11 @@ public partial class CreateAccount : System.Web.UI.Page {
             string queryString = "insert into Participant" +
                                  " (User_Name, First_Name, Last_Name, Email, Password, Num_Ratings)" +
                                  " values " +
-                                 " ('" + tbParUser.Text + "', '" + tbParFirstName.Text + "','" + tbParLastName.Text + "','" + tbParEmail.Text + "', '" + tbParPassword.Text + "',0)";
+                                 " ('" + tbParUserName.Text + "', '" + tbParFirstName.Text + "','" + tbParLastName.Text + "','" + tbParEmail.Text + "', '" + tbParPassword.Text + "',0)";
             DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
             lblParStatus.Text = "";
+            Session["user"] = new Participant(tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text);
+            Response.Redirect("ParticipantForm.aspx");
         }
     }
 
