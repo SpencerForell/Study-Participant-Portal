@@ -7,73 +7,78 @@
     <h2>
         Create Your Study
     </h2>
-    <asp:Panel runat="server">
-        <asp:Label ID="lblTitle" runat="server" Text="Provide A Study Title"></asp:Label>
+    <asp:Panel ID="pnlStudy" runat="server">
+        <table>
+            <tr>
+                <td>Name</td>
+                <td width="380px"><asp:TextBox ID="tbTitle" runat="server" Width="100%"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td>Description (100 chars)</td>
+                <td><asp:TextBox ID="tbDescription" TextMode="multiline" runat="server" Height="88px" Width="100%"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td>Expired</td>
+                <td><asp:CheckBox ID="cbStdExpired" runat="server" />Check this if the study has been completed</td>
+            </tr>
+        </table>  
         <br />
-        <asp:TextBox ID="tbTitle" runat="server" Width="333px"></asp:TextBox>
-        <br />    
-        <asp:Label ID="lblDesc" runat="server" Text="Please Describe Your Study."></asp:Label>        
-        <br />
-        <asp:TextBox ID="tbDescription" TextMode="multiline" runat="server" Height="166px" Width="334px"></asp:TextBox>
-        <br />
-        (maximum 100 chars please)
-        <br />
-        <asp:CheckBox ID="cbStdExpired" runat="server" />
-        <asp:Label ID="lblExpired" runat="server" Text="This study is expired."></asp:Label>
-        <br />
-        <asp:Label ID="lblError" runat="server" ForeColor = "Red"></asp:Label>
-        <br />
-        <asp:Button ID="btnStdQual" runat="server" Text="Select Qualifiers"
-            onclick="BtnStdSubmit_Click" /> />
-        <br />
-        <br />
-        <asp:Button ID="btnStdCancel" runat="server" Text="Cancel" 
-            onclick="BtnStdCancel_Click" />
+        
     </asp:Panel>
+
     <asp:Panel ID="pnlQuals" runat="server" Height="564px">
         <h2>
-            Please Select Qualifiers For Your Study.
+            Please SETUP Qualifiers For Your Study.
         </h2>
+        <table>
+            <tr>
+                <td>Qualifier Description</td>
+            </tr>
+            <tr>
+                <td colspan=2 width=200><asp:TextBox ID="tbQualDesc" runat="server" TextMode="MultiLine" Height="100px" Width="100%"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td>Question to be answered</td>
+            </tr>
+            <tr>
+                <td colspan=2><asp:TextBox ID="tbQuestion" runat="server" Width="100%"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td><br /></td>
+            </tr>
+            <tr>
+                <td>Possible Answer</td><td>Rank</td>
+            </tr>
+            <tr><td><asp:TextBox ID="tbAnswer" runat="server" Width="100%"></asp:TextBox></td>
+                <td><asp:TextBox ID="tbRank" runat="server" Width="100%"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td>Click Add to add the current possible answer to the list below</td>
+                <td><asp:Button ID="btnAddAnswer" runat="server" Text="Add Answer"  onclick="btnAddAnswer_Click" />
+                <asp:Label ID="lblErrorAdd" runat="server" ForeColor="Red"></asp:Label></td>
+            </tr>
+            <tr>
+                <td colspan=2><asp:ListBox ID="lbAnswerList" runat="server" Width="100%"></asp:ListBox></td>
+            </tr>
+            <tr>
+                <td colspan=2><asp:Button ID="btnRemove" runat="server" Text="Remove Answer" onclick="btnRemove_Click" />
+                <asp:Button ID="btnClear" runat="server" Text="Clear Answers" onclick="btnClear_Click" />
+                <asp:Button ID="btnEdit" runat="server" Text="Edit Answer" onclick="btnEdit_Click" /></td>
+            </tr>
+        
+        </table>
+                
+        <asp:Label ID="lblQualContinue" runat="server" Text="Please click 'Create Qualifier' if you are ready to submit this qualifier. This will allow you to create other qualifiers as needed."></asp:Label>
         <br />
-        <asp:Label ID="lblQualDesc" runat="server" Text="Please describe a description for this qualifying question."></asp:Label>
-        <br />
-        <asp:TextBox ID="tbQualDesc" runat="server" TextMode="MultiLine" Height="100px" Width="368"></asp:TextBox>
-        <br />
-        <asp:Label ID="lblQualQuestion" runat="server" Text="Please phrase your qualifier in the form of a question."></asp:Label>
-        <br />
-        <asp:TextBox ID="tbQuestion" runat="server" Width="368px"></asp:TextBox>
-        <br />
-        <asp:Label ID="lblQualAnswer" runat="server" Text="Please provide all answer candatidtes"></asp:Label>
-        <asp:Label ID="lblQualRank" runat="server" Text="  Rank of answer"></asp:Label>
-        <br />
-        <asp:TextBox ID="tbAnswer" runat="server" Width="264px"></asp:TextBox>
-        <asp:TextBox ID="tbRank" runat="server" Width="104px"></asp:TextBox>
-        <asp:Button ID="btnAddAnswer" runat="server" Text="Add" Width="70px" 
-            onclick="btnAddAnswer_Click" />
-        <br />
-        <asp:Label ID="lblErrorAdd" runat="server" ForeColor="Red"></asp:Label>
-        <br />
-        <asp:ListBox ID="lbAnswerList" runat="server" Width="368px"></asp:ListBox>
-        <br />
-        <asp:Button ID="btnRemove" runat="server" Text="Remove Answer" Width="100px" 
-            onclick="btnRemove_Click" />
-        <asp:Button ID="btnClear" runat="server" Text="Clear Answers" Width="100px" 
-            onclick="btnClear_Click" />
-        <asp:Button ID="btnEdit" runat="server" Text="Edit Answer" Width="100px" 
-            onclick="btnEdit_Click" />
-        <br />
-        <br />
-        <asp:Label ID="lblQualContinue" runat="server" Text="Please click 'Continue' if you are ready to submit this qualifier and would like to add another one."></asp:Label>
-        <br />
-        <asp:Button ID="btnContinue" runat="server" Text="Continue" Width="100px" 
-            onclick="btnContinue_Click" />
+        <asp:Button ID="btnContinue" runat="server" Text="Create Qualifier" Width="100px" onclick="btnContinue_Click" />
         <br />
         <asp:Label ID="lblErrorCont" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red"></asp:Label>
         <br />
-        <asp:Label ID="lblFinished" runat="server" Text="Please click 'Finished' if you are ready to submit this qualifier and do not want to add more."></asp:Label>
+        <asp:Label ID="lblFinished" runat="server" Text="Click 'Finished' if you are done modifying this study."></asp:Label>
         <br />
-        <asp:Button ID="btnFinished" runat="server" Text="Finished" Width="100px" 
-            onclick="btnFinished_Click" />
+        <asp:Button ID="btnFinished" runat="server" Text="Finished" Width="100px" onclick="btnFinished_Click" />
+        <asp:Button ID="btnStdCancel" runat="server" onclick="BtnStdCancel_Click" Text="Cancel" />
+        <asp:Label ID="lblError" runat="server" ForeColor="Red"></asp:Label>
         <asp:Label ID="lblErrirFinish" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red"></asp:Label>
     </asp:Panel>
 </asp:Content>
