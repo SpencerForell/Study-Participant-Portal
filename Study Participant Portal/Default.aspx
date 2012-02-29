@@ -7,61 +7,94 @@
     <h2>
         Welcome to the Study Participant Portal! 
     </h2>
-    <asp:Panel ID="PnlMain" runat="server">
-        To begin, click on the appropriate button below.
-        <br />
-        <asp:Button ID="btnResearcher" runat="server" Text="Researcher" Width="105px" 
-            onclick="btnResearcher_Click"/>
-        <br />
-        <asp:Button ID="btnParticipant" runat="server" Text="Participant" Width="105px" 
-            onclick="btnParticipant_Click" />
+    <!-- Panel for getting started-->
+    <asp:Panel ID="pnlMain" runat="server">
+         To begin, click on the appropriate button below.
+        <br /><br />
+        <table>
+            <tr>
+                <th width =100> User Type </th>
+                <th> Description </th>
+                <th width=150></th>
+                <th rowspan=4><asp:Image ID="imgHome" runat="server" Height="150" ImageUrl="~/Images/portalImage.jpg" /></th>
+            </tr>
+            <tr>
+                <td><asp:Button ID="btnResearcher" runat="server" Text="Researcher" Width="100%" onclick="btnResearcher_Click"/></td>
+                <td> Researchers can create, edit and view studies</td>
+            </tr>
+            <tr>
+                <td><asp:Button ID="btnParticipant" runat="server" Text="Participant" Width="100%" onclick="btnParticipant_Click"/></td>
+                <td>Participants can view and volunteer for studies</td>
+            </tr>
+            <tr height =100>
+                <td></td>
+            </tr>
+        </table>
+    </asp:Panel>
+    <br />
 
-        <asp:Panel ID="pnlResearcher" runat="server" Visible = "false">
-            <asp:Label ID="lblResLogin" runat="server" Text="Researcher Login"></asp:Label>
-            <br />
-            <asp:Label ID="lblResSatus" runat="server" ForeColor="Red" Text=""></asp:Label>
-            <br />             
-            <asp:Label ID="lblResUser" runat="server" Text="User" Width="75px"></asp:Label>
-            <asp:TextBox ID="tbResUser" runat="server" Width="173px"></asp:TextBox>
-            <br />
-            <asp:Label ID="lblResPassword" runat="server" Text="Password" Width="75px"></asp:Label>
-            <asp:TextBox ID="tbResPassword" runat="server" Width="173px" TextMode="Password"></asp:TextBox>
-            <br />
-            <asp:Button ID="btnResSubmit" runat="server" Text="Submit" Width="75" 
-                onclick="btnResSubmit_Click" />
-            <br />
-            <br />
-            <asp:Label ID="lblResCreateAcc" runat="server" Text="Don't have an account? Create one here: "></asp:Label>       
-            <br />
-            <asp:Button ID="btnResCreateAcc" runat="server" Text="Create New Account" 
-                onclick="btnResCreateAcc_Click" />
-            <br />
-            <br />
-            <asp:Button ID="btnResCancel" runat="server" Text="Cancel" 
-                onclick="btnResCancel_Click" />
-        </asp:Panel>
+    <!-- Panel for study of the week-->
+    <asp:Panel ID="pnlWeeklyStudy" runat="server">
+        <table border="1" >
+            <tr>
+                <th colspan=3>Study of the week!</th>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lblWeeklyStudyName" runat="server" Width="100px" Text="Name"></asp:Label></td>
+                <td><asp:Label ID="lblWeeklyStudyDesc" runat="server" Text="Description of study of the week" ></asp:Label></td>
+                <td>Other miscallaneous study of the week things</td>
+            </tr>
+        </table>
+        
+    </asp:Panel>
 
-        <asp:Panel ID="pnlParticipant" runat="server" Visible = "false">
-            <asp:Label ID="lblParLogin" runat="server" Text="Participant Login"></asp:Label>
-            <br />             
-            <asp:Label ID="lblParUser" runat="server" Text="User" Width="75px"></asp:Label>
-            <asp:TextBox ID="tbParUser" runat="server" Width="173px"></asp:TextBox>
-            <br />
-            <asp:Label ID="lblParPassword" runat="server" Text="Password" Width="75px"></asp:Label>
-            <asp:TextBox ID="tbParPassword" runat="server" Width="173px" TextMode="Password"></asp:TextBox>
-            <br />
-            <asp:Button ID="btnParSubmit" runat="server" Text="Submit" Width="75" 
-                onclick="btnParSubmit_Click" />
-            <br />
-            <br />
-            <asp:Label ID="lblParCreateAcc" runat="server" Text="Don't have an account? Create one here: "></asp:Label>       
-            <br />
-            <asp:Button ID="btnParCreateAcc" runat="server" Text="Create New Account" 
-                onclick="btnParCreateAcc_Click" />
-            <br />
-            <br />
-            <asp:Button ID="btnParCancel" runat="server" Text="Cancel" 
-                onclick="btnParCancel_Click" />
-        </asp:Panel>
+    <!-- Panel for researchers to login -->
+    <asp:Panel ID="pnlResearcher" runat="server" Visible = "false">
+        <asp:Label ID="lblResLogin" runat="server" Text="Researcher Login"></asp:Label>
+        <br />
+        <asp:Label ID="lblResSatus" runat="server" ForeColor="Red" Text=""></asp:Label>
+        <br />             
+        <asp:Label ID="lblResUser" runat="server" Text="User" Width="75px"></asp:Label>
+        <asp:TextBox ID="tbResUser" runat="server" Width="173px"></asp:TextBox>
+        <br />
+        <asp:Label ID="lblResPassword" runat="server" Text="Password" Width="75px"></asp:Label>
+        <asp:TextBox ID="tbResPassword" runat="server" Width="173px" TextMode="Password"></asp:TextBox>
+        <br />
+        <asp:Button ID="btnResSubmit" runat="server" Text="Submit" Width="75" 
+            onclick="btnResSubmit_Click" />
+        <br />
+        <br />
+        <asp:Label ID="lblResCreateAcc" runat="server" Text="Don't have an account? Create one here: "></asp:Label>       
+        <br />
+        <asp:Button ID="btnResCreateAcc" runat="server" Text="Create New Account" 
+            onclick="btnResCreateAcc_Click" />
+        <br />
+        <br />
+        <asp:Button ID="btnResCancel" runat="server" Text="Cancel" 
+            onclick="btnResCancel_Click" />
+    </asp:Panel>
+
+    <!-- Panel for participants to login -->
+    <asp:Panel ID="pnlParticipant" runat="server" Visible = "false">
+        <asp:Label ID="lblParLogin" runat="server" Text="Participant Login"></asp:Label>
+        <br />             
+        <asp:Label ID="lblParUser" runat="server" Text="User" Width="75px"></asp:Label>
+        <asp:TextBox ID="tbParUser" runat="server" Width="173px"></asp:TextBox>
+        <br />
+        <asp:Label ID="lblParPassword" runat="server" Text="Password" Width="75px"></asp:Label>
+        <asp:TextBox ID="tbParPassword" runat="server" Width="173px" TextMode="Password"></asp:TextBox>
+        <br />
+        <asp:Button ID="btnParSubmit" runat="server" Text="Submit" Width="75" 
+            onclick="btnParSubmit_Click" />
+        <br />
+        <br />
+        <asp:Label ID="lblParCreateAcc" runat="server" Text="Don't have an account? Create one here: "></asp:Label>       
+        <br />
+        <asp:Button ID="btnParCreateAcc" runat="server" Text="Create New Account" 
+            onclick="btnParCreateAcc_Click" />
+        <br />
+        <br />
+        <asp:Button ID="btnParCancel" runat="server" Text="Cancel" 
+            onclick="btnParCancel_Click" />
     </asp:Panel>
 </asp:Content>
