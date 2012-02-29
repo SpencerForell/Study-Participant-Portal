@@ -11,27 +11,40 @@ public partial class _Default : System.Web.UI.Page {
 
     protected void Page_Load(object sender, EventArgs e) {
         if (!IsPostBack) {
+            
             if (Session["user"] == null) {
 
             }
+            else {
+                SuperUser user = (SuperUser) Session["user"];
+                switch(user.Type) {
+                    case SuperUser.UserType.Researcher:
+                        Response.Redirect("ResearcherForm.aspx");
+                        break;
+                    case SuperUser.UserType.Participant:
+                        Response.Redirect("ParticipantForm.aspx");
+                        break;
+                }
+            }
+             
         }
     }
 
     protected void btnResearcher_Click(object sender, EventArgs e) {
-        btnResearcher.Visible = false;
-        btnParticipant.Visible = false;
-        pnlResearcher.Visible = true; 
+        pnlMain.Visible = false;
+        pnlResearcher.Visible = true;
+        pnlWeeklyStudy.Visible = false;
     }
 
     protected void btnParticipant_Click(object sender, EventArgs e) {
-        btnResearcher.Visible = false;
-        btnParticipant.Visible = false;
+        pnlMain.Visible = false;
         pnlParticipant.Visible = true;
+        pnlWeeklyStudy.Visible = false;
     }
 
     protected void btnResCancel_Click(object sender, EventArgs e) {
-        btnResearcher.Visible = true;
-        btnParticipant.Visible = true;
+        pnlMain.Visible = true;
+        pnlWeeklyStudy.Visible = true;
         pnlResearcher.Visible = false;
     }
 

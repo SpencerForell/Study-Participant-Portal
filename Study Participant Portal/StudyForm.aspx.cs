@@ -13,7 +13,7 @@ public partial class StudyForm : System.Web.UI.Page {
         Researcher res = new Researcher(study.Researcher_ID);
 
         lblStdName.Text = study.StudyName;
-        lblStdCreator.Text = res.First_name + " " + res.Last_Name;
+        lblStdCreator.Text = res.FirstName + " " + res.LastName;
         lblStdDate.Text = study.DateCreated.ToString();
         tbStdDescription.Text = study.StudyDescription;
         tbStdDescription.ReadOnly = true;

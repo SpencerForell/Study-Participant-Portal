@@ -34,7 +34,7 @@ public partial class ResearcherForm : System.Web.UI.Page {
     protected void Page_Load(object sender, EventArgs e) {
         Researcher res = (Researcher)Session["User"];
         if (!IsPostBack) {
-            populateListbox(res.User_id);
+            populateListbox(res.UserID);
         }
     }
 
@@ -54,5 +54,8 @@ public partial class ResearcherForm : System.Web.UI.Page {
             int study_id = Convert.ToInt32(lboxStudyList.SelectedValue);
             Response.Redirect("CreateStudy.aspx?edit=true&study_id=" + study_id);
         }
+    }
+    protected void btnResEdit_Click(object sender, EventArgs e) {
+        Response.Redirect("CreateAccount.aspx?user=Researcher&edit=true");
     }
 }

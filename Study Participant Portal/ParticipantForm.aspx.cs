@@ -9,7 +9,7 @@ public partial class ParticipantForm: System.Web.UI.Page {
     protected void Page_Load(object sender, EventArgs e) {
         Participant part = (Participant)Session["User"];
         if (!IsPostBack) {
-            populateListbox(part.User_id);
+            populateListbox(part.UserID);
         }
     }
 
