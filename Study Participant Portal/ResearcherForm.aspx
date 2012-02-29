@@ -10,7 +10,6 @@
     <asp:Panel ID="pnlMain" runat="server" Height="600px">
         <asp:Button ID="btnResEdit" runat="server" Text="Edit Profile" Width="100px" 
             onclick="btnResEdit_Click" />
-        <asp:Button ID="btnResLogout" runat="server" onclick="logout_Click" Text="Logout" Width="100px" />
         <br />
         <br />
         <asp:Button ID="btnResCreate" runat="server" Text="Create Study" Width="100px" onclick="btnResCreate_Click" />

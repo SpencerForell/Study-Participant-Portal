@@ -37,12 +37,7 @@ public partial class ResearcherForm : System.Web.UI.Page {
             populateListbox(res.UserID);
         }
     }
-
-    protected void logout_Click(object sender, EventArgs e) {
-        Session.Clear();
-        Response.Redirect("Default.aspx");
-    }
-
+    
     protected void btnResCreate_Click(object sender, EventArgs e) {
         Response.Redirect("CreateStudy.aspx");
     }
