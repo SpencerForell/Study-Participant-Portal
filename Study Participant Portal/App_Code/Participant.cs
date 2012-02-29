@@ -13,9 +13,9 @@ public class Participant: SuperUser {
     /// </summary>
     public Participant(string user_name, string first_name, string last_name, string email) {
         type = UserType.Participant;
-        this.user_name = user_name;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.userName = user_name;
+        this.firstName = first_name;
+        this.lastName = last_name;
         this.email = email;
     }
 

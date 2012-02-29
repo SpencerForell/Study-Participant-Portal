@@ -13,10 +13,10 @@ public class Researcher: SuperUser {
     /// </summary>
     public Researcher(int user_id, string user_name, string first_name, string last_name, string email) {
         type = UserType.Researcher;
-        this.user_id = user_id;
-        this.user_name = user_name;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.userID = user_id;
+        this.userName = user_name;
+        this.firstName = first_name;
+        this.lastName = last_name;
         this.email = email;
 	}
 
@@ -28,10 +28,10 @@ public class Researcher: SuperUser {
         string queryString = "select User_Name, First_Name, Last_Name, Email from Researcher where Res_ID = " + user_id.ToString();
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
 
-        this.user_id = user_id;
-        this.user_name = query.Results[0][0];
-        this.first_name = query.Results[0][1];
-        this.last_name = query.Results[0][2];
+        this.userID = user_id;
+        this.userName = query.Results[0][0];
+        this.firstName = query.Results[0][1];
+        this.lastName = query.Results[0][2];
         this.email = query.Results[0][3];
     }
 }

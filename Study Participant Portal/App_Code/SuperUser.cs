@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,10 +10,10 @@ public abstract class SuperUser {
 
     // Protected variables
     protected UserType type;
-    protected int user_id;    
-    protected string user_name;
-    protected string first_name;
-    protected string last_name;
+    protected int userID;    
+    protected string userName;
+    protected string firstName;
+    protected string lastName;
     protected string email;
 
     // public properties
@@ -21,20 +21,20 @@ public abstract class SuperUser {
         get { return type; }
     }
 
-    public int User_id {
-        get { return user_id; }
+    public int UserID {
+        get { return userID; }
     }
 
-    public string User_Name {
-        get { return user_name; }
+    public string UserName {
+        get { return userName; }
     }
 
-    public string First_name {
-        get { return first_name; }
+    public string FirstName {
+        get { return firstName; }
     }
 
-    public string Last_Name {
-        get { return last_name; }
+    public string LastName {
+        get { return lastName; }
     }
     public string Email {
         get { return email; }
