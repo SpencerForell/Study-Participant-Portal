@@ -19,16 +19,28 @@
             </tr>
             <tr>
                 <td>Expired</td>
-                <td><asp:CheckBox ID="cbStdExpired" runat="server" />Check this if the study has been completed</td>
+                <td><asp:CheckBox ID="cbStdExpired" runat="server" Visible="false" />Check this if the study has been completed</td>
             </tr>
         </table>  
         <br />
-        
     </asp:Panel>
 
-    <asp:Panel ID="pnlQuals" runat="server" Height="564px">
+    <hr />
+
+    <asp:Panel ID="pnlQuals" runat="server">
+        <asp:Panel ID="pnlExistingQuals" runat="server" Visible="false" ScrollBars="Auto" >
+            <table>
+                <tr>
+                    <td>Existing Qualifiers</td>
+                </tr>
+                <tr>
+                    <td><asp:ListBox ID="lbQualifiers" runat="server"></asp:ListBox></td>
+                </tr>
+            </table>
+        </asp:Panel>
+                
         <h2>
-            Please SETUP Qualifiers For Your Study.
+            Please Setup Qualifiers For Your Study.
         </h2>
         <table>
             <tr>
@@ -55,7 +67,7 @@
             <tr>
                 <td>Click Add to add the current possible answer to the list below</td>
                 <td><asp:Button ID="btnAddAnswer" runat="server" Text="Add Answer"  onclick="btnAddAnswer_Click" />
-                <asp:Label ID="lblErrorAdd" runat="server" ForeColor="Red"></asp:Label></td>
+                <asp:Label ID="lblErrorAdd" runat="server" ForeColor="Red" Visible="false"></asp:Label></td>
             </tr>
             <tr>
                 <td colspan=2><asp:ListBox ID="lbAnswerList" runat="server" Width="100%"></asp:ListBox></td>
@@ -72,13 +84,13 @@
         <br />
         <asp:Button ID="btnContinue" runat="server" Text="Create Qualifier" Width="100px" onclick="btnContinue_Click" />
         <br />
-        <asp:Label ID="lblErrorCont" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red"></asp:Label>
+        <asp:Label ID="lblErrorCont" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red" Visible="false"></asp:Label>
         <br />
         <asp:Label ID="lblFinished" runat="server" Text="Click 'Finished' if you are done modifying this study."></asp:Label>
         <br />
         <asp:Button ID="btnFinished" runat="server" Text="Finished" Width="100px" onclick="btnFinished_Click" />
         <asp:Button ID="btnStdCancel" runat="server" onclick="BtnStdCancel_Click" Text="Cancel" />
-        <asp:Label ID="lblError" runat="server" ForeColor="Red"></asp:Label>
-        <asp:Label ID="lblErrirFinish" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red"></asp:Label>
+        <asp:Label ID="lblError" runat="server" ForeColor="Red" Visible="false"></asp:Label>
+        <asp:Label ID="lblErrorFinish" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red" Visible="false"></asp:Label>
     </asp:Panel>
 </asp:Content>

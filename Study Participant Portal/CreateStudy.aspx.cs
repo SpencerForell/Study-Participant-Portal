@@ -13,42 +13,27 @@ public partial class CreateStudy : System.Web.UI.Page {
     private int editIndex = 0;
 
     protected void Page_Load(object sender, EventArgs e) {
-        lblError.Visible = false;
-        lblErrorAdd.Visible = false;
-        lblErrorCont.Visible = false;
-        lblErrirFinish.Visible = false;
-        if (!IsPostBack && Request.QueryString["edit"] == "true") {
-            study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
-            tbTitle.Text = study.StudyName;
-            tbDescription.Text = study.StudyDescription;
-            pnlQuals.Enabled = true;
-            if (study.Expired == true) {
-                cbStdExpired.Checked = true;
-            }
-            else {
-                cbStdExpired.Checked = false;
+        if (!IsPostBack) {
+            //Editing an existing study
+            if (Request.QueryString["edit"] == "true") {
+                study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
+                tbTitle.Text = study.StudyName;
+                tbDescription.Text = study.StudyDescription;
+                cbStdExpired.Visible = true;
+                if (study.Expired == true) {
+                    cbStdExpired.Checked = true;
+                }
             }
         }
-        else {
 
-            int stdid = 0;
-            if (Session["studyID"] != null) {
-                stdid = (int)Session["studyID"];
+        if (study != null && study.Qualifiers.Count != 0) {
+            foreach (Qualifier qual in study.Qualifiers) {
+                ListItem item = new ListItem(qual.Description, qual.QualID.ToString());
+                lbQualifiers.Items.Add(item);
             }
-            DatabaseQuery query = null;
-            string queryString = "select Name from Study where Study_ID = " + stdid.ToString();
-            query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
-
-            // disable the qualifier panel if this is a new study.
-            if (query.Results.Count() == 0) {
-                pnlQuals.Enabled = false;
-            }
-
-            // make sure the panel is enabled if it is a postback.
-            if (IsPostBack) {
-                pnlQuals.Enabled = true;
-            }
+            pnlExistingQuals.Visible = true;
         }
+
     }
 
     /// <summary>
@@ -61,18 +46,6 @@ public partial class CreateStudy : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// submit study information into the data base. Upon completion set a 
-    /// session variable of study ID.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void BtnStdSubmit_Click(object sender, EventArgs e) {
-        
-
-        
-    }
-
-    /// <summary>
     /// Method to add Answers to the answer list box. This button will also work
     /// in combination with the edit button to resubmit and edited answer.
     /// </summary>
@@ -81,10 +54,10 @@ public partial class CreateStudy : System.Web.UI.Page {
     protected void btnAddAnswer_Click(object sender, EventArgs e) {
 
         // regular expression to enure only numbers are entered in the rank text field.
-        Regex reg = new Regex(@"^[-1-9]+$");
+        Regex reg = new Regex(@"^[-10123456789]+$");
 
         if (tbAnswer.Text.Equals(string.Empty) || tbRank.Text.Equals(string.Empty) || (!reg.IsMatch(tbRank.Text))) {
-            lblErrorAdd.Text = "Please provide an answer, and a rank. The rank must be an integer";
+            lblErrorAdd.Text = "Please provide an answer, and a scaore. The score must be between -1-9";
             lblErrorAdd.Visible = true;
         }
         else {
@@ -177,6 +150,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             lblErrorCont.Visible = true;
             return;
         }
+        lblErrorCont.Visible = false;
         int qualID;
         int studyID;
         List<string> answerRank = null;
@@ -282,7 +256,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         Session["studyID"] = study_id;
         
         if (tbQualDesc.Text.Equals(string.Empty) || tbQuestion.Text.Equals(string.Empty) || lbAnswerList.Items.Count == 0) {
-            lblErrirFinish.Visible = true;
+            lblErrorFinish.Visible = true;
             return;
         }
 
