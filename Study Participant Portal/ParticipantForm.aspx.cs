@@ -34,4 +34,7 @@ public partial class ParticipantForm: System.Web.UI.Page {
             Response.Redirect("StudyForm.aspx?study_id=" + studyID);
         }
     }
+    protected void btnParEdit_Click(object sender, EventArgs e) {
+        Response.Redirect("CreateAccount.aspx?user=Participant&edit=true");
+    }
 }

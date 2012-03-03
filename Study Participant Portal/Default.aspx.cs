@@ -66,17 +66,18 @@ public partial class _Default : System.Web.UI.Page {
     }
 
     protected void btnParSubmit_Click(object sender, EventArgs e) {
-        string queryString = "select * from Participant where user_name = '" + tbParUser.Text + "' and password = '" + tbParPassword.Text + "'";
+        string queryString = "select Par_ID, user_name, first_name, last_name, email from Participant where user_name = '" + tbParUser.Text + "' and password = '" + tbParPassword.Text + "'";
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
         if (query.Results.Count == 0) {
             lblResSatus.Text = "Invalid login. Please try again.";
         }
         else if (query.Results.Count == 1) {
-            string user_name = query.Results[0][0];
-            string first_name = query.Results[0][1];
-            string last_name = query.Results[0][2];
-            string email = query.Results[0][3];
-            Participant par = new Participant(user_name, first_name, last_name, email);
+            int user_id = Convert.ToInt32(query.Results[0][0]);
+            string user_name = query.Results[0][1];
+            string first_name = query.Results[0][2];
+            string last_name = query.Results[0][3];
+            string email = query.Results[0][4];
+            Participant par = new Participant(user_id, user_name, first_name, last_name, email);
             Session["user"] = par;
             Response.Redirect("ParticipantForm.aspx");
         }

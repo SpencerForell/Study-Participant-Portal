@@ -8,6 +8,10 @@
         Participant Page
     </h2>
     <asp:Panel ID="pnlMain" runat="server" Height="329px">
+        <asp:Button ID="btnParEdit" runat="server" Text="Edit Profile" 
+            onclick="btnParEdit_Click" />
+        <br />
+        <br />
         <asp:Label ID="lblStudies" runat="server" Text="Please select a study you are interested in participating in"> </asp:Label>
         <br />
         <asp:ListBox ID="lboxStudyList" runat="server" Height="204px" Width="401px"></asp:ListBox>
