@@ -16,6 +16,7 @@ public partial class CreateAccount : System.Web.UI.Page {
     private bool isFormValid(SuperUser.UserType user) {
         switch (user) {
             case SuperUser.UserType.Participant:
+                lblParStatus.Text = "";
                 if (tbParPassword.Text == "" || tbParPassword.Text != tbParPasswordConfirm.Text) {
                     lblParStatus.Text = "Invalid Password";
                 }
@@ -33,6 +34,7 @@ public partial class CreateAccount : System.Web.UI.Page {
                 }
                 break;
             case SuperUser.UserType.Researcher:
+                lblResStatus.Text = "";
                 if (tbResPassword.Text == "" || tbResPassword.Text != tbResPasswordConfirm.Text) {
                     lblResStatus.Text = "Invalid Password";
                 }
@@ -75,29 +77,46 @@ public partial class CreateAccount : System.Web.UI.Page {
     }
 
     protected void Page_Load(object sender, EventArgs e) {
-        
-        string user = Request.QueryString["user"];
-        if (user == SuperUser.UserType.Researcher.ToString()) {
-            pnlResearcher.Visible = true;
-            if (Request.QueryString["edit"] == "true") {
-                autoFillForms(SuperUser.UserType.Researcher);
+        if (!IsPostBack) {
+            string user = Request.QueryString["user"];
+            if (user == SuperUser.UserType.Researcher.ToString()) {
+                pnlResearcher.Visible = true;
+                if (Request.QueryString["edit"] == "true") {
+                    autoFillForms(SuperUser.UserType.Researcher);
+                }
             }
-        }
-        else if (user == SuperUser.UserType.Participant.ToString()) {
-            pnlParticipant.Visible = true;
-            if (Request.QueryString["edit"] == "true") {
-                autoFillForms(SuperUser.UserType.Participant);
+            else if (user == SuperUser.UserType.Participant.ToString()) {
+                pnlParticipant.Visible = true;
+                if (Request.QueryString["edit"] == "true") {
+                    autoFillForms(SuperUser.UserType.Participant);
+                }
             }
         }
     }
 
     protected void btnResSubmit_Click(object sender, EventArgs e) {
         if (isFormValid(SuperUser.UserType.Researcher)) {
-            string queryString = "insert into Researcher" +
-                                 " (User_Name, First_Name, Last_Name, Email, Password, Num_Ratings)" + 
-                                 " values " +
-                                 " ('" + tbResUserName.Text + "', '" + tbResFirstName.Text + "','" + tbResLastName.Text + "', '" + tbResEmail.Text + "', '" + tbResPassword.Text + "',0)";
-            DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
+            string queryString = "";
+            DatabaseQuery query;
+            if (Request.QueryString["edit"] == "true") {
+                int resID = ((Researcher)Session["user"]).UserID;
+                queryString = "update Researcher " +
+                              "set User_Name = '" + tbResUserName.Text + "'," +
+                              "First_Name = '" + tbResFirstName.Text + "'," +
+                              "Last_Name = '" + tbResLastName.Text + "'," +
+                              "Email = '" + tbResEmail.Text + "'," +
+                              "Password = '" + tbResPassword.Text + "' " +
+                              "where Res_ID = " + resID;
+                query = new DatabaseQuery(queryString, DatabaseQuery.Type.Update);
+            }
+            else {
+                queryString = "insert into Researcher" +
+                            " (User_Name, First_Name, Last_Name, Email, Password, Num_Ratings)" +
+                            " values " +
+                            " ('" + tbResUserName.Text + "', '" + tbResFirstName.Text + "','" + tbResLastName.Text + "', '" + tbResEmail.Text + "', '" + tbResPassword.Text + "',0)";
+
+                query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
+            }    
             lblResStatus.Text = "";
 
             queryString = "select Res_ID from Researcher where User_Name = '" + tbResUserName.Text + "'";
@@ -113,13 +132,32 @@ public partial class CreateAccount : System.Web.UI.Page {
 
     protected void btnParSubmit_Click(object sender, EventArgs e) {
         if (isFormValid(SuperUser.UserType.Participant)) {
-            string queryString = "insert into Participant" +
-                                 " (User_Name, First_Name, Last_Name, Email, Password, Num_Ratings)" +
-                                 " values " +
-                                 " ('" + tbParUserName.Text + "', '" + tbParFirstName.Text + "','" + tbParLastName.Text + "','" + tbParEmail.Text + "', '" + tbParPassword.Text + "',0)";
+            string queryString = "";
+            if (Request.QueryString["edit"] == "true") {
+                int parID = ((Participant)Session["user"]).UserID;
+                queryString = "update Participant " +
+                              "set User_Name = '" + tbParUserName.Text + "'," +
+                              "First_Name = '" + tbParFirstName.Text + "'," +
+                              "Last_Name = '" + tbParLastName.Text + "'," +
+                              "Email = '" + tbParEmail.Text + "'," +
+                              "Password = '" + tbParPassword.Text + "' " +
+                              "where Par_ID = " + parID;
+
+            }
+            else {
+                queryString = "insert into Participant" +
+                              " (User_Name, First_Name, Last_Name, Email, Password, Num_Ratings)" +
+                              " values " +
+                              " ('" + tbParUserName.Text + "', '" + tbParFirstName.Text + "','" + tbParLastName.Text + "','" + tbParEmail.Text + "', '" + tbParPassword.Text + "',0)";
+            }
             DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
             lblParStatus.Text = "";
-            Session["user"] = new Participant(tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text);
+
+            queryString = "select Par_ID from Participant where User_Name = '" + tbParUserName.Text + "'";
+            query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+            int userID = Convert.ToInt32(query.Results[0][0]);
+
+            Session["user"] = new Participant(userID, tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text);
             Response.Redirect("ParticipantForm.aspx");
         }
     }
