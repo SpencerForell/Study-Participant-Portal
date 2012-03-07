@@ -11,6 +11,7 @@ using MySql.Data.MySqlClient;
 public class DatabaseQuery {
 
     private string item;
+    private int lastInsertID;
 
     private List<string> record = null;
 
@@ -25,6 +26,10 @@ public class DatabaseQuery {
 
     public List<List<string>> Results {
         get { return results; }
+    }
+
+    public int LastInsertID {
+        get { return lastInsertID; }
     }
 
     /// <summary>
@@ -66,8 +71,11 @@ public class DatabaseQuery {
             case Type.Delete:
                 command.ExecuteNonQuery();
                 break;
-        
         }
+
+        command.CommandText = "select Last_Insert_ID()";
+        Reader = command.ExecuteReader();
+        lastInsertID = (int)Reader.GetValue(0);
         
         connection.Close();
 	}

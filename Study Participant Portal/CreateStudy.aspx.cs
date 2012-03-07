@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 public partial class CreateStudy : System.Web.UI.Page {
 
     Study study = null;
+    List<Qualifier> qualifiers = null;
     private int editIndex = 0;
 
     protected void Page_Load(object sender, EventArgs e) {
@@ -17,8 +18,8 @@ public partial class CreateStudy : System.Web.UI.Page {
             //Editing an existing study
             if (Request.QueryString["edit"] == "true") {
                 study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
-                tbTitle.Text = study.StudyName;
-                tbDescription.Text = study.StudyDescription;
+                tbName.Text = study.Name;
+                tbDescription.Text = study.Description;
                 cbStdExpired.Visible = true;
                 if (study.Expired == true) {
                     cbStdExpired.Checked = true;
@@ -26,12 +27,15 @@ public partial class CreateStudy : System.Web.UI.Page {
             }
         }
 
+        //If the the study is new, do not show the qualifers listbox or expired checkbox
         if (study != null && study.Qualifiers.Count != 0) {
             foreach (Qualifier qual in study.Qualifiers) {
                 ListItem item = new ListItem(qual.Description, qual.QualID.ToString());
                 lbQualifiers.Items.Add(item);
             }
             pnlExistingQuals.Visible = true;
+            lblExpired.Visible = true;
+            lblExpired2.Visible = true;
         }
 
     }
@@ -56,13 +60,13 @@ public partial class CreateStudy : System.Web.UI.Page {
         // regular expression to enure only numbers are entered in the rank text field.
         Regex reg = new Regex(@"^[-10123456789]+$");
 
-        if (tbAnswer.Text.Equals(string.Empty) || tbRank.Text.Equals(string.Empty) || (!reg.IsMatch(tbRank.Text))) {
-            lblErrorAdd.Text = "Please provide an answer, and a scaore. The score must be between -1-9";
+        if (tbAnswer.Text.Equals(string.Empty) || tbScore.Text.Equals(string.Empty) || (!reg.IsMatch(tbScore.Text))) {
+            lblErrorAdd.Text = "Please provide an answer, and a score. The score must be between -1-9";
             lblErrorAdd.Visible = true;
         }
         else {
             if (tbQuestion.Enabled == false) {
-                lbAnswerList.Items[editIndex].Text = tbAnswer.Text + " [" + tbRank.Text + "]";
+                lbAnswerList.Items[editIndex].Text = tbAnswer.Text + " [" + tbScore.Text + "]";
                 tbQualDesc.Enabled = true;
                 tbQuestion.Enabled = true;
                 lbAnswerList.Enabled = true;
@@ -75,10 +79,12 @@ public partial class CreateStudy : System.Web.UI.Page {
 
             }
             else {
-                lbAnswerList.Items.Add(tbAnswer.Text + " [" + tbRank.Text + "]");                
+                //the -1 should be the answer id if it has one
+                ListItem item = new ListItem(tbAnswer.Text + " [" + tbScore.Text + "]", "-1");
+                lbAnswerList.Items.Add(item);                
             }
             tbAnswer.Text = string.Empty;
-            tbRank.Text = string.Empty;
+            tbScore.Text = string.Empty;
         }
     }
 
@@ -123,7 +129,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         else {
             answerRank = sepearateAnswerAndRank(lbAnswerList.SelectedItem.Text);
             tbAnswer.Text = answerRank[0];
-            tbRank.Text = answerRank[1];
+            tbScore.Text = answerRank[1];
             tbQualDesc.Enabled = false;
             tbQuestion.Enabled = false;
             lbAnswerList.Enabled = false;
@@ -135,175 +141,53 @@ public partial class CreateStudy : System.Web.UI.Page {
             editIndex = lbAnswerList.SelectedIndex;
         }
     }
-
-    /// <summary>
-    /// This method takes all the information from the answer and qualifier fields and
-    /// populates the database. It will first populate the Qualifier table, then it
-    /// will populate the Study_Qualifier table, and finally it will populate the
-    /// Answer table. It will then clear all the text fields and the user may provide 
-    /// another qualifier.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnContinue_Click(object sender, EventArgs e) {
-        if (tbQualDesc.Text.Equals(string.Empty) || tbQuestion.Text.Equals(string.Empty) || lbAnswerList.Items.Count == 0) {
-            lblErrorCont.Visible = true;
-            return;
-        }
-        lblErrorCont.Visible = false;
-        int qualID;
-        int studyID;
-        List<string> answerRank = null;
-        StringBuilder queryString = null;
-        DatabaseQuery query = null;
-
-        // get the study ID
-        queryString = new StringBuilder("select Study_ID");
-        queryString.Append(" from Study");
-        queryString.Append(" where Name = '" + tbTitle.Text + "'");
-        query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Select);
-        studyID = Convert.ToInt32(query.Results[0][0]);
-
-        // insert current qualifier record into Qualifiers
-        queryString = new StringBuilder("insert into Qualifiers");
-        queryString.Append(" (Question, Description)");
-        queryString.Append(" values ");
-        queryString.Append(" ('" + tbQuestion.Text + "', '" + tbQualDesc.Text + "')");
-        query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Insert);
-
-        // get the qualifier ID
-        queryString = new StringBuilder("select Qual_ID");
-        queryString.Append(" from Qualifiers");
-        queryString.Append(" where Question = '" + tbQuestion.Text + "'");
-        query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Select);
-        qualID = Convert.ToInt32(query.Results[0][0]);
-
-        // insert current study and qualifier id into Study_Qualifiers
-        queryString = new StringBuilder("insert into Study_Qualifiers");
-        queryString.Append(" (Study_ID, Qual_ID)");
-        queryString.Append(" values ");
-        queryString.Append(" (" + studyID.ToString() + ", " + qualID.ToString() + ")");
-        query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Insert);
-
-        // insert answers into Answer table
-        for (int i = 0; i < lbAnswerList.Items.Count; i++) {
-            answerRank = sepearateAnswerAndRank(lbAnswerList.Items[i].Text);
-            queryString = new StringBuilder("insert into Answers");
-            queryString.Append(" (Qual_ID, Answer, Rank)");
-            queryString.Append(" values ");
-            queryString.Append(" (" + qualID.ToString() + ", '" + answerRank[0] + "', " + answerRank[1] + ")");
-            query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Insert);
-        }
-
-        // clear the contents of the fields for new entries
-        tbQualDesc.Text = string.Empty;
-        tbQuestion.Text = string.Empty;
-        tbAnswer.Text = string.Empty;
-        tbRank.Text = string.Empty;
-        lbAnswerList.Items.Clear();
-    }
-
+    
     /// <summary>
     /// This method does pretty much the same as above only this time upon completion
     /// redirects the user to the Study form.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void btnFinished_Click(object sender, EventArgs e) {
-        if (tbTitle.Text.Equals(string.Empty) || tbDescription.Text.Equals(string.Empty)) {
+    protected void btnFinished_Click(object sender, EventArgs e) {      
+        if (tbName.Text.Equals(string.Empty) || tbDescription.Text.Equals(string.Empty)) {
             lblError.Text = "Please fill out the necessary fields.";
             lblError.Visible = true;
         }
 
         bool isNewStudy = !Convert.ToBoolean(Request.QueryString["edit"]);
+        int expired = Convert.ToInt32(cbStdExpired.Checked);
         Researcher res = (Researcher)Session["user"];
-        StringBuilder queryString = null;
-        DatabaseQuery query = null;
+        int studyID = -1;
+        if (!isNewStudy) {
+            studyID = Convert.ToInt32(Request.QueryString["studyID"]);
+        }
+        study = new Study(studyID, tbName.Text, tbDescription.Text, DateTime.Now, expired, res.UserID, qualifiers);
+
+        foreach (Qualifier qualifier in qualifiers) {
+            study.Qualifiers.Add(qualifier);
+        }
 
         switch (isNewStudy) {
             case true:
-                if (cbStdExpired.Checked == true) {
-                    lblError.Text = "Cannot set a new study to expired.";
-                    lblError.Visible = true;
-                    return;
+                study.StudyID = DAL.InsertStudy(study);
+                foreach (Qualifier qualifier in qualifiers) {
+                    qualifier.QualID = DAL.InsertQualifier(qualifier, study.StudyID);
+                    foreach (Answer answer in qualifier.Answers) {
+                        DAL.InsertAnswer(answer, qualifier.QualID);
+                    }
                 }
-                queryString = new StringBuilder("insert into Study");
-                queryString.Append(" (Name, Description, Creation_date, Expired, Res_ID)");
-                queryString.Append(" values ");
-                queryString.Append(" ('" + tbTitle.Text + "', '" + tbDescription.Text + "', ");
-                queryString.Append("NOW()" + ", 0, " + res.UserID + ")");
-                query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Insert);
                 break;
             case false:
-                queryString = new StringBuilder("update Study");
-                queryString.Append(" set Name = '" + tbTitle.Text + "'");
-                queryString.Append(", Description = '" + tbDescription.Text + "'");
-                if (cbStdExpired.Checked == true)
-                    queryString.Append(", Expired = " + "1");
-                else
-                    queryString.Append(", Expired = " + "0");
-                queryString.Append(" where Study_ID = " + Request.QueryString["study_id"]);
-                query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Update);
+                DAL.UpdateStudy(study);
+                //todo - finish the update section
                 break;
         }
-
-        // query to get the value of our study ID for the session variable
-        string studyQuery = "select Study_ID from Study where Name = '" + tbTitle.Text + "'";
-        query = new DatabaseQuery(studyQuery, DatabaseQuery.Type.Select);
-        int study_id = Convert.ToInt32(query.Results[0][0]);
-
-        // set a studyid session variable
-        Session["studyID"] = study_id;
-        
+                
         if (tbQualDesc.Text.Equals(string.Empty) || tbQuestion.Text.Equals(string.Empty) || lbAnswerList.Items.Count == 0) {
             lblErrorFinish.Visible = true;
             return;
         }
-
-        int qualID;
-        int studyID;
-        List<string> answerRank = null;
-        queryString = null;
-        query = null;
-
-        // get the study ID
-        queryString = new StringBuilder("select Study_ID");
-        queryString.Append(" from Study");
-        queryString.Append(" where Name = '" + tbTitle.Text + "'");
-        query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Select);
-        studyID = Convert.ToInt32(query.Results[0][0]);
-
-        // insert current qualifier record into Qualifiers
-        queryString = new StringBuilder("insert into Qualifiers");
-        queryString.Append(" (Question, Description)");
-        queryString.Append(" values ");
-        queryString.Append(" ('" + tbQuestion.Text + "', '" + tbQualDesc.Text + "')");
-        query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Insert);
-
-        // get the qualifier ID
-        queryString = new StringBuilder("select Qual_ID");
-        queryString.Append(" from Qualifiers");
-        queryString.Append(" where Question = '" + tbQuestion.Text + "'");
-        query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Select);
-        qualID = Convert.ToInt32(query.Results[0][0]);
-
-        // insert current study and qualifier id into Study_Qualifiers
-        queryString = new StringBuilder("insert into Study_Qualifiers");
-        queryString.Append(" (Study_ID, Qual_ID)");
-        queryString.Append(" values ");
-        queryString.Append(" (" + studyID.ToString() + ", " + qualID.ToString() + ")");
-        query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Insert);
-
-        // insert answers into Answer table
-        for (int i = 0; i < lbAnswerList.Items.Count; i++) {
-            answerRank = sepearateAnswerAndRank(lbAnswerList.Items[i].Text);
-            queryString = new StringBuilder("insert into Answers");
-            queryString.Append(" (Qual_ID, Answer, Rank)");
-            queryString.Append(" values ");
-            queryString.Append(" (" + qualID.ToString() + ", '" + answerRank[0] + "', " + answerRank[1] + ")");
-            query = new DatabaseQuery(queryString.ToString(), DatabaseQuery.Type.Insert);
-        }
-
+        
         Response.Redirect("StudyForm.aspx?study_id=" + studyID);
     }
 
@@ -331,4 +215,38 @@ public partial class CreateStudy : System.Web.UI.Page {
         }
         return seperated;
     }
+
+    /// <summary>
+    /// This method takes all the information from the answer and qualifier fields and
+    /// populates the database. It will first populate the Qualifier table, then it
+    /// will populate the Study_Qualifier table, and finally it will populate the
+    /// Answer table. It will then clear all the text fields and the user may provide 
+    /// another qualifier.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnAddQualifier(object sender, EventArgs e) {
+        if (tbQualDesc.Text.Equals(string.Empty) || tbQuestion.Text.Equals(string.Empty) || lbAnswerList.Items.Count == 0) {
+            lblErrorCont.Visible = true;
+            return;
+        }
+        //todo replace 0 with the SQL INCREMENT ID
+        Qualifier qualifier = new Qualifier(0, tbQualDesc.Text, tbDescription.Text);
+
+        lblErrorCont.Visible = false;
+        foreach (ListItem item in lbAnswerList.Items) {
+        //todo replace 0 with the SQL INCREMENT ID
+            Answer answer = new Answer(0, item.Text, Convert.ToInt32(item.Value));
+            qualifier.Answers.Add(answer);
+        }
+
+        qualifiers.Add(qualifier);
+
+        // clear the contents of the fields for new entries
+        tbQualDesc.Text = string.Empty;
+        tbQuestion.Text = string.Empty;
+        tbAnswer.Text = string.Empty;
+        tbScore.Text = string.Empty;
+        lbAnswerList.Items.Clear();
+    }    
 }

@@ -25,7 +25,7 @@ public partial class ResearcherForm : System.Web.UI.Page {
         // loop to populate researchers own studies
         while (query.Results.Count > resultNum) {
             study = new Study(Convert.ToInt32(query.Results[resultNum][0]));
-            item = new ListItem(study.StudyName, study.Study_ID.ToString());
+            item = new ListItem(study.Name, study.StudyID.ToString());
             lboxStudyList.Items.Add(item);
             resultNum++;
         }

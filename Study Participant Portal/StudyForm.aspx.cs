@@ -10,12 +10,12 @@ public partial class StudyForm : System.Web.UI.Page {
         int study_id = Convert.ToInt32(Request.QueryString["study_id"]);
         Study study = new Study(study_id);
 
-        Researcher res = new Researcher(study.Researcher_ID);
+        Researcher res = new Researcher(study.ResearcherID);
 
-        lblStdName.Text = study.StudyName;
+        lblStdName.Text = study.Name;
         lblStdCreator.Text = res.FirstName + " " + res.LastName;
         lblStdDate.Text = study.DateCreated.ToString();
-        tbStdDescription.Text = study.StudyDescription;
+        tbStdDescription.Text = study.Description;
         tbStdDescription.ReadOnly = true;
         
     }

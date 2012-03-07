@@ -14,6 +14,7 @@ public class Qualifier {
 
     public int QualID {
         get { return qualID; }
+        set { qualID = value; }
     }
 
     public string Question {

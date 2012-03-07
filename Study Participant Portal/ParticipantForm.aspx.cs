@@ -20,7 +20,7 @@ public partial class ParticipantForm: System.Web.UI.Page {
         int resultNum = 0;
         while (query.Results.Count > resultNum) {
             Study study = new Study(Convert.ToInt32(query.Results[resultNum][0]));
-            ListItem item = new ListItem(study.StudyName, study.Study_ID.ToString());
+            ListItem item = new ListItem(study.Name, study.StudyID.ToString());
             lboxStudyList.Items.Add(item);
             resultNum++;
         }

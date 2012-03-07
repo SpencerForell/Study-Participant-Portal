@@ -11,15 +11,16 @@
         <table>
             <tr>
                 <td>Name</td>
-                <td width="380px"><asp:TextBox ID="tbTitle" runat="server" Width="100%"></asp:TextBox></td>
+                <td width="380px"><asp:TextBox ID="tbName" runat="server" Width="100%"></asp:TextBox></td>
             </tr>
             <tr>
                 <td>Description (100 chars)</td>
                 <td><asp:TextBox ID="tbDescription" TextMode="multiline" runat="server" Height="88px" Width="100%"></asp:TextBox></td>
             </tr>
-            <tr>
-                <td>Expired</td>
-                <td><asp:CheckBox ID="cbStdExpired" runat="server" Visible="false" />Check this if the study has been completed</td>
+            <tr id="trExpired">
+                <td><asp:Label ID="lblExpired" runat="server" Visible="false" Text="Expired" ></asp:Label></td>
+                <td><asp:CheckBox ID="cbStdExpired" runat="server" Visible="false" />
+                    <asp:Label ID="lblExpired2" runat="server" Visible="false" Text="Check this if the study has been completed"></asp:Label></td>
             </tr>
         </table>  
         <br />
@@ -62,7 +63,7 @@
                 <td>Possible Answer</td><td>Rank</td>
             </tr>
             <tr><td><asp:TextBox ID="tbAnswer" runat="server" Width="100%"></asp:TextBox></td>
-                <td><asp:TextBox ID="tbRank" runat="server" Width="100%"></asp:TextBox></td>
+                <td><asp:TextBox ID="tbScore" runat="server" Width="100%"></asp:TextBox></td>
             </tr>
             <tr>
                 <td>Click Add to add the current possible answer to the list below</td>
@@ -82,7 +83,7 @@
                 
         <asp:Label ID="lblQualContinue" runat="server" Text="Please click 'Create Qualifier' if you are ready to submit this qualifier. This will allow you to create other qualifiers as needed."></asp:Label>
         <br />
-        <asp:Button ID="btnContinue" runat="server" Text="Create Qualifier" Width="100px" onclick="btnContinue_Click" />
+        <asp:Button ID="btnContinue" runat="server" Text="Create Qualifier" Width="100px" onclick="btnAddQualifier" />
         <br />
         <asp:Label ID="lblErrorCont" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red" Visible="false"></asp:Label>
         <br />
