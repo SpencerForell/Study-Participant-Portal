@@ -9,36 +9,32 @@ using System.Text.RegularExpressions;
 
 public partial class CreateStudy : System.Web.UI.Page {
 
-    Study study = null;
-    List<Qualifier> qualifiers = null;
+    Study study;
+    List<Qualifier> qualifiers = new List<Qualifier>();
     private int editIndex = 0;
 
     protected void Page_Load(object sender, EventArgs e) {
         if (!IsPostBack) {
+            Session["study"] = null;
             //Editing an existing study
             if (Request.QueryString["edit"] == "true") {
                 study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
                 tbName.Text = study.Name;
                 tbDescription.Text = study.Description;
                 cbStdExpired.Visible = true;
+                lblExpired.Visible = true;
+                lblExpired2.Visible = true;
                 if (study.Expired == true) {
                     cbStdExpired.Checked = true;
                 }
             }
         }
-
-        //If the the study is new, do not show the qualifers listbox or expired checkbox
-        if (study != null && study.Qualifiers.Count != 0) {
-            foreach (Qualifier qual in study.Qualifiers) {
-                ListItem item = new ListItem(qual.Description, qual.QualID.ToString());
-                lbQualifiers.Items.Add(item);
-            }
-            pnlExistingQuals.Visible = true;
-            lblExpired.Visible = true;
-            lblExpired2.Visible = true;
+        study = (Study)Session["study"];
+        if (study != null) {
+            qualifiers = study.Qualifiers;
         }
-
     }
+
 
     /// <summary>
     /// Cancel out of the form and redirect back to the researcher page
@@ -141,55 +137,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             editIndex = lbAnswerList.SelectedIndex;
         }
     }
-    
-    /// <summary>
-    /// This method does pretty much the same as above only this time upon completion
-    /// redirects the user to the Study form.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnFinished_Click(object sender, EventArgs e) {      
-        if (tbName.Text.Equals(string.Empty) || tbDescription.Text.Equals(string.Empty)) {
-            lblError.Text = "Please fill out the necessary fields.";
-            lblError.Visible = true;
-        }
-
-        bool isNewStudy = !Convert.ToBoolean(Request.QueryString["edit"]);
-        int expired = Convert.ToInt32(cbStdExpired.Checked);
-        Researcher res = (Researcher)Session["user"];
-        int studyID = -1;
-        if (!isNewStudy) {
-            studyID = Convert.ToInt32(Request.QueryString["studyID"]);
-        }
-        study = new Study(studyID, tbName.Text, tbDescription.Text, DateTime.Now, expired, res.UserID, qualifiers);
-
-        foreach (Qualifier qualifier in qualifiers) {
-            study.Qualifiers.Add(qualifier);
-        }
-
-        switch (isNewStudy) {
-            case true:
-                study.StudyID = DAL.InsertStudy(study);
-                foreach (Qualifier qualifier in qualifiers) {
-                    qualifier.QualID = DAL.InsertQualifier(qualifier, study.StudyID);
-                    foreach (Answer answer in qualifier.Answers) {
-                        DAL.InsertAnswer(answer, qualifier.QualID);
-                    }
-                }
-                break;
-            case false:
-                DAL.UpdateStudy(study);
-                //todo - finish the update section
-                break;
-        }
-                
-        if (tbQualDesc.Text.Equals(string.Empty) || tbQuestion.Text.Equals(string.Empty) || lbAnswerList.Items.Count == 0) {
-            lblErrorFinish.Visible = true;
-            return;
-        }
-        
-        Response.Redirect("StudyForm.aspx?study_id=" + studyID);
-    }
+  
 
     /// <summary>
     /// Take the answer and rank combo from the Answer list box and parse it
@@ -230,17 +178,20 @@ public partial class CreateStudy : System.Web.UI.Page {
             lblErrorCont.Visible = true;
             return;
         }
-        //todo replace 0 with the SQL INCREMENT ID
-        Qualifier qualifier = new Qualifier(0, tbQualDesc.Text, tbDescription.Text);
-
         lblErrorCont.Visible = false;
+
+        //todo replace 0 with the SQL INCREMENT ID
+        Qualifier qualifier = new Qualifier(-1, tbQuestion.Text ,tbQualDesc.Text);
+
         foreach (ListItem item in lbAnswerList.Items) {
         //todo replace 0 with the SQL INCREMENT ID
-            Answer answer = new Answer(0, item.Text, Convert.ToInt32(item.Value));
+            Answer answer = new Answer(-1, item.Text, Convert.ToInt32(item.Value));
             qualifier.Answers.Add(answer);
         }
 
         qualifiers.Add(qualifier);
+        study = new Study(-1, tbName.Text, tbDescription.Text, DateTime.Now, cbStdExpired.Checked, ((Researcher)(Session["user"])).UserID, qualifiers);
+        Session["study"] = study;
 
         // clear the contents of the fields for new entries
         tbQualDesc.Text = string.Empty;
@@ -248,5 +199,62 @@ public partial class CreateStudy : System.Web.UI.Page {
         tbAnswer.Text = string.Empty;
         tbScore.Text = string.Empty;
         lbAnswerList.Items.Clear();
-    }    
+        populateQualifiers(study.Qualifiers);
+        
+    }
+
+
+    /// <summary>
+    /// This method does pretty much the same as above only this time upon completion
+    /// redirects the user to the Study form.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnFinished_Click(object sender, EventArgs e) {
+        if (tbName.Text.Equals(string.Empty) || tbDescription.Text.Equals(string.Empty)) {
+            lblError.Text = "Please fill out the necessary fields.";
+            lblError.Visible = true;
+            return;
+        }
+        lblError.Visible = false;
+
+        bool isNewStudy = !Convert.ToBoolean(Request.QueryString["edit"]);
+        int expired = Convert.ToInt32(cbStdExpired.Checked);
+        Researcher res = (Researcher)Session["user"];
+        int studyID = -1; //-1 means that it hasn't been set yet. A study should never have a value of -1 when inserting/updating into the database
+        if (!isNewStudy) {
+            studyID = Convert.ToInt32(Request.QueryString["studyID"]);
+        }
+        study = new Study(studyID, tbName.Text, tbDescription.Text, DateTime.Now, Convert.ToBoolean(expired), res.UserID, qualifiers);
+
+        switch (isNewStudy) {
+            case true:
+                //insert all the data into the database
+                study.StudyID = DAL.InsertStudy(study);
+                foreach (Qualifier qualifier in study.Qualifiers) {
+                    qualifier.QualID = DAL.InsertQualifier(qualifier, study.StudyID);
+                    foreach (Answer answer in qualifier.Answers) {
+                        DAL.InsertAnswer(answer, qualifier.QualID);
+                    }
+                }
+                break;
+            case false:
+                DAL.UpdateStudy(study);
+                //todo - finish the update section
+                break;
+        }
+
+        Response.Redirect("StudyForm.aspx?study_id=" + studyID);
+    }
+
+    private void populateQualifiers(List<Qualifier> qualifiers) {
+        lbQualifiers.Items.Clear();
+        if (qualifiers.Count > 0) {
+            pnlExistingQuals.Visible = true;
+            foreach (Qualifier qual in qualifiers) {
+                ListItem item = new ListItem(qual.Description, qual.QualID.ToString());
+                lbQualifiers.Items.Add(item);
+            }
+        }
+    }
 }

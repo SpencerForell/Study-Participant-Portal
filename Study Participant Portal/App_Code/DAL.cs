@@ -17,7 +17,7 @@ public static class DAL {
         string queryString = "insert into Study " +
                              "(Name, Description, Creation_Date, Expired, Res_ID) " +
                              "values " +
-                             "'" + study.Name + "','" + study.Description + "', NOW(), 0, " + study.ResearcherID.ToString();
+                             "('" + study.Name + "','" + study.Description + "', NOW(), 0, " + study.ResearcherID.ToString() + ")";
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
         return query.LastInsertID;
@@ -32,23 +32,24 @@ public static class DAL {
         string queryString = "insert into Qualifiers " +
                              "(Question, Description) " +
                              "values " +
-                             "'" + qualifier.Question + "','" + qualifier.Description;
+                             "('" + qualifier.Question + "','" + qualifier.Description + "')";
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
         int qualID = query.LastInsertID;
 
         queryString = "insert into Study_Qualifiers " +
                       "(Qual_ID, Study_ID) " +
-                      qualID + ", " + studyID;
+                      "values " +
+                      "(" + qualID + ", " + studyID + ")";
         query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
         return qualID;
     }
 
     public static int InsertAnswer(Answer answer, int qualID) {
-        string queryString = "insert into Answer " +
+        string queryString = "insert into Answers " +
                              "(Answer, Rank, Qual_ID) " +
                              "values " +
-                             "'" + answer.AnswerText + "', " + answer.Score + ", " + qualID;
+                             "('" + answer.AnswerText + "', " + answer.Score + ", " + qualID + ")";
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
         return query.LastInsertID;

@@ -11,16 +11,22 @@
         <table>
             <tr>
                 <td>Name</td>
+            </tr>
+            <tr> 
                 <td width="380px"><asp:TextBox ID="tbName" runat="server" Width="100%"></asp:TextBox></td>
             </tr>
             <tr>
                 <td>Description (100 chars)</td>
+            </tr>
+            <tr>
                 <td><asp:TextBox ID="tbDescription" TextMode="multiline" runat="server" Height="88px" Width="100%"></asp:TextBox></td>
             </tr>
-            <tr id="trExpired">
+            <tr>
                 <td><asp:Label ID="lblExpired" runat="server" Visible="false" Text="Expired" ></asp:Label></td>
+            </tr>
+            <tr>
                 <td><asp:CheckBox ID="cbStdExpired" runat="server" Visible="false" />
-                    <asp:Label ID="lblExpired2" runat="server" Visible="false" Text="Check this if the study has been completed"></asp:Label></td>
+                    <asp:Label ID="lblExpired2" runat="server" Visible="false" Text="Check this if the study has been completed"></asp:Label></td
             </tr>
         </table>  
         <br />
@@ -60,15 +66,17 @@
                 <td><br /></td>
             </tr>
             <tr>
-                <td>Possible Answer</td><td>Rank</td>
+                <td colspan = 2><asp:Label ID="lblErrorAdd" runat="server" ForeColor="Red" Visible="false"></asp:Label></td>
+            </tr>
+            <tr>
+                <td>Possible Answer</td><td>Score</td>
             </tr>
             <tr><td><asp:TextBox ID="tbAnswer" runat="server" Width="100%"></asp:TextBox></td>
                 <td><asp:TextBox ID="tbScore" runat="server" Width="100%"></asp:TextBox></td>
             </tr>
             <tr>
                 <td>Click Add to add the current possible answer to the list below</td>
-                <td><asp:Button ID="btnAddAnswer" runat="server" Text="Add Answer"  onclick="btnAddAnswer_Click" />
-                <asp:Label ID="lblErrorAdd" runat="server" ForeColor="Red" Visible="false"></asp:Label></td>
+                <td><asp:Button ID="btnAddAnswer" runat="server" Text="Add Answer"  onclick="btnAddAnswer_Click" /></td>
             </tr>
             <tr>
                 <td colspan=2><asp:ListBox ID="lbAnswerList" runat="server" Width="100%"></asp:ListBox></td>

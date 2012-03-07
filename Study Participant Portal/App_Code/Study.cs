@@ -8,19 +8,20 @@ using System.Web;
 /// </summary>
 public class Study {
     private string name;
-    private string decsription;
+    private string description;
     private DateTime dateCreated;
     private bool expired;
     private int studyID;
     private int researcherID;
     private List<Qualifier> qualifiers = new List<Qualifier>();
+    private DateTime dateTime;
 
     public string Name {
         get { return name; }
     }
 
     public string Description {
-        get { return decsription; }
+        get { return description; }
     }
     
     public DateTime DateCreated {
@@ -42,17 +43,16 @@ public class Study {
 
     public List<Qualifier> Qualifiers {
         get { return qualifiers; }
+        set { qualifiers = value; }
     }
 
-    public Study(int studyID, string studyName, string studyDescription, DateTime dateCreated, int expired, int researcherID, List<Qualifier> qualifiers) {
-
-    }
+   
 
     public Study(int studyID) {
         string queryString = "select name, Description, Creation_Date, Expired, Res_ID from Study where Study_ID = " + studyID.ToString();
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
         this.name = query.Results[0][0];
-        this.decsription = query.Results[0][1];
+        this.description = query.Results[0][1];
         this.dateCreated = Convert.ToDateTime(query.Results[0][2]);
         this.expired = Convert.ToBoolean(Convert.ToInt32(query.Results[0][3]));
         this.researcherID = Convert.ToInt32(query.Results[0][4]);
@@ -68,4 +68,15 @@ public class Study {
             this.qualifiers.Add(tempQualifiers);
         }
     }
+
+    public Study(int studyID, string name, string description, DateTime dateCreated, bool expired, int researcherID, List<Qualifier> qualifiers) {
+        this.studyID = studyID;
+        this.name = name;
+        this.description = description;
+        this.dateCreated = dateCreated;
+        this.expired = expired;
+        this.researcherID = researcherID;
+        this.qualifiers = qualifiers;
+    }
+
 }

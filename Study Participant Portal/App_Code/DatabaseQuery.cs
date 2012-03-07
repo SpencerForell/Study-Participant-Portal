@@ -64,6 +64,13 @@ public class DatabaseQuery {
                 break;
             case Type.Insert:
                 command.ExecuteNonQuery();
+                connection.Close();
+                connection.Open();
+                command.CommandText = "select Last_Insert_ID()";
+                MySqlDataReader Reader2 = command.ExecuteReader();
+                if (Reader2.Read()) {
+                    lastInsertID = Convert.ToInt32(Reader2.GetValue(0));
+                }
                 break;
             case Type.Update:
                 command.ExecuteNonQuery();
@@ -73,10 +80,7 @@ public class DatabaseQuery {
                 break;
         }
 
-        command.CommandText = "select Last_Insert_ID()";
-        Reader = command.ExecuteReader();
-        lastInsertID = (int)Reader.GetValue(0);
-        
         connection.Close();
+        
 	}
 }
