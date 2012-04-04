@@ -83,7 +83,7 @@ public static class DAL {
         string queryString = "update Qualifiers set " +
                              "Question = '" + qualifier.Question + "'," +
                              "Description = '" + qualifier.Description + "' " +
-                             "where Qaul_ID = " + qualifier.QualID;
+                             "where Qual_ID = " + qualifier.QualID;
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Update);
     }

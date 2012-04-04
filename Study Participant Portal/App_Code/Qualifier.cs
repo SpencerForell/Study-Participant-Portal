@@ -30,7 +30,7 @@ public class Qualifier {
     }
 
     public Qualifier(int qualID) {
-        string queryString = "select Question, Description from Qualifiers where Quali_ID = " + qualID;
+        string queryString = "select Question, Description from Qualifiers where Qual_ID = " + qualID;
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
         this.question = query.Results[0][0];
