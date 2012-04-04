@@ -31,7 +31,7 @@ public partial class ParticipantForm: System.Web.UI.Page {
         }
         else {
             int studyID = Convert.ToInt32(lboxStudyList.SelectedValue);
-            Response.Redirect("StudyForm.aspx?study_id=" + studyID);
+            Response.Redirect("ParticipantStudy.aspx?study_id=" + studyID);
         }
     }
     protected void btnParEdit_Click(object sender, EventArgs e) {

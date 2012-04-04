@@ -1,4 +1,8 @@
-﻿<%@ Page Title="Create Your Study" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
+﻿
+
+
+
+<%@ Page Title="Create Your Study" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
     CodeFile="CreateStudy.aspx.cs" Inherits="CreateStudy" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
