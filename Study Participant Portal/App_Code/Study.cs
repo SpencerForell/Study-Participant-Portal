@@ -14,7 +14,6 @@ public class Study {
     private int studyID;
     private int researcherID;
     private List<Qualifier> qualifiers = new List<Qualifier>();
-    private DateTime dateTime;
 
     public string Name {
         get { return name; }
