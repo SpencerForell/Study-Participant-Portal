@@ -15,34 +15,74 @@ public partial class ParticipantStudy : System.Web.UI.Page {
     protected void Page_Load(object sender, EventArgs e) {
         study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
         qualifiers = study.Qualifiers;
+        pnlQuals.Visible = false;
 
         tbName.Text = study.Name;
         tbDescription.Text = study.Description;
 
-        Panel panel = new Panel();
-
         for (int i = 0; i < qualifiers.Count; i++) {
             qual = qualifiers[i];
-            panel.Controls.Add(CreateQuestionAnswer(qual));
-        }
+            pnlQuals.Controls.Add(CreateQuestionAnswer(qual));
+            pnlQuals.Controls.Add(new LiteralControl("<hr />"));
+            
+        }       
     }
 
     private Panel CreateQuestionAnswer(Qualifier question) {
         Panel panel = new Panel();
         Label lblQuest = new Label();
-        Label lblAns = null;
-        CheckBox cbAns = null;
+        RadioButtonList rbList = new RadioButtonList();
+        ListItem li = null;
+        rbList.Font.Size = 12;
+        lblQuest.Font.Size = 14;
         lblQuest.Text = question.Question;
         panel.Controls.Add(lblQuest);
-
+        panel.Controls.Add(new LiteralControl("<br />"));
         for (int i = 0; i < question.Answers.Count; i++) {
-            lblAns = new Label();
-            cbAns = new CheckBox();
-            lblAns.Text = question.Answers[i].AnswerText;
-            panel.Controls.Add(lblAns);
-            panel.Controls.Add(cbAns);
+            li = new ListItem();
+            li.Text = question.Answers[i].AnswerText;
+            rbList.Items.Add(li);
+        }
+        panel.Controls.Add(rbList);
+        
+        return panel;
+    }
+
+    protected void btnShowQuestions_Click(object sender, EventArgs e) {
+        pnlQuals.Visible = true;
+        btnSubmit.Visible = true;
+    }
+
+    protected void btnSubmit_Click(object sender, EventArgs e) { 
+        List<string> answers = new List<string>();
+        foreach (Control control in pnlQuals.Controls) {
+            foreach (Control item in control.Controls) {
+                if (item is RadioButtonList) {
+                    string answer = ((RadioButtonList)item).SelectedValue.ToString();
+                    answers.Add(answer);
+                }
+            }
+        }
+        loadAnswers(answers);
+    }
+
+    private void loadAnswers(List<string> answers) {
+        int partID = ((Participant)Session["user"]).UserID;
+        List<int> ids = new List<int>();
+        int index = 0;
+
+        foreach (Qualifier qual in qualifiers) {
+            foreach (Answer ans in qual.Answers) {
+                if (answers[index].Equals(ans.AnswerText)) {
+                    ids.Add(ans.AnsID);
+                    index++;
+                    break;
+                }
+            }
         }
 
-        return panel;
+        foreach (int id in ids) {
+            DAL.InsertParticipantAnswer(partID, id);
+        }
     }
 }

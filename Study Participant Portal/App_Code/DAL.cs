@@ -55,6 +55,15 @@ public static class DAL {
         return query.LastInsertID;
     }
 
+    public static int InsertParticipantAnswer(int partID, int answerID) {
+        string queryString = "insert into Participant_Answers " +
+                             "(Par_ID, Ans_ID) " +
+                             "values " +
+                             "(" + partID + ", " + answerID + ")";
+ 
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
+        return query.LastInsertID;
+    }
     /// <summary>
     /// Updates a specific study. NOTE: the study must have its studyID field properly set or it will throw an exception.
     /// </summary>
