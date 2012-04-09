@@ -15,8 +15,10 @@ public partial class ParticipantStudy : System.Web.UI.Page {
     protected void Page_Load(object sender, EventArgs e) {
         study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
         qualifiers = study.Qualifiers;
-        pnlQuals.Visible = false;
 
+        if (!IsPostBack) {
+            pnlQuals.Visible = false;
+        }
         tbName.Text = study.Name;
         tbDescription.Text = study.Description;
 
@@ -59,6 +61,11 @@ public partial class ParticipantStudy : System.Web.UI.Page {
             foreach (Control item in control.Controls) {
                 if (item is RadioButtonList) {
                     string answer = ((RadioButtonList)item).SelectedValue.ToString();
+
+                    if (answer.Equals(string.Empty)) {
+                        lblError.Visible = true;
+                        return;
+                    }
                     answers.Add(answer);
                 }
             }
@@ -67,6 +74,9 @@ public partial class ParticipantStudy : System.Web.UI.Page {
     }
 
     private void loadAnswers(List<string> answers) {
+        if (lblError.Visible == true) {
+            lblError.Visible = false;
+        }
         int partID = ((Participant)Session["user"]).UserID;
         List<int> ids = new List<int>();
         int index = 0;

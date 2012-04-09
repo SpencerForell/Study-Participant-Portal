@@ -32,4 +32,5 @@
     <asp:Panel ID="pnlQuals" runat="server">
     </asp:Panel>
     <asp:Button ID="btnSubmit" runat="server" Text="Submit Answers" Visible="false" onclick="btnSubmit_Click" />
+    <asp:Label ID="lblError" runat="server" Text="Please Select An Answer For Each Question." Visible="false" ForeColor="Red" />
 </asp:Content>
