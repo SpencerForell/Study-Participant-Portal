@@ -7,17 +7,24 @@ using System.Web;
 /// TODO: complete Class summary
 /// </summary>
 public class Participant: SuperUser {
-    
+
+    private List<Answer> answers;
+
+    public List<Answer> Answers {
+        get { return answers; }
+    }
+
     /// <summary>
     /// Constructor that builds a researcher object by passing in all of the attributes
     /// </summary>
-    public Participant(int userID, string user_name, string first_name, string last_name, string email) {
+    public Participant(int userID, string user_name, string first_name, string last_name, string email, List<Answer> answers) {
         type = UserType.Participant;
         this.userID = userID;
         this.userName = user_name;
         this.firstName = first_name;
         this.lastName = last_name;
         this.email = email;
+        this.answers = answers;
     }
 
      /// <summary>
@@ -33,5 +40,16 @@ public class Participant: SuperUser {
         this.firstName = query.Results[0][1];
         this.lastName = query.Results[0][2];
         this.email = query.Results[0][3];
+
+        queryString = "select Ans_ID from Participant_Answers where Par_ID = " + userID;
+        query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+
+        int count = query.Results.Count;
+        this.answers = new List<Answer>();
+        for (int i = 0; i < count; i++) {
+            int ansID = Convert.ToInt32(query.Results[i][0]);
+            Answer answer = new Answer(ansID);
+            this.answers.Add(answer);
+        }
     }
 }
