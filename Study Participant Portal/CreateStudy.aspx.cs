@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 public partial class CreateStudy : System.Web.UI.Page {
 
     Study study;
-    private int AnsEditIndex = -1;
+    private int ansEditIndex = -1;
     private int qualEditIndex = -1;
     private bool isEdit = false;
 
@@ -81,7 +81,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         else {
             lblErrorAdd.Visible = false;
             if (tbQuestion.Enabled == false) {
-                lbAnswerList.Items[AnsEditIndex].Text = tbAnswer.Text + " [" + tbScore.Text + "]";
+                lbAnswerList.Items[ansEditIndex].Text = tbAnswer.Text + " [" + tbScore.Text + "]";
                 tbQualDesc.Enabled = true;
                 tbQuestion.Enabled = true;
                 lbAnswerList.Enabled = true;
@@ -90,7 +90,7 @@ public partial class CreateStudy : System.Web.UI.Page {
                 btnEdit.Enabled = true;
                 btnContinue.Enabled = true;
                 btnFinished.Enabled = true;
-                AnsEditIndex = 0;
+                ansEditIndex = 0;
 
             }
             else {
@@ -153,7 +153,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             btnEdit.Enabled = false;
             btnContinue.Enabled = false;
             btnFinished.Enabled = false;
-            AnsEditIndex = lbAnswerList.SelectedIndex;
+            ansEditIndex = lbAnswerList.SelectedIndex;
         }
     }
   
@@ -213,7 +213,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             if (Convert.ToInt32(item.Value) > 0) {
                 ansID = Convert.ToInt32(item.Value);
             }
-            Answer answer = new Answer(ansID, ans, rank);
+            Answer answer = new Answer(ansID, ans, rank, qualifier);
             qualifier.Answers.Add(answer);
         }
 
