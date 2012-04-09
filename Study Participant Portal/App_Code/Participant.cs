@@ -15,7 +15,7 @@ public class Participant: SuperUser {
     }
 
     /// <summary>
-    /// Constructor that builds a researcher object by passing in all of the attributes
+    /// Constructor that builds a participant object by passing in all of the attributes
     /// </summary>
     public Participant(int userID, string user_name, string first_name, string last_name, string email, List<Answer> answers) {
         type = UserType.Participant;
