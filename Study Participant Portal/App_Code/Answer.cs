@@ -10,6 +10,7 @@ public class Answer {
     private int ansID;
     private string answerText;
     private int score;
+    private Qualifier qualifier;
 
     public int AnsID {
         get { return ansID; }
@@ -23,6 +24,10 @@ public class Answer {
         get { return score; }
     }
 
+    public Qualifier Qualifier {
+        get { return qualifier; }
+    }
+
     public Answer(int ansID) {
         string queryString = "select Answer, Rank from Answers where Ans_ID = " + ansID;
 
@@ -30,11 +35,17 @@ public class Answer {
         this.answerText = query.Results[0][0];
         this.score = Convert.ToInt32(query.Results[0][1]);
         this.ansID = ansID;
+
+        queryString = "select Qual_ID from Answers where Ans_ID = " + ansID;
+        query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+        int qualID = Convert.ToInt32(query.Results[0][0]);
+        this.qualifier = new Qualifier(qualID);
 	}
 
-    public Answer(int ansID, string answer, int score) {
+    public Answer(int ansID, string answer, int score, Qualifier qualifier) {
         this.ansID = ansID;
         this.answerText = answer;
         this.score = score;
+        this.qualifier = qualifier;
     }
 }
