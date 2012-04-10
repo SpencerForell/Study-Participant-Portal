@@ -43,7 +43,7 @@ public class Qualifier {
             int ansID = Convert.ToInt32(result[0]);
             string answer = result[1];
             int score = Convert.ToInt32(result[2]);
-            Answer tempAnswer = new Answer(ansID, answer, score);
+            Answer tempAnswer = new Answer(ansID, answer, score, this);
             this.answers.Add(tempAnswer);
         }
 	}
@@ -59,7 +59,7 @@ public class Qualifier {
             int ansID = Convert.ToInt32(result[0]);
             string answer = result[1];
             int score = Convert.ToInt32(result[2]);
-            Answer tempAnswer = new Answer(ansID, answer, score);
+            Answer tempAnswer = new Answer(ansID, answer, score, this);
             this.answers.Add(tempAnswer);
         }
     }
