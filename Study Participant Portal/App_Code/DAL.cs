@@ -55,6 +55,22 @@ public static class DAL {
         return query.LastInsertID;
     }
 
+    public static List<int> GetParticipantAnswers(int partID) {
+        int index = 0;
+        List<int> answerIDs = new List<int>();
+        string queryString = "select Ans_ID " +
+                             "from Participant_Answers " +
+                             "where Par_ID = " + partID;
+
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+        while (Convert.ToInt32(query.Results[index][0]) != null) {
+            answerIDs.Add(Convert.ToInt32(query.Results[index][0]));
+            index++;
+        }
+
+        return answerIDs;
+    }
+
     public static int InsertParticipantAnswer(int partID, int answerID) {
         string queryString = "insert into Participant_Answers " +
                              "(Par_ID, Ans_ID) " +
