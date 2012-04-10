@@ -10,9 +10,9 @@ using System.Text.RegularExpressions;
 public partial class CreateStudy : System.Web.UI.Page {
 
     Study study;
-    private int ansEditIndex = -1;
-    private int qualEditIndex = -1;
-    private bool isEdit = false;
+    private int ansEditIndex = -1; //the answer being selected to edit
+    private int qualEditIndex = -1; //the qualifier being selected to edit
+    private bool isEdit = false; //boolean that is set depending on if the study is new or being updated
 
     protected void Page_Load(object sender, EventArgs e) {
         isEdit = Convert.ToBoolean(Request.QueryString["edit"] == "true");

@@ -157,7 +157,7 @@ public partial class CreateAccount : System.Web.UI.Page {
             query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
             int userID = Convert.ToInt32(query.Results[0][0]);
 
-            Session["user"] = new Participant(userID, tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text);
+            Session["user"] = new Participant(userID, tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text, new List<Answer>());
             Response.Redirect("ParticipantForm.aspx");
         }
     }

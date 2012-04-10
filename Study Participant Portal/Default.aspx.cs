@@ -77,7 +77,7 @@ public partial class _Default : System.Web.UI.Page {
             string first_name = query.Results[0][2];
             string last_name = query.Results[0][3];
             string email = query.Results[0][4];
-            Participant par = new Participant(user_id, user_name, first_name, last_name, email);
+            Participant par = new Participant(user_id, user_name, first_name, last_name, email, new List<Answer>());
             Session["user"] = par;
             Response.Redirect("ParticipantForm.aspx");
         }
