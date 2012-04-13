@@ -109,5 +109,24 @@ public static class DAL {
                              "Answer = '" + answer.AnswerText + "', " +
                              "Rank = '" + answer.Score + "' " +
                              "where Ans_ID = " + answer.AnsID;
+
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Update);
+    }
+
+    public static void DeleteAnswer(Answer answer) {
+        if (answer.AnsID <= 0) {
+            throw new Exception("Invalid answer to delete, the AnsID = " + answer.AnsID);
+        }
+        string queryString = "delete from Answers where Ans_ID = " + answer.AnsID;
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Delete);
+    }
+
+
+    public static void DeleteQualifier(Qualifier qualifier) {
+        if (qualifier.QualID <= 0) {
+            throw new Exception("Invalid qualifier to delete, the AnsID = " + qualifier.QualID);
+        }
+        string queryString = "delete from Qualifiers where Qual_ID = " + qualifier.QualID;
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Delete);
     }
 }
