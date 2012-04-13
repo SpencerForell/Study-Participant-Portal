@@ -29,6 +29,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         study = (Study)Session["study"];
         //if the study is null, create a temp study that will be altered later.
         if (study == null) {
+            //create a temporary study that will be overwritten later
             study = new Study(-1, "", "", DateTime.Now, false, 0, new List<Qualifier>());
         }
     }
@@ -46,6 +47,8 @@ public partial class CreateStudy : System.Web.UI.Page {
         if (study.Expired == true) {
             cbStdExpired.Checked = true;
         }
+
+        //fills in the list box of qualifiers
         lbQualifiers.Items.Clear();
         foreach (Qualifier qualifier in study.Qualifiers) {
             pnlExistingQuals.Visible = true;
@@ -71,7 +74,7 @@ public partial class CreateStudy : System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnAddAnswer_Click(object sender, EventArgs e) {
-
+        ansEditIndex = Convert.ToInt32(Session["ansEditIndex"]);
         // regular expression to enure only numbers are entered in the rank text field.
         Regex reg = new Regex(@"^[-10123456789]+$");
 
@@ -98,22 +101,26 @@ public partial class CreateStudy : System.Web.UI.Page {
                 ListItem item = new ListItem(tbAnswer.Text + " [" + tbScore.Text + "]", "-1");
                 lbAnswerList.Items.Add(item);                
             }
+            
             tbAnswer.Text = string.Empty;
             tbScore.Text = string.Empty;
         }
     }
+
+   
 
     /// <summary>
     /// Simply remove the selected answer from the list box.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void btnRemove_Click(object sender, EventArgs e) {
+    protected void btnRemoveAnswer_Click(object sender, EventArgs e) {
         if (lbAnswerList.SelectedIndex == -1) {
-            //error label logic here
+            lblErrorAdd.Visible = true;
+            lblErrorAdd.Text = "Please Select an Answer to remove";
         }
         else {
-            lbAnswerList.Items.Remove(lbAnswerList.SelectedItem.Text);
+            lbAnswerList.Items.Remove(lbAnswerList.Items[lbAnswerList.SelectedIndex]);
         }
     }
 
@@ -135,16 +142,21 @@ public partial class CreateStudy : System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnEdit_Click(object sender, EventArgs e) {
-        List<string> answerRank;
 
+        //make sure the user has selected an Answer to edit
         if (lbAnswerList.SelectedIndex == -1) {
             lblErrorAdd.Text = "Please select an answer to edit.";
             lblErrorAdd.Visible = true;
         }
         else {
-            answerRank = sepearateAnswerAndRank(lbAnswerList.SelectedItem.Text);
+            ansEditIndex = lbAnswerList.SelectedIndex;
+            Session["ansEditIndex"] = ansEditIndex; //set session variable so the value persists through postback
+            //get the Possible Answer and the Score from the listbox selected item
+            List<string> answerRank = sepearateAnswerAndRank(lbAnswerList.SelectedItem.Text);
             tbAnswer.Text = answerRank[0];
             tbScore.Text = answerRank[1];
+
+            //set other fields to disabled so user MUST finish editing the answer before continuing
             tbQualDesc.Enabled = false;
             tbQuestion.Enabled = false;
             lbAnswerList.Enabled = false;
@@ -153,7 +165,6 @@ public partial class CreateStudy : System.Web.UI.Page {
             btnEdit.Enabled = false;
             btnContinue.Enabled = false;
             btnFinished.Enabled = false;
-            ansEditIndex = lbAnswerList.SelectedIndex;
         }
     }
   
@@ -164,7 +175,7 @@ public partial class CreateStudy : System.Web.UI.Page {
     /// results are stored in a list of strings.
     /// </summary>
     /// <param name="combo"></param>
-    /// <returns></returns>
+    /// <returns>Returns the answer as the first index in the list [0] and the score as the second [1]</returns>
     private List<string> sepearateAnswerAndRank(string combo) {
         List<string> seperated = new List<string>();
 
@@ -193,6 +204,7 @@ public partial class CreateStudy : System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnSaveQualifier(object sender, EventArgs e) {
+        //error checking to make sure they filled out all of the forms correctly
         if (tbQualDesc.Text.Equals(string.Empty) || tbQuestion.Text.Equals(string.Empty) || lbAnswerList.Items.Count == 0) {
             lblErrorCont.Visible = true;
             return;
@@ -205,6 +217,8 @@ public partial class CreateStudy : System.Web.UI.Page {
             qualID = study.Qualifiers[qualEditIndex].QualID;
         }
         qualifier = new Qualifier(qualID, tbQuestion.Text, tbQualDesc.Text);
+        //clear all of the answers and then add them in one at a time to the qualifier
+        qualifier.Answers.Clear();
         foreach (ListItem item in lbAnswerList.Items) {
             List<String> ansRank = sepearateAnswerAndRank(item.Text);
             string ans = ansRank[0];
@@ -247,12 +261,12 @@ public partial class CreateStudy : System.Web.UI.Page {
 
 
     /// <summary>
-    /// This method does pretty much the same as above only this time upon completion
-    /// redirects the user to the Study form.
+    /// Takes all of the data filled out for the study and either inserts or updates it into the database.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnFinished_Click(object sender, EventArgs e) {
+        //Check that the name and description are filled in.
         if (tbName.Text.Equals(string.Empty) || tbDescription.Text.Equals(string.Empty)) {
             lblError.Text = "Please fill out the necessary fields.";
             lblError.Visible = true;
@@ -262,60 +276,132 @@ public partial class CreateStudy : System.Web.UI.Page {
 
         int expired = Convert.ToInt32(cbStdExpired.Checked);
         Researcher res = (Researcher)Session["user"];
-        int studyID = -1; //-1 means that it hasn't been set yet. A study should never have a value of -1 when updating into the database
+        int studyID = -1; //-1 means that it hasn't been set yet. Only a new study should have the value of -1, otherwise it should be the ID of the study in the database
+       
+        //check to see if we are editing or creating a study
         if (isEdit) {
             studyID = Convert.ToInt32(Request.QueryString["study_id"]);
         }
+        //Create a study object with all of its attributes filled out from the forms that the user entered
         study = new Study(studyID, tbName.Text, tbDescription.Text, DateTime.Now, Convert.ToBoolean(expired), res.UserID, study.Qualifiers);
 
-        switch (!isEdit) {
-            case true:
-                //insert all the data into the database
-                study.StudyID = DAL.InsertStudy(study);
-                foreach (Qualifier qualifier in study.Qualifiers) {
-                    qualifier.QualID = DAL.InsertQualifier(qualifier, study.StudyID);
-                    foreach (Answer answer in qualifier.Answers) {
-                        DAL.InsertAnswer(answer, qualifier.QualID);
-                    }
-                }
-                break;
-            case false:
-                study.StudyID = studyID;
-                DAL.UpdateStudy(study);
-                foreach (Qualifier qualifier in study.Qualifiers) {
-                    if (qualifier.QualID == -1) {
-                        qualifier.QualID = DAL.InsertQualifier(qualifier, study.StudyID);
-                    }
-                    else {
-                        DAL.UpdateQualifier(qualifier);
-                    }
-                    foreach (Answer answer in qualifier.Answers) {
-                        if (answer.AnsID == -1) {
-                            DAL.InsertAnswer(answer, qualifier.QualID);
-                        }
-                        else {
-                            DAL.UpdateAnswer(answer);
-                        }
-                    }
-                }
-                break;
-        }
-
-        Response.Redirect("StudyForm.aspx?study_id=" + studyID);
+        finishStudy(study);
     }
 
-    private void populateQualifiers(List<Qualifier> qualifiers) {
-        lbQualifiers.Items.Clear();
-        if (qualifiers.Count > 0) {
-            pnlExistingQuals.Visible = true;
-            foreach (Qualifier qual in qualifiers) {
-                ListItem item = new ListItem(qual.Description, qual.QualID.ToString());
-                lbQualifiers.Items.Add(item);
+
+    /// <summary>
+    /// Helper method that decides whether each part of the study should be inserted or updated into the database
+    /// </summary>
+    /// <param name="study"></param>
+    private void finishStudy(Study study) {
+        //if studyID is -1 it is a new study, insert it into the database
+        if (study.StudyID == -1) {
+            study.StudyID = DAL.InsertStudy(study);
+        }
+        else {
+            DAL.UpdateStudy(study);
+        }
+        foreach (Qualifier qualifier in study.Qualifiers) {
+            //if qualifierID is -1 it is a new study, insert it into the database
+            if (qualifier.QualID == -1) {
+                qualifier.QualID = DAL.InsertQualifier(qualifier, study.StudyID);
+            }
+            else {
+                DAL.UpdateQualifier(qualifier);
+            }
+            //if answerID is -1, it is a new answer, insert it into the database
+            foreach (Answer answer in qualifier.Answers) {
+                if (answer.AnsID == -1) {
+                    DAL.InsertAnswer(answer, qualifier.QualID);
+                }
+                else {
+                    DAL.UpdateAnswer(answer);
+                }
+            }
+        }
+
+        removeDeletedAnwers(study);
+        removeDeletedQualifiers(study);
+
+        Response.Redirect("StudyForm.aspx?study_id=" + study.StudyID);
+    }
+
+    /// <summary>
+    /// Queries the database to compare what Answers currently exist in the 
+    /// database with the study passed in and removes them from the database if they no longer exist.
+    /// </summary>
+    /// <param name="study"></param>
+    private void removeDeletedAnwers(Study study) {
+        string queryString = "select Ans_ID from Study_Qualifiers sq, Answers a where sq.Qual_ID = a.Qual_ID and sq.Study_ID = " + study.StudyID;
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+        List<Answer> oldAnswers = new List<Answer>();
+        for (int i = 0; i < query.Results.Count; i++) {
+            oldAnswers.Add(new Answer(Convert.ToInt32(query.Results[i][0])));
+        }
+
+        foreach (Answer oldAnswer in oldAnswers) {
+            bool found = false;
+            foreach (Qualifier qual in study.Qualifiers) {
+                foreach(Answer ans in qual.Answers){
+                    if (oldAnswer.AnsID == ans.AnsID) {
+                        found = true;
+                    }
+                }
+            }
+            if (!found) {
+                DAL.DeleteAnswer(oldAnswer);
             }
         }
     }
 
+    /// <summary>
+    /// Queries the database to compare what Qualifiers currently exist in the 
+    /// database with the study passed in and removes them from the database if they no longer exist.
+    /// </summary>
+    /// <param name="study"></param>
+    private void removeDeletedQualifiers(Study study) {
+        string queryString = "select Qual_ID from Study_Qualifiers where Study_ID = " + study.StudyID;
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+        List<Qualifier> oldQualifiers = new List<Qualifier>();
+        for (int i = 0; i < query.Results.Count; i++) {
+            oldQualifiers.Add(new Qualifier(Convert.ToInt32(query.Results[i][0])));
+        }
+
+        foreach (Qualifier oldQualifier in oldQualifiers) {
+            bool found = false;
+            foreach (Qualifier qual in study.Qualifiers) {
+                if (oldQualifier.QualID== qual.QualID) {
+                    found = true;
+                }   
+            }
+            if (!found) {
+                DAL.DeleteQualifier(oldQualifier);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Auto-populates the listbox to fill them with the qualifiers passed in as the parameter.
+    /// </summary>
+    /// <param name="qualifiers"></param>
+    private void populateQualifiers(List<Qualifier> qualifiers) {
+        //Make sure the listbox is empty before populating
+        lbQualifiers.Items.Clear();
+        //Go through the qualifiers and at them to the qualifiers listbox
+        foreach (Qualifier qual in qualifiers) {
+            ListItem item = new ListItem(qual.Description, qual.QualID.ToString());
+            lbQualifiers.Items.Add(item);
+        }
+        
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnEditQual_Click(object sender, EventArgs e) {
+        //check for valid input for editing a Qualifier
         if (lbQualifiers.SelectedIndex < 0) {
             lblEditQualError.Visible = true;
         }
@@ -325,21 +411,39 @@ public partial class CreateStudy : System.Web.UI.Page {
             clearQualForms();
             pnlExistingQuals.Visible = false;
 
+            //get the index of the Qualifier we are editing
             qualEditIndex = lbQualifiers.SelectedIndex;
+            //store the index in a session variable so we can keep it through a postback
             Session["qualEditIndex"] = qualEditIndex; 
             //populate the answers from the selected qual
-            int qualID = Convert.ToInt32(lbQualifiers.SelectedValue);
-            Qualifier qual = study.Qualifiers[qualEditIndex];
-            tbQualDesc.Text = qual.Description;
-            tbQuestion.Text = qual.Question;
-
-            lbAnswerList.Items.Clear();
-            foreach (Answer answer in qual.Answers) {
-                ListItem item = new ListItem(answer.AnswerText + " [" + answer.Score.ToString() + "]", answer.AnsID.ToString());
-                lbAnswerList.Items.Add(item);
-            }
+            ///int qualID = Convert.ToInt32(lbQualifiers.SelectedValue);
+            fillInQualForms(study.Qualifiers[qualEditIndex]);
         }
     }
+
+    /// <summary>
+    /// Autofills in the forms requried for editing a qualifier
+    /// </summary>
+    /// <param name="qualifier">The qualifier that is going to be auto-populated</param>
+    private void fillInQualForms(Qualifier qualifier) {
+        tbQualDesc.Text = qualifier.Description;
+        tbQuestion.Text = qualifier.Question;
+
+        //make sure the listbox is empty before populating it
+        lbAnswerList.Items.Clear();
+        //go through each answer in the qualifier and add it to the listbox
+        foreach (Answer answer in qualifier.Answers) {
+            ListItem item = new ListItem(answer.AnswerText + " [" + answer.Score.ToString() + "]", answer.AnsID.ToString());
+            lbAnswerList.Items.Add(item);
+        }
+    }
+
+    /// <summary>
+    /// Action performed when creating a new Qualifier.
+    /// Sets the qualEditIndex to -1 and the Qualifiers listbox selected value to -1.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnNewQual_Click(object sender, EventArgs e) {
         pnlQuals.Visible = true;
         clearQualForms();
@@ -347,16 +451,37 @@ public partial class CreateStudy : System.Web.UI.Page {
         Session["qualEditIndex"] = -1;
         pnlExistingQuals.Visible = false;
     }
+
+    /// <summary>
+    /// If the user cancels creating a qualifier just set the panels visibility 
+    /// to hidden that contains all the fields required for creating/editing Qualifiers.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnQualCancel_Click(object sender, EventArgs e) {
         pnlQuals.Visible = false;
         pnlExistingQuals.Visible = true;
     }
 
+
+    /// <summary>
+    /// Clears the fields requried for creating/editing Qualifiers.
+    /// </summary>
     private void clearQualForms() {
-        tbDescription.Text = "";
         tbQualDesc.Text = "";
         tbQuestion.Text = "";
         tbScore.Text = "";
         tbAnswer.Text = "";
+        lbAnswerList.Items.Clear();
+    }
+    protected void btnDeleteQual_Click(object sender, EventArgs e) {
+        if (lbQualifiers.SelectedIndex < 0) {
+            lblEditQualError.Text = "Select a qualifier to remove";
+            return;
+        }
+        lblErrorAdd.Text = "";
+        study.Qualifiers.RemoveAt(lbQualifiers.SelectedIndex);
+        Session["study"] = study;
+        lbQualifiers.Items.RemoveAt(lbQualifiers.SelectedIndex);
     }
 }

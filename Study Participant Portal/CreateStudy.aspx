@@ -48,6 +48,8 @@
                     <td>
                         <asp:Button ID="btnNewQual" Width="100%" runat="server" Text="New Qualifier" onclick="btnNewQual_Click" />
                         <asp:Button ID="btnEditQual" Width="100%" runat="server" Text="Edit Qualifier" onclick="btnEditQual_Click"/><br />
+                        <asp:Button ID="btnDeleteQual" Width="100%" runat="server" 
+                            Text="Delete Qualifier" onclick="btnDeleteQual_Click"/>
                         <asp:Label ID="lblEditQualError" Width="130px" ForeColor="Red" runat="server" Visible="false" Text="Must select a qualifier from the box below to edit"></asp:Label></td>
                 </tr>
             </table>
@@ -87,7 +89,7 @@
                 <td colspan=2><asp:ListBox ID="lbAnswerList" runat="server" Width="100%"></asp:ListBox></td>
             </tr>
             <tr>
-                <td colspan=2><asp:Button ID="btnRemove" runat="server" Text="Remove Answer" onclick="btnRemove_Click" />
+                <td colspan=2><asp:Button ID="btnRemove" runat="server" Text="Remove Answer" onclick="btnRemoveAnswer_Click" />
                 <asp:Button ID="btnClear" runat="server" Text="Clear Answers" onclick="btnClear_Click" />
                 <asp:Button ID="btnEdit" runat="server" Text="Edit Answer" onclick="btnEdit_Click" /></td>
             </tr>
