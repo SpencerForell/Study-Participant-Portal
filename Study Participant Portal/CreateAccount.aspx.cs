@@ -114,8 +114,14 @@ public partial class CreateAccount : System.Web.UI.Page {
                             " (User_Name, First_Name, Last_Name, Email, Password, Num_Ratings)" +
                             " values " +
                             " ('" + tbResUserName.Text + "', '" + tbResFirstName.Text + "','" + tbResLastName.Text + "', '" + tbResEmail.Text + "', '" + tbResPassword.Text + "',0)";
-
-                query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
+                try {
+                    query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
+                }
+                catch (Exception exception) {
+                    lblParStatus.Text = exception.Message;
+                    lblParStatus.Visible = true;
+                    return;
+                }
             }    
             lblResStatus.Text = "";
 
@@ -132,6 +138,7 @@ public partial class CreateAccount : System.Web.UI.Page {
 
     protected void btnParSubmit_Click(object sender, EventArgs e) {
         if (isFormValid(SuperUser.UserType.Participant)) {
+            DatabaseQuery query;
             string queryString = "";
             if (Request.QueryString["edit"] == "true") {
                 int parID = ((Participant)Session["user"]).UserID;
@@ -142,7 +149,7 @@ public partial class CreateAccount : System.Web.UI.Page {
                               "Email = '" + tbParEmail.Text + "'," +
                               "Password = '" + tbParPassword.Text + "' " +
                               "where Par_ID = " + parID;
-
+                query = new DatabaseQuery(queryString, DatabaseQuery.Type.Update);
             }
             else {
                 queryString = "insert into Participant" +
@@ -150,7 +157,14 @@ public partial class CreateAccount : System.Web.UI.Page {
                               " values " +
                               " ('" + tbParUserName.Text + "', '" + tbParFirstName.Text + "','" + tbParLastName.Text + "','" + tbParEmail.Text + "', '" + tbParPassword.Text + "',0)";
             }
-            DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
+            try {
+                query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
+            }
+            catch (Exception exception) {
+                lblParStatus.Text = exception.Message;
+                lblParStatus.Visible = true;
+                return;
+            }
             lblParStatus.Text = "";
 
             queryString = "select Par_ID from Participant where User_Name = '" + tbParUserName.Text + "'";

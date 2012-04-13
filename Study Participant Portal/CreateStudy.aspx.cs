@@ -391,8 +391,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         foreach (Qualifier qual in qualifiers) {
             ListItem item = new ListItem(qual.Description, qual.QualID.ToString());
             lbQualifiers.Items.Add(item);
-        }
-        
+        }   
     }
 
     /// <summary>
@@ -474,6 +473,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         tbAnswer.Text = "";
         lbAnswerList.Items.Clear();
     }
+
     protected void btnDeleteQual_Click(object sender, EventArgs e) {
         if (lbQualifiers.SelectedIndex < 0) {
             lblEditQualError.Text = "Select a qualifier to remove";
