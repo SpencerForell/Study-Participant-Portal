@@ -3,32 +3,37 @@
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent"></asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    <h2>
-        View The Study
-    </h2>
+    <h1>
+        Study Details
+    </h1>
     <asp:Panel ID="pnlStudy" runat="server">
+        <br />
         <table>
             <tr>
-                <td>Name</td>
+                <td><asp:Label ID="lblStudyName" runat="server" Text="Study Name:" Font-Bold="true" Font-Size="18px" Width="115px"></asp:Label>
+                <asp:Label ID="lblName" runat="server" Font-Size="18px" ></asp:Label></td>
             </tr>
             <tr>
-                <td width="380px"><asp:TextBox ID="tbName" runat="server" Width="100%" ReadOnly="true"></asp:TextBox></td>
+                <td><asp:Label ID="lblResTag" runat="server" Text="Researcher Name:" Font-Bold="true" Font-Size="18px" Width="165px"></asp:Label>
+                <asp:Label ID="lblResName" runat="server" Font-Size="18px"></asp:Label></td>
             </tr>
             <tr>
-                <td>Description</td>
+                <td><asp:Label ID="lblResEmailTag" runat="server" Text="Researcher Email:" Font-Bold="true" Font-Size="18px" Width="165px"></asp:Label>
+                <asp:Label ID="lblResEmail" runat="server" Font-Size="18px"></asp:Label></td>
             </tr>
             <tr>
-                <td><asp:TextBox ID="tbDescription" TextMode="MultiLine" runat="server" Height="88px" Width="100%" ReadOnly="true"></asp:TextBox></td>
+                <td><br /><asp:Label ID="lblDescriptionTag" runat="server" Text="Short Description:" Font-Bold="true" Font-Size="18px" Width="165px" 
+                    Font-Underline="true" ></asp:Label><br /><asp:Label ID="lblDescription" runat="server" Font-Size="18px"></asp:Label></td>
             </tr>
             <tr>
-                <td><asp:Button ID="btnShowQuestions" runat="server" Text="Show Questions" onclick="btnShowQuestions_Click"/></td>
+                <td><br /><asp:Button ID="btnShowQuestions" runat="server" Text="Show Questions" onclick="btnShowQuestions_Click"/></td>
             </tr>
         </table>
         <br />
     </asp:Panel>
 
     <hr />
-
+    <asp:Label ID="lblPreviouslyAnswered" runat="server" Text="You have previously submitted answers for all of the questions." Visible="false" />
     <asp:Panel ID="pnlQuals" runat="server">
     </asp:Panel>
     <asp:Button ID="btnSubmit" runat="server" Text="Submit Answers" Visible="false" onclick="btnSubmit_Click" />

@@ -9,9 +9,11 @@ using System.Web.UI.WebControls;
 public partial class ParticipantStudy : System.Web.UI.Page {
 
     // Class variables
+    int qualCount;
     Study study = null;
     Qualifier qual = null;
     List<Qualifier> qualifiers = new List<Qualifier>();
+    
 
     /// <summary>
     /// This is the page load method and is called whenever the ParticipantStudy 
@@ -24,20 +26,46 @@ public partial class ParticipantStudy : System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e) {
+        qualCount = 0;
+        bool skipFlag = false;
+        int partID = ((Participant)Session["user"]).UserID;
         study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
+        List<int> ansIDs = DAL.GetParticipantAnswers(partID);
+        List<string> resNameEamil = DAL.GetResearcher(study.ResearcherID);        
+        
         qualifiers = study.Qualifiers;
-
+        
         if (!IsPostBack) {
             pnlQuals.Visible = false;
         }
-        tbName.Text = study.Name;
-        tbDescription.Text = study.Description;
+        lblName.Text = study.Name;
+        lblResName.Text = resNameEamil[0];
+        lblResEmail.Text = resNameEamil[1];
+        lblDescription.Text = study.Description;
 
         for (int i = 0; i < qualifiers.Count; i++) {
+            skipFlag = false;
             qual = qualifiers[i];
+
+            foreach (int id in ansIDs) {
+                foreach (Answer ans in qual.Answers) {
+                    if (id == ans.AnsID) {
+                        skipFlag = true;
+                        qualCount++;
+                        break;
+                    }
+                }
+                if (skipFlag == true) {
+                    break;
+                }
+            }
+
+            if (skipFlag == true) {
+                continue;
+            }
+
             pnlQuals.Controls.Add(CreateQuestionAnswer(qual));
-            pnlQuals.Controls.Add(new LiteralControl("<hr />"));
-            
+            pnlQuals.Controls.Add(new LiteralControl("<hr />"));            
         }       
     }
 
@@ -80,6 +108,10 @@ public partial class ParticipantStudy : System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnShowQuestions_Click(object sender, EventArgs e) {
+        if (qualCount == qualifiers.Count) {
+            lblPreviouslyAnswered.Visible = true;
+            return;
+        }
         pnlQuals.Visible = true;
         btnSubmit.Visible = true;
     }
