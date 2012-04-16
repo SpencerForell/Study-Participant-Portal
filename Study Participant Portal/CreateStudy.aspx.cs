@@ -345,6 +345,7 @@ public partial class CreateStudy : System.Web.UI.Page {
                 foreach(Answer ans in qual.Answers){
                     if (oldAnswer.AnsID == ans.AnsID) {
                         found = true;
+                        break;
                     }
                 }
             }
@@ -372,6 +373,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             foreach (Qualifier qual in study.Qualifiers) {
                 if (oldQualifier.QualID== qual.QualID) {
                     found = true;
+                    break;
                 }   
             }
             if (!found) {
