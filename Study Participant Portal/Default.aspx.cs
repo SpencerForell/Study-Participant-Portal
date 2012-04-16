@@ -55,9 +55,8 @@ public partial class _Default : System.Web.UI.Page {
 
 
     protected void btnParCancel_Click(object sender, EventArgs e) {
-
-        btnResearcher.Visible = true;
-        btnParticipant.Visible = true;
+        pnlMain.Visible = true;
+        pnlWeeklyStudy.Visible = true;
         pnlParticipant.Visible = false;
     }
 

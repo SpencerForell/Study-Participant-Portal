@@ -312,7 +312,8 @@ public partial class CreateStudy : System.Web.UI.Page {
             //if answerID is -1, it is a new answer, insert it into the database
             foreach (Answer answer in qualifier.Answers) {
                 if (answer.AnsID == -1) {
-                    DAL.InsertAnswer(answer, qualifier.QualID);
+                    int ansID = DAL.InsertAnswer(answer, qualifier.QualID);
+                    answer.AnsID = ansID;
                 }
                 else {
                     DAL.UpdateAnswer(answer);

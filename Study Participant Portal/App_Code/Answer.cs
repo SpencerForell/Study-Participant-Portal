@@ -14,6 +14,7 @@ public class Answer {
 
     public int AnsID {
         get { return ansID; }
+        set { AnsID = value; }
     }
 
     public string AnswerText {

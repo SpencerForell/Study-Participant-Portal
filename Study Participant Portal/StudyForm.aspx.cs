@@ -11,14 +11,15 @@ public partial class StudyForm : System.Web.UI.Page {
 
     protected void Page_Load(object sender, EventArgs e) {
         if (!IsPostBack) {
-            int studyID = Convert.ToInt32(Request.QueryString["study_id"]);
-            study = new Study(studyID);
-            researcher = new Researcher(study.ResearcherID);
-            lblStdName.Text = study.Name;
-            lblStdDate.Text = study.DateCreated.ToString();
-            tbStdDescription.Text = study.Description;
-
+        
         }
+
+        int studyID = Convert.ToInt32(Request.QueryString["study_id"]);
+        study = new Study(studyID);
+        researcher = new Researcher(study.ResearcherID);
+        lblStdName.Text = study.Name;
+        lblStdDate.Text = study.DateCreated.ToString();
+        tbStdDescription.Text = study.Description;
         generateQualifiers(study);
     }
 
