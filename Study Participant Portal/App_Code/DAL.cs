@@ -81,6 +81,18 @@ public static class DAL {
         return resNameEmail;
     }
 
+    public static List<int> GetParticipants() {
+        List<int> ids = new List<int>();
+        string queryString = "select Par_ID from Participant";
+
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+        for (int i = 0; i < query.Results.Count; i++) {
+            ids.Add(Convert.ToInt32(query.Results[i][0]));
+        }
+
+        return ids;
+    }
+
     public static int InsertParticipantAnswer(int partID, int answerID) {
         string queryString = "insert into Participant_Answers " +
                              "(Par_ID, Ans_ID) " +
