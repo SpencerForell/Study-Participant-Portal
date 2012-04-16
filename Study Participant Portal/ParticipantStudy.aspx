@@ -26,16 +26,30 @@
                     Font-Underline="true" ></asp:Label><br /><asp:Label ID="lblDescription" runat="server" Font-Size="18px"></asp:Label></td>
             </tr>
             <tr>
-                <td><br /><asp:Button ID="btnShowQuestions" runat="server" Text="Show Questions" onclick="btnShowQuestions_Click"/></td>
+                <td><br /><asp:Button ID="btnShowQuestions" runat="server" Text="Show Questions" onclick="btnShowQuestions_Click"/>
+                <asp:Button ID="btnCancel" runat="server" Text="Cancel" onclick="btnCancel_Click" /></td>               
             </tr>
         </table>
         <br />
     </asp:Panel>
 
+    <asp:Panel ID="pnlConfirmation" runat="server" Visible="false">
+        <asp:Label ID="lblConfirmation" runat="server" Font-Size="14px" Text="Thank you for your interest in this study. Should you be chosen as a participant, the owner of this study will contact you." />
+        <br />
+        <br />
+        <br />
+        <asp:Button ID="btnConfirm" runat="server" Text="Back To Studies" 
+            onclick="btnConfirm_Click" />
+    </asp:Panel>
+
     <hr />
     <asp:Label ID="lblPreviouslyAnswered" runat="server" Text="You have previously submitted answers for all of the questions." Visible="false" />
+
     <asp:Panel ID="pnlQuals" runat="server">
     </asp:Panel>
+
     <asp:Button ID="btnSubmit" runat="server" Text="Submit Answers" Visible="false" onclick="btnSubmit_Click" />
+    <asp:Button ID="btnHide" runat="server" Text="Hide Answers" Visible="false" onclick="btnHide_Click" />
+    <br />
     <asp:Label ID="lblError" runat="server" Text="Please Select An Answer For Each Question." Visible="false" ForeColor="Red" />
 </asp:Content>

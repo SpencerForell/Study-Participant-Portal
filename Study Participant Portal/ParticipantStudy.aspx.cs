@@ -114,6 +114,7 @@ public partial class ParticipantStudy : System.Web.UI.Page {
         }
         pnlQuals.Visible = true;
         btnSubmit.Visible = true;
+        btnHide.Visible = true;
     }
 
     /// <summary>
@@ -142,6 +143,10 @@ public partial class ParticipantStudy : System.Web.UI.Page {
             }
         }
         loadAnswers(answers);
+        btnSubmit.Visible = false;
+        btnHide.Visible = false;
+        pnlQuals.Visible = false;
+        pnlConfirmation.Visible = true;
     }
 
     /// <summary>
@@ -173,5 +178,25 @@ public partial class ParticipantStudy : System.Web.UI.Page {
         foreach (int id in ids) {
             DAL.InsertParticipantAnswer(partID, id);
         }
+    }
+
+    protected void btnHide_Click(object sender, EventArgs e) {
+        pnlQuals.Visible = false;
+        btnSubmit.Visible = false;
+        btnHide.Visible = false;
+        if (lblError.Visible == true) {
+            lblError.Visible = false;
+        }
+    }
+
+    protected void btnCancel_Click(object sender, EventArgs e) {
+        Response.Redirect("ParticipantForm.aspx");
+    }
+
+    private void ActivateConfirmationPnl(List<string> answers) {
+
+    }
+    protected void btnConfirm_Click(object sender, EventArgs e) {
+        Response.Redirect("ParticipantForm.aspx");
     }
 }
