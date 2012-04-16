@@ -14,7 +14,7 @@ public class Answer {
 
     public int AnsID {
         get { return ansID; }
-        set { AnsID = value; }
+        set { ansID = value; }
     }
 
     public string AnswerText {

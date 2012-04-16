@@ -53,4 +53,13 @@ public partial class ResearcherForm : System.Web.UI.Page {
     protected void btnResEdit_Click(object sender, EventArgs e) {
         Response.Redirect("CreateAccount.aspx?user=Researcher&edit=true");
     }
+    protected void btnResView_Click(object sender, EventArgs e) {
+        if (lboxStudyList.SelectedIndex < 0) {
+            lblStatus.Text = "Please select a Study to edit";
+        }
+        else {
+            int study_id = Convert.ToInt32(lboxStudyList.SelectedValue);
+            Response.Redirect("StudyForm.aspx?study_id=" + study_id);
+        }
+    }
 }
