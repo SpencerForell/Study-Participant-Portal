@@ -74,6 +74,7 @@ public partial class StudyForm : System.Web.UI.Page {
             row.Cells.Add(cellEmail);
             row.Cells.Add(cellScore);
             tblResults.Rows.Add(row);
+            pnlmatchmakingResults.Controls.Add(tblResults);
         }
     }
 }

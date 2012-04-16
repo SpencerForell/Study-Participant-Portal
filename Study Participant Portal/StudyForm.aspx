@@ -18,5 +18,8 @@
     <asp:Button ID="btnFindParticipants" runat="server" Text="Find Participants" 
         onclick="btnFindParticipants_Click" />
 
+    <br />
+    <asp:Panel ID="pnlmatchmakingResults" runat="server"></asp:Panel>
+
 </asp:Content>
 
