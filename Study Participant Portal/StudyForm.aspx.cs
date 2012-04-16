@@ -18,8 +18,8 @@ public partial class StudyForm : System.Web.UI.Page {
             lblStdDate.Text = study.DateCreated.ToString();
             tbStdDescription.Text = study.Description;
 
-            generateQualifiers(study);
         }
+        generateQualifiers(study);
     }
 
     /// <summary>
@@ -52,6 +52,28 @@ public partial class StudyForm : System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnFindParticipants_Click(object sender, EventArgs e) {
-        
+        int studyID = Convert.ToInt32(Request.QueryString["study_id"]);
+        Matchmaker matchmaker = new Matchmaker(new Study(studyID));
+        Table tblResults = new Table();
+
+        foreach (KeyValuePair<Participant, int> result in matchmaker.Results) {
+            TableRow row = new TableRow();
+            TableCell cellID = new TableCell();
+            TableCell cellName = new TableCell();
+            TableCell cellEmail = new TableCell();
+            TableCell cellScore = new TableCell();
+
+            cellID.Text = result.Key.UserID.ToString();
+            cellID.Visible = false;
+            cellName.Text = result.Key.FirstName + " " + result.Key.LastName;
+            cellEmail.Text = result.Key.Email + " " + result.Key.LastName;
+            cellScore.Text = result.Value.ToString();
+
+            row.Cells.Add(cellID);
+            row.Cells.Add(cellName);
+            row.Cells.Add(cellEmail);
+            row.Cells.Add(cellScore);
+            tblResults.Rows.Add(row);
+        }
     }
 }
