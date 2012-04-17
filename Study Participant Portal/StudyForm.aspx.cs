@@ -56,6 +56,8 @@ public partial class StudyForm : System.Web.UI.Page {
         int studyID = Convert.ToInt32(Request.QueryString["study_id"]);
         Matchmaker matchmaker = new Matchmaker(new Study(studyID));
         Table tblResults = new Table();
+        tblResults.BorderWidth = 1;
+
 
         foreach (KeyValuePair<Participant, int> result in matchmaker.Results) {
             TableRow row = new TableRow();
@@ -67,7 +69,7 @@ public partial class StudyForm : System.Web.UI.Page {
             cellID.Text = result.Key.UserID.ToString();
             cellID.Visible = false;
             cellName.Text = result.Key.FirstName + " " + result.Key.LastName;
-            cellEmail.Text = result.Key.Email + " " + result.Key.LastName;
+            cellEmail.Text = result.Key.Email;
             cellScore.Text = result.Value.ToString();
 
             row.Cells.Add(cellID);
