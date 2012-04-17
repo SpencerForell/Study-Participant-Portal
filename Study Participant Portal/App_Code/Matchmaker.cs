@@ -58,6 +58,12 @@ public class Matchmaker {
             }
         }
 
+        foreach (KeyValuePair<Participant, int> kvp in results) {
+            if (kvp.Value == -1) {
+                results.Remove(kvp.Key);
+            }
+        }
+
         return results;
     }
 }
