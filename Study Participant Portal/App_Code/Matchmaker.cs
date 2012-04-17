@@ -15,7 +15,7 @@ public class Matchmaker {
     }
 
 	public Matchmaker(Study study) {
-        results = new Dictionary<Participant, int>();
+        results = makeMatch(study);
 	}
 
     public Dictionary<Participant, int> makeMatch(Study study) {
