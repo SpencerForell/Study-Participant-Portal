@@ -20,18 +20,19 @@ public class Matchmaker {
 
     public Dictionary<Participant, int> makeMatch(Study study) {
         // create necassary variables
-        Participant part = null;
-        List<int> partIDs = DAL.GetParticipants();
-        List<Participant> parts = new List<Participant>();
+        Participant participant = null;
+        List<int> participantIDs = DAL.GetParticipants();
+        List<Participant> removeList = new List<Participant>();
+        List<Participant> participants = new List<Participant>();
 
         // Populate our Participant list based on the Participant IDs we got.
-        foreach (int id in partIDs) {
-            part = new Participant(id);
-            parts.Add(part);
+        foreach (int id in participantIDs) {
+            participant = new Participant(id);
+            participants.Add(participant);
         }
 
         // Go through each Participant in the Participant List.
-        foreach (Participant p in parts) {
+        foreach (Participant p in participants) {
             // Go through each Answer in each participant Answer List.
             foreach (Answer ans in p.Answers) {
                 // Go through each Qualifier in the provided Study.
@@ -60,8 +61,12 @@ public class Matchmaker {
 
         foreach (KeyValuePair<Participant, int> kvp in results) {
             if (kvp.Value == -1) {
-                results.Remove(kvp.Key);
+                removeList.Add(kvp.Key);
             }
+        }
+
+        foreach (Participant p in removeList) {
+            results.Remove(p);
         }
 
         return results;
