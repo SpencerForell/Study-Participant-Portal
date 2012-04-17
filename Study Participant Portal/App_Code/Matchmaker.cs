@@ -8,14 +8,14 @@ using System.Web;
 /// </summary>
 public class Matchmaker {
 
-    private Dictionary<Participant, int> results;
+    private Dictionary<Participant, int> results = new Dictionary<Participant,int>();
 
     public Dictionary<Participant, int> Results {
         get { return results; }
     }
 
 	public Matchmaker(Study study) {
-        results = new Dictionary<Participant, int>();
+        results = makeMatch(study);
 	}
 
     public Dictionary<Participant, int> makeMatch(Study study) {

@@ -392,7 +392,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         lbQualifiers.Items.Clear();
         //Go through the qualifiers and at them to the qualifiers listbox
         foreach (Qualifier qual in qualifiers) {
-            ListItem item = new ListItem(qual.Description, qual.QualID.ToString());
+            ListItem item = new ListItem(qual.Question, qual.QualID.ToString());
             lbQualifiers.Items.Add(item);
         }   
     }
