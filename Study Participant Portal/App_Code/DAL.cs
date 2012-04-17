@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// Summary description for DAL
@@ -9,19 +10,42 @@ using System.Web;
 public static class DAL {
 
     /// <summary>
+    /// A method to sanitize the inputs to allow for special characters
+    /// and make it difficult for malicous users to sabotage the database.
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    private static List<string> sanitizeInputs(params string[] inputs) {
+        List<string> cleanInputs = new List<string>();
+        string clean;
+        if (inputs == null) {
+            return null;
+        }
+        foreach (string input in inputs) {
+            clean = Regex.Replace(input, @"[\r\n\x00\x1a\\'""]", @"\$0");
+            cleanInputs.Add(clean);
+        }
+
+        return cleanInputs;
+    }
+
+    /// <summary>
     /// Inserts a new study into the database
     /// </summary>
     /// <param name="study"></param>
     /// <returns>Returns the studyID of the newly created study</returns>
     public static int InsertStudy(Study study) {
+        List<string> allClean = sanitizeInputs(study.Name, study.Description, study.ResearcherID.ToString());
         string queryString = "insert into Study " +
                              "(Name, Description, Creation_Date, Expired, Res_ID) " +
                              "values " +
-                             "('" + study.Name + "','" + study.Description + "', NOW(), 0, " + study.ResearcherID.ToString() + ")";
+                             "('" + allClean[0] + "','" + allClean[1] + "', NOW(), 0, " + allClean[2] + ")";
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
         return query.LastInsertID;
     }
+
+    
 
     /// <summary>
     /// Inserts a new qualifier into the database

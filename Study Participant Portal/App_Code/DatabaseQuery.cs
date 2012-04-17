@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using MySql.Data.MySqlClient;
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// Data connection class
@@ -83,4 +84,6 @@ public class DatabaseQuery {
         connection.Close();
         
 	}
+
+    
 }
