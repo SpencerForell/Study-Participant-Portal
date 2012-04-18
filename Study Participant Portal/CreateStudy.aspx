@@ -11,7 +11,7 @@
     <h2>
         Create Your Study
     </h2>
-    <asp:Panel ID="pnlStudy" runat="server">
+    <asp:Panel ID="pnlStudy" runat="server" >
         <table>
             <tr>
                 <td>Name</td>

@@ -19,8 +19,9 @@ public partial class StudyForm : System.Web.UI.Page {
         researcher = new Researcher(study.ResearcherID);
         lblStdName.Text = study.Name;
         lblStdDate.Text = study.DateCreated.ToString();
-        tbStdDescription.Text = study.Description;
+        lblStdDescription.Text = study.Description ;
         generateQualifiers(study);
+        lblEmailStatus.Visible = false;
     }
 
     /// <summary>
@@ -31,13 +32,11 @@ public partial class StudyForm : System.Web.UI.Page {
         foreach (Qualifier qualifier in study.Qualifiers) {
             //create a new panel that will hold all the information for this qualifier
             Panel pnlQualifer = new Panel();
-            LiteralControl lineBreak = new LiteralControl("<br>");
             Label lblQualifier = new Label();
             RadioButtonList rblistAnswers = new RadioButtonList();
             foreach (Answer answer in qualifier.Answers) {
                 rblistAnswers.Items.Add(answer.AnswerText);
             }
-            pnlQualifer.Controls.Add(lineBreak);
             lblQualifier.Text = qualifier.Question;
             pnlQualifer.Controls.Add(lblQualifier);
             rblistAnswers.Enabled = false;
@@ -63,8 +62,12 @@ public partial class StudyForm : System.Web.UI.Page {
         headerName.Text = "Name";
         headerEmail.Text = "Email";
         headerScore.Text = "Score";
+        header.Cells.Add(headerName);
+        header.Cells.Add(headerEmail);
+        header.Cells.Add(headerScore);
         tblResults.Rows.Add(header);
-        tblResults.BorderWidth = 1;
+        tblResults.CellSpacing = 3;
+        tblResults.CellPadding = 5;
 
 
         foreach (KeyValuePair<Participant, int> result in matchmaker.Results) {
@@ -87,6 +90,9 @@ public partial class StudyForm : System.Web.UI.Page {
             tblResults.Rows.AddAt(getIndexToAdd(tblResults, row), row);
             pnlmatchmakingResults.Controls.Add(tblResults);
         }
+
+        pnlmatchmakingResults.Visible = true;
+        btnEmailParticipant.Visible = true;
     }
 
     private int getIndexToAdd(Table tblResults, TableRow row) {
@@ -104,5 +110,10 @@ public partial class StudyForm : System.Web.UI.Page {
             }
         }
         return i;
+    }
+    protected void btnEmailParticipant_Click(object sender, EventArgs e) {
+        btnFindParticipants_Click(sender, e);
+        btnEmailParticipant.Visible = false;
+        lblEmailStatus.Visible = true;
     }
 }
