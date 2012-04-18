@@ -25,7 +25,6 @@ public static class DAL {
             clean = Regex.Replace(input, @"[\r\n\x00\x1a\\'""]", @"\$0");
             cleanInputs.Add(clean);
         }
-
         return cleanInputs;
     }
 
@@ -35,11 +34,11 @@ public static class DAL {
     /// <param name="study"></param>
     /// <returns>Returns the studyID of the newly created study</returns>
     public static int InsertStudy(Study study) {
-        List<string> allClean = sanitizeInputs(study.Name, study.Description, study.ResearcherID.ToString());
+        List<string> scrubbedInput = sanitizeInputs(study.Name, study.Description, study.ResearcherID.ToString());
         string queryString = "insert into Study " +
                              "(Name, Description, Creation_Date, Expired, Res_ID) " +
                              "values " +
-                             "('" + allClean[0] + "','" + allClean[1] + "', NOW(), 0, " + allClean[2] + ")";
+                             "('" + scrubbedInput[0] + "','" + scrubbedInput[1] + "', NOW(), 0, " + scrubbedInput[2] + ")";
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
         return query.LastInsertID;
@@ -53,10 +52,11 @@ public static class DAL {
     /// <param name="qualifier"></param>
     /// <returns>Returns the qualifierID</returns>
     public static int InsertQualifier(Qualifier qualifier, int studyID) {
+        List<string> scrubbedInput = sanitizeInputs(qualifier.Question, qualifier.Description);
         string queryString = "insert into Qualifiers " +
                              "(Question, Description) " +
                              "values " +
-                             "('" + qualifier.Question + "','" + qualifier.Description + "')";
+                             "('" + scrubbedInput[0] + "','" + scrubbedInput[1] + "')";
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
         int qualID = query.LastInsertID;
@@ -70,10 +70,11 @@ public static class DAL {
     }
 
     public static int InsertAnswer(Answer answer, int qualID) {
+        List<string> scrubbedInput = sanitizeInputs(answer.AnswerText, answer.Score.ToString());
         string queryString = "insert into Answers " +
                              "(Answer, Rank, Qual_ID) " +
                              "values " +
-                             "('" + answer.AnswerText + "', " + answer.Score + ", " + qualID + ")";
+                             "('" + scrubbedInput[0] + "', " + Convert.ToInt32(scrubbedInput[1]) + ", " + qualID + ")";
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
         return query.LastInsertID;
@@ -131,12 +132,13 @@ public static class DAL {
     /// </summary>
     /// <param name="study"></param>
     public static void UpdateStudy(Study study) {
+        List<string> scrubbedInput = sanitizeInputs(study.Name, study.Description);
         if (study.StudyID <= 0) {
             throw new Exception("Invalid study to update, the studyID = " + study.StudyID);
         }
         string queryString = "update Study set " +
-                             "Name = '" + study.Name + "', " +
-                             "Description = '" + study.Description + "', " +
+                             "Name = '" + scrubbedInput[0] + "', " +
+                             "Description = '" + scrubbedInput[1] + "', " +
                              "Expired = " + Convert.ToInt32(study.Expired) + " " +
                              "where Study_ID = " + study.StudyID;
 
@@ -148,12 +150,13 @@ public static class DAL {
     /// </summary>
     /// <param name="qualifier"></param>
     public static void UpdateQualifier(Qualifier qualifier) {
+        List<string> scrubbedInput = sanitizeInputs(qualifier.Question, qualifier.Description); 
         if (qualifier.QualID <= 0) {
             throw new Exception("Invalid qualifier to update, the QualID= " + qualifier.QualID);
         }
         string queryString = "update Qualifiers set " +
-                             "Question = '" + qualifier.Question + "'," +
-                             "Description = '" + qualifier.Description + "' " +
+                             "Question = '" + scrubbedInput[0] + "'," +
+                             "Description = '" + scrubbedInput[1] + "' " +
                              "where Qual_ID = " + qualifier.QualID;
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Update);
@@ -164,12 +167,13 @@ public static class DAL {
     /// </summary>
     /// <param name="answer"></param>
     public static void UpdateAnswer(Answer answer) {
+        List<string> scrubbedInput = sanitizeInputs(answer.AnswerText, answer.Score.ToString());
         if (answer.AnsID <= 0) {
             throw new Exception("Invalid answer to update, the AnsID = " + answer.AnsID);
         }
         string queryString = "update Answers set " +
-                             "Answer = '" + answer.AnswerText + "', " +
-                             "Rank = '" + answer.Score + "' " +
+                             "Answer = '" + scrubbedInput[0] + "', " +
+                             "Rank = '" + Convert.ToInt32(scrubbedInput[1]) + "' " +
                              "where Ans_ID = " + answer.AnsID;
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Update);
