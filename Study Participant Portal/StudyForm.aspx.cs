@@ -56,6 +56,14 @@ public partial class StudyForm : System.Web.UI.Page {
         int studyID = Convert.ToInt32(Request.QueryString["study_id"]);
         Matchmaker matchmaker = new Matchmaker(new Study(studyID));
         Table tblResults = new Table();
+        TableHeaderRow header = new TableHeaderRow();
+        TableHeaderCell headerName = new TableHeaderCell();
+        TableHeaderCell headerEmail = new TableHeaderCell();
+        TableHeaderCell headerScore = new TableHeaderCell();
+        headerName.Text = "Name";
+        headerEmail.Text = "Email";
+        headerScore.Text = "Score";
+        tblResults.Rows.Add(header);
         tblResults.BorderWidth = 1;
 
 
@@ -76,8 +84,25 @@ public partial class StudyForm : System.Web.UI.Page {
             row.Cells.Add(cellName);
             row.Cells.Add(cellEmail);
             row.Cells.Add(cellScore);
-            tblResults.Rows.Add(row);
+            tblResults.Rows.AddAt(getIndexToAdd(tblResults, row), row);
             pnlmatchmakingResults.Controls.Add(tblResults);
         }
+    }
+
+    private int getIndexToAdd(Table tblResults, TableRow row) {
+        int i = 1; //start at 1 because of the header
+        while (i < tblResults.Rows.Count) {
+            //compare the two scores to see which one is greater.
+
+            if (Convert.ToInt32(row.Cells[3].Text) < Convert.ToInt32(tblResults.Rows[i].Cells[3].Text)) {
+                //if the row to insert is less than the current row, keep going down the rows
+                i++;
+            }
+            else {
+                //if the row is >=, than insert it here;
+                break;
+            }
+        }
+        return i;
     }
 }
