@@ -6,7 +6,7 @@
     <h1>
         Study Details
     </h1>
-    <asp:Panel ID="pnlStudy" runat="server">
+    <asp:Panel ID="pnlStudy" runat="server" >
         <br />
         <table>
             <tr>
@@ -42,10 +42,9 @@
             onclick="btnConfirm_Click" />
     </asp:Panel>
 
-    <hr />
     <asp:Label ID="lblPreviouslyAnswered" runat="server" Text="You have previously submitted answers for all of the questions." Visible="false" />
 
-    <asp:Panel ID="pnlQuals" runat="server">
+    <asp:Panel ID="pnlQuals" runat="server" GroupingText="Qualifying Questions">
     </asp:Panel>
 
     <asp:Button ID="btnSubmit" runat="server" Text="Submit Answers" Visible="false" onclick="btnSubmit_Click" />

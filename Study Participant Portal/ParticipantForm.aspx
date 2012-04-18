@@ -14,7 +14,7 @@
         <br />
         <asp:Label ID="lblStudies" runat="server" Text="Please select a study you are interested in participating in"> </asp:Label>
         <br />
-        <asp:ListBox ID="lboxStudyList" runat="server" Height="204px" Width="401px"></asp:ListBox>
+        <asp:ListBox ID="lboxStudyList" runat="server" Height="204px" Width="401px" CssClass="listbox"></asp:ListBox>
         <br /> 
         <asp:Label ID="lblError" runat="server" ForeColor="Red"></asp:Label>
         <br />

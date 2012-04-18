@@ -65,7 +65,7 @@ public partial class ParticipantStudy : System.Web.UI.Page {
             }
 
             pnlQuals.Controls.Add(CreateQuestionAnswer(qual));
-            pnlQuals.Controls.Add(new LiteralControl("<hr />"));            
+            pnlQuals.Controls.Add(new LiteralControl("<br />"));            
         }       
     }
 
