@@ -34,11 +34,8 @@
     <br />
 
     <!-- Panel for study of the week-->
-    <asp:Panel ID="pnlWeeklyStudy" runat="server">
+    <asp:Panel ID="pnlWeeklyStudy" runat="server" GroupingText="Study of the week">
         <table border="1" >
-            <tr>
-                <th colspan=3>Study of the week!</th>
-            </tr>
             <tr>
                 <td><asp:Label ID="lblWeeklyStudyName" runat="server" Width="100px" Text="Name"></asp:Label></td>
                 <td><asp:Label ID="lblWeeklyStudyDesc" runat="server" Text="Description of study of the week" ></asp:Label></td>
@@ -49,9 +46,7 @@
     </asp:Panel>
 
     <!-- Panel for researchers to login -->
-    <asp:Panel ID="pnlResearcher" runat="server" Visible = "false">
-        <asp:Label ID="lblResLogin" runat="server" Text="Researcher Login"></asp:Label>
-        <br />
+    <asp:Panel ID="pnlResearcher" runat="server" Visible = "false" GroupingText="Researcher Login">
         <asp:Label ID="lblResSatus" runat="server" ForeColor="Red" Text=""></asp:Label>
         <br />             
         <asp:Label ID="lblResUser" runat="server" Text="User" Width="75px"></asp:Label>
@@ -75,9 +70,7 @@
     </asp:Panel>
 
     <!-- Panel for participants to login -->
-    <asp:Panel ID="pnlParticipant" runat="server" Visible = "false">
-        <asp:Label ID="lblParLogin" runat="server" Text="Participant Login"></asp:Label>
-        <br />             
+    <asp:Panel ID="pnlParticipant" runat="server" Visible = "false" GroupingText="Participant Login">
         <asp:Label ID="lblParUser" runat="server" Text="User" Width="75px"></asp:Label>
         <asp:TextBox ID="tbParUser" runat="server" Width="173px"></asp:TextBox>
         <br />

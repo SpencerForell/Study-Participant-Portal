@@ -4,11 +4,8 @@ AutoEventWireup="true" CodeFile="CreateAccount.aspx.cs" Inherits="CreateAccount"
 <asp:Content ID="HeaderContent" ContentPlaceHolderID="HeadContent" Runat="Server">
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" Runat="Server">
-        <asp:Panel ID="pnlResearcher" runat="server" Visible = "false">
+        <asp:Panel ID="pnlResearcher" runat="server" Visible = "false" GroupingText="Researcher Create Account"> 
             <table>
-                <tr>
-                    <th colspan=2><asp:Label ID="lblResLogin" runat="server" Text="Researcher Create Account"></asp:Label></th>
-                </tr>
                 <tr>
                     <td colspan=2><asp:Label ID="lblResStatus" runat="server" Text="" ForeColor="Red"></asp:Label></td>
                 </tr>
@@ -41,11 +38,8 @@ AutoEventWireup="true" CodeFile="CreateAccount.aspx.cs" Inherits="CreateAccount"
                 </tr>
             </table>     
         </asp:Panel>
-        <asp:Panel ID="pnlParticipant" runat="server" Visible = "false">
+        <asp:Panel ID="pnlParticipant" runat="server" Visible = "false" GroupingText="Participant Create Account">
             <table>
-                <tr>
-                    <th colspan=2><asp:Label ID="lblParCreateAccount" runat="server" Text="Participant Create Account"></asp:Label></th>
-                </tr>
                 <tr >
                     <td colspan=2><asp:Label ID="lblParStatus" runat="server" Text="" ForeColor="Red"></asp:Label></td>
                 </tr>

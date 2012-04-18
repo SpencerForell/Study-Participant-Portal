@@ -305,3 +305,9 @@ div.accountInfo
     padding-right: 10px;
 }
 
+
+.label 
+{
+    font-size:14px;
+    font-weight:bold;
+}

@@ -37,10 +37,7 @@ public class DatabaseQuery {
     /// Constructor to run queries from the database
     /// </summary>
     /// <param name="queryString">This should be an actual sql query like "select * from table where id = 1"</param>
-	public DatabaseQuery(String queryString, Type type) {
-        //I'm pretty sure this is all we need to add to fix the problem with sql injection
-        //queryString = queryString.Replace("'", "''");
-        
+	public DatabaseQuery(String queryString, Type type) {        
         string MyConString = @"SERVER=mysql.eecs.oregonstate.edu;
                                 DATABASE=cs462-team34;
                                 UID=cs462-team34;

@@ -19,8 +19,9 @@ public partial class StudyForm : System.Web.UI.Page {
         researcher = new Researcher(study.ResearcherID);
         lblStdName.Text = study.Name;
         lblStdDate.Text = study.DateCreated.ToString();
-        tbStdDescription.Text = study.Description;
+        lblStdDescription.Text = study.Description ;
         generateQualifiers(study);
+        lblEmailStatus.Visible = false;
     }
 
     /// <summary>
@@ -31,13 +32,11 @@ public partial class StudyForm : System.Web.UI.Page {
         foreach (Qualifier qualifier in study.Qualifiers) {
             //create a new panel that will hold all the information for this qualifier
             Panel pnlQualifer = new Panel();
-            LiteralControl lineBreak = new LiteralControl("<br>");
             Label lblQualifier = new Label();
             RadioButtonList rblistAnswers = new RadioButtonList();
             foreach (Answer answer in qualifier.Answers) {
                 rblistAnswers.Items.Add(answer.AnswerText);
             }
-            pnlQualifer.Controls.Add(lineBreak);
             lblQualifier.Text = qualifier.Question;
             pnlQualifer.Controls.Add(lblQualifier);
             rblistAnswers.Enabled = false;
@@ -56,7 +55,19 @@ public partial class StudyForm : System.Web.UI.Page {
         int studyID = Convert.ToInt32(Request.QueryString["study_id"]);
         Matchmaker matchmaker = new Matchmaker(new Study(studyID));
         Table tblResults = new Table();
-        tblResults.BorderWidth = 1;
+        TableHeaderRow header = new TableHeaderRow();
+        TableHeaderCell headerName = new TableHeaderCell();
+        TableHeaderCell headerEmail = new TableHeaderCell();
+        TableHeaderCell headerScore = new TableHeaderCell();
+        headerName.Text = "Name";
+        headerEmail.Text = "Email";
+        headerScore.Text = "Score";
+        header.Cells.Add(headerName);
+        header.Cells.Add(headerEmail);
+        header.Cells.Add(headerScore);
+        tblResults.Rows.Add(header);
+        tblResults.CellSpacing = 3;
+        tblResults.CellPadding = 5;
 
 
         foreach (KeyValuePair<Participant, int> result in matchmaker.Results) {
@@ -76,8 +87,33 @@ public partial class StudyForm : System.Web.UI.Page {
             row.Cells.Add(cellName);
             row.Cells.Add(cellEmail);
             row.Cells.Add(cellScore);
-            tblResults.Rows.Add(row);
+            tblResults.Rows.AddAt(getIndexToAdd(tblResults, row), row);
             pnlmatchmakingResults.Controls.Add(tblResults);
         }
+
+        pnlmatchmakingResults.Visible = true;
+        btnEmailParticipant.Visible = true;
+    }
+
+    private int getIndexToAdd(Table tblResults, TableRow row) {
+        int i = 1; //start at 1 because of the header
+        while (i < tblResults.Rows.Count) {
+            //compare the two scores to see which one is greater.
+
+            if (Convert.ToInt32(row.Cells[3].Text) < Convert.ToInt32(tblResults.Rows[i].Cells[3].Text)) {
+                //if the row to insert is less than the current row, keep going down the rows
+                i++;
+            }
+            else {
+                //if the row is >=, than insert it here;
+                break;
+            }
+        }
+        return i;
+    }
+    protected void btnEmailParticipant_Click(object sender, EventArgs e) {
+        btnFindParticipants_Click(sender, e);
+        btnEmailParticipant.Visible = false;
+        lblEmailStatus.Visible = true;
     }
 }
