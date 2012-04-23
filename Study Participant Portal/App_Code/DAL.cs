@@ -34,11 +34,11 @@ public static class DAL {
     /// <param name="study"></param>
     /// <returns>Returns the studyID of the newly created study</returns>
     public static int InsertStudy(Study study) {
-        List<string> scrubbedInput = sanitizeInputs(study.Name, study.Description, study.ResearcherID.ToString());
+        List<string> scrubbedInput = sanitizeInputs(study.Name, study.Description, study.Incentive, study.ResearcherID.ToString());
         string queryString = "insert into Study " +
-                             "(Name, Description, Creation_Date, Expired, Res_ID) " +
+                             "(Name, Description, Incentive, Creation_Date, Expired, Res_ID) " +
                              "values " +
-                             "('" + scrubbedInput[0] + "','" + scrubbedInput[1] + "', NOW(), 0, " + scrubbedInput[2] + ")";
+                             "('" + scrubbedInput[0] + "','" + scrubbedInput[1] + "','" + scrubbedInput[2] + "', NOW(), 0, " + scrubbedInput[3] + ")";
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
         return query.LastInsertID;
@@ -54,9 +54,9 @@ public static class DAL {
     public static int InsertQualifier(Qualifier qualifier, int studyID) {
         List<string> scrubbedInput = sanitizeInputs(qualifier.Question, qualifier.Description);
         string queryString = "insert into Qualifiers " +
-                             "(Question, Description) " +
+                             "(Question, Description, Res_ID) " +
                              "values " +
-                             "('" + scrubbedInput[0] + "','" + scrubbedInput[1] + "')";
+                             "('" + scrubbedInput[0] + "','" + scrubbedInput[1] + "', " + qualifier.ResID +")";
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
         int qualID = query.LastInsertID;
@@ -132,13 +132,14 @@ public static class DAL {
     /// </summary>
     /// <param name="study"></param>
     public static void UpdateStudy(Study study) {
-        List<string> scrubbedInput = sanitizeInputs(study.Name, study.Description);
+        List<string> scrubbedInput = sanitizeInputs(study.Name, study.Description, study.Incentive);
         if (study.StudyID <= 0) {
             throw new Exception("Invalid study to update, the studyID = " + study.StudyID);
         }
         string queryString = "update Study set " +
                              "Name = '" + scrubbedInput[0] + "', " +
                              "Description = '" + scrubbedInput[1] + "', " +
+                             "Incentive = '" + scrubbedInput[2] + "', " +
                              "Expired = " + Convert.ToInt32(study.Expired) + " " +
                              "where Study_ID = " + study.StudyID;
 
@@ -156,7 +157,8 @@ public static class DAL {
         }
         string queryString = "update Qualifiers set " +
                              "Question = '" + scrubbedInput[0] + "'," +
-                             "Description = '" + scrubbedInput[1] + "' " +
+                             "Description = '" + scrubbedInput[1] + "'," +
+                             "Res_ID = " + qualifier.ResID +
                              "where Qual_ID = " + qualifier.QualID;
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Update);

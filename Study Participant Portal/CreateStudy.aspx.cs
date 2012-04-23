@@ -30,7 +30,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         //if the study is null, create a temp study that will be altered later.
         if (study == null) {
             //create a temporary study that will be overwritten later
-            study = new Study(-1, "", "", DateTime.Now, false, 0, new List<Qualifier>());
+            study = new Study(-1, "", "", "", DateTime.Now, false, 0, new List<Qualifier>());
         }
     }
 
@@ -41,6 +41,7 @@ public partial class CreateStudy : System.Web.UI.Page {
     private void populateForm(Study study) {
         tbName.Text = study.Name;
         tbDescription.Text = study.Description;
+        tbIncentive.Text = study.Incentive;
         cbStdExpired.Visible = true;
         lblExpired.Visible = true;
         lblExpired2.Visible = true;
@@ -244,7 +245,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         if (isEdit) {
             studyID = Convert.ToInt32(Request.QueryString["study_id"]);
         }
-        study = new Study(studyID, tbName.Text, tbDescription.Text, DateTime.Now, cbStdExpired.Checked, ((Researcher)(Session["user"])).UserID, study.Qualifiers);
+        study = new Study(studyID, tbName.Text, tbDescription.Text, tbIncentive.Text, DateTime.Now, cbStdExpired.Checked, ((Researcher)(Session["user"])).UserID, study.Qualifiers);
         Session["study"] = study;
 
         // clear the contents of the fields for new entries
@@ -283,7 +284,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             studyID = Convert.ToInt32(Request.QueryString["study_id"]);
         }
         //Create a study object with all of its attributes filled out from the forms that the user entered
-        study = new Study(studyID, tbName.Text, tbDescription.Text, DateTime.Now, Convert.ToBoolean(expired), res.UserID, study.Qualifiers);
+        study = new Study(studyID, tbName.Text, tbDescription.Text, tbIncentive.Text, DateTime.Now, Convert.ToBoolean(expired), res.UserID, study.Qualifiers);
 
         finishStudy(study);
     }

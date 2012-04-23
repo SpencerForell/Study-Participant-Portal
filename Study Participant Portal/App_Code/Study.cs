@@ -9,6 +9,7 @@ using System.Web;
 public class Study {
     private string name;
     private string description;
+    private string incentive;
     private DateTime dateCreated;
     private bool expired;
     private int studyID;
@@ -22,7 +23,11 @@ public class Study {
     public string Description {
         get { return description; }
     }
-    
+
+    public string Incentive {
+        get { return incentive; }
+    }
+
     public DateTime DateCreated {
         get { return dateCreated; }
     }
@@ -48,13 +53,14 @@ public class Study {
    
 
     public Study(int studyID) {
-        string queryString = "select name, Description, Creation_Date, Expired, Res_ID from Study where Study_ID = " + studyID.ToString();
+        string queryString = "select name, Description, Incentive, Creation_Date, Expired, Res_ID from Study where Study_ID = " + studyID.ToString();
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
         this.name = query.Results[0][0];
         this.description = query.Results[0][1];
-        this.dateCreated = Convert.ToDateTime(query.Results[0][2]);
-        this.expired = Convert.ToBoolean(Convert.ToInt32(query.Results[0][3]));
-        this.researcherID = Convert.ToInt32(query.Results[0][4]);
+        this.incentive = query.Results[0][2];
+        this.dateCreated = Convert.ToDateTime(query.Results[0][3]);
+        this.expired = Convert.ToBoolean(Convert.ToInt32(query.Results[0][4]));
+        this.researcherID = Convert.ToInt32(query.Results[0][5]);
         this.studyID = studyID;
 
         queryString = "select Q.Qual_ID, Question, Description from Study_Qualifiers SQ, Qualifiers Q where Study_ID = " + studyID + " and Q.Qual_ID = SQ.Qual_ID";
@@ -68,10 +74,11 @@ public class Study {
         }
     }
 
-    public Study(int studyID, string name, string description, DateTime dateCreated, bool expired, int researcherID, List<Qualifier> qualifiers) {
+    public Study(int studyID, string name, string description, string incentive, DateTime dateCreated, bool expired, int researcherID, List<Qualifier> qualifiers) {
         this.studyID = studyID;
         this.name = name;
         this.description = description;
+        this.incentive = incentive;
         this.dateCreated = dateCreated;
         this.expired = expired;
         this.researcherID = researcherID;

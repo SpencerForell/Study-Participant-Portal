@@ -10,6 +10,7 @@ public class Qualifier {
     private int qualID;
     private string question;
     private string description;
+    private int resID;
     private List<Answer> answers = new List<Answer>();
 
     public int QualID {
@@ -25,16 +26,21 @@ public class Qualifier {
         get { return description; }
     }
 
+    public int ResID {
+        get { return resID; }
+    }
+
     public List<Answer> Answers {
         get { return answers; }
     }
 
     public Qualifier(int qualID) {
-        string queryString = "select Question, Description from Qualifiers where Qual_ID = " + qualID;
+        string queryString = "select Question, Description, Res_ID from Qualifiers where Qual_ID = " + qualID;
 
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
         this.question = query.Results[0][0];
         this.description = query.Results[0][1];
+        this.resID = Convert.ToInt32(query.Results[0][2]);
         this.qualID = qualID;
 
         queryString = "select Ans_ID, Answer, Rank from Answers where Qual_ID = " + qualID;

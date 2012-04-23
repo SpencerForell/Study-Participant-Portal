@@ -26,6 +26,12 @@
                 <td><asp:TextBox ID="tbDescription" TextMode="multiline" runat="server" Height="88px" Width="100%"></asp:TextBox></td>
             </tr>
             <tr>
+                <td>Incentive (100 chars)</td>
+            </tr>
+            <tr>
+                <td><asp:TextBox ID="tbIncentive" runat="server" Width="100%"></asp:TextBox></td>
+            </tr>
+            <tr>
                 <td><asp:Label ID="lblExpired" runat="server" Visible="false" Text="Expired" ></asp:Label></td>
             </tr>
             <tr>
