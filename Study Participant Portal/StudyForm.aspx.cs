@@ -59,12 +59,15 @@ public partial class StudyForm : System.Web.UI.Page {
         TableHeaderCell headerName = new TableHeaderCell();
         TableHeaderCell headerEmail = new TableHeaderCell();
         TableHeaderCell headerScore = new TableHeaderCell();
+        TableHeaderCell headerMoreInfo = new TableHeaderCell();
         headerName.Text = "Name";
         headerEmail.Text = "Email";
         headerScore.Text = "Score";
+        headerMoreInfo.Text = "View More Info";
         header.Cells.Add(headerName);
         header.Cells.Add(headerEmail);
         header.Cells.Add(headerScore);
+        header.Cells.Add(headerMoreInfo);
         tblResults.Rows.Add(header);
         tblResults.CellSpacing = 3;
         tblResults.CellPadding = 5;
@@ -76,17 +79,24 @@ public partial class StudyForm : System.Web.UI.Page {
             TableCell cellName = new TableCell();
             TableCell cellEmail = new TableCell();
             TableCell cellScore = new TableCell();
+            TableCell cellInfoBtn = new TableCell();
 
             cellID.Text = result.Key.UserID.ToString();
             cellID.Visible = false;
             cellName.Text = result.Key.FirstName + " " + result.Key.LastName;
             cellEmail.Text = result.Key.Email;
             cellScore.Text = result.Value.ToString();
+            Button btnMoreInfo = new Button();
+            btnMoreInfo.Text = "Submit";
+            btnMoreInfo.CommandArgument = cellID.Text;
+            btnMoreInfo.Command += new CommandEventHandler(btnMoreInfo_Click);
+            cellInfoBtn.Controls.Add(btnMoreInfo);
 
             row.Cells.Add(cellID);
             row.Cells.Add(cellName);
             row.Cells.Add(cellEmail);
             row.Cells.Add(cellScore);
+            row.Cells.Add(cellInfoBtn);
             tblResults.Rows.AddAt(getIndexToAdd(tblResults, row), row);
             pnlmatchmakingResults.Controls.Add(tblResults);
         }
@@ -111,6 +121,12 @@ public partial class StudyForm : System.Web.UI.Page {
         }
         return i;
     }
+
+    protected void btnMoreInfo_Click(object sender, CommandEventArgs e) {
+        int participantID = Convert.ToInt32(e.CommandArgument.ToString());
+        Response.Redirect("default.aspx");
+    }
+
     protected void btnEmailParticipant_Click(object sender, EventArgs e) {
         btnFindParticipants_Click(sender, e);
         btnEmailParticipant.Visible = false;

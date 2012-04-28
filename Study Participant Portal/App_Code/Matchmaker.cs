@@ -26,6 +26,7 @@ public class Matchmaker {
         List<Participant> participants = new List<Participant>();
 
         // Populate our Participant list based on the Participant IDs we got.
+        //THIS NEEDS TO BE OPTIMIZED IT IS WAY TOO SLOW. WE CAN DO THIS BY USING THE OTHER CONSTRUCTOR AND JUST DOING ONE BIG QUERY TO RETURN ALL THE PARTICIPANTS AND MAKE THE OBJECTS FROM THAT
         foreach (int id in participantIDs) {
             participant = new Participant(id);
             participants.Add(participant);
