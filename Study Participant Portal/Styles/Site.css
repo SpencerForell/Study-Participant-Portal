@@ -105,6 +105,13 @@ first child of the left and right table columns */
     background-color: #fff;
 }
 
+.label
+{
+    font-size: x-large;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
 
 .header
 {

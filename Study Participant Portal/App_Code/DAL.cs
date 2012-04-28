@@ -118,6 +118,21 @@ public static class DAL {
         return ids;
     }
 
+    public static List<Qualifier> GetQualifiers() {
+        string queryString = "select Qual_ID from Qualifiers";
+        Qualifier qual = null;
+        List<Qualifier> quals = new List<Qualifier>();
+        
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+
+        for (int i = 0; i < query.Results.Count; i++) {
+            qual = new Qualifier(Convert.ToInt32(query.Results[i][0]));
+            quals.Add(qual);
+        }
+
+        return quals;
+    }
+
     public static int InsertParticipantAnswer(int partID, int answerID) {
         string queryString = "insert into Participant_Answers " +
                              "(Par_ID, Ans_ID) " +
