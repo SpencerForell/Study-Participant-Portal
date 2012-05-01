@@ -118,6 +118,38 @@ public static class DAL {
         return ids;
     }
 
+    public static List<Study> GetStudies() {
+        List<Study> studies = new List<Study>();
+        string queryString = "select study_id, name, Description, Incentive, Creation_Date, Expired, Res_ID from Study";
+
+        DatabaseQuery query1 = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+        
+        for (int i = 0; i < query1.Results.Count; i++) {
+            int studyID = Convert.ToInt32(query1.Results[i][0]);
+            string name = query1.Results[i][1];
+            string description = query1.Results[i][2];
+            string incentive = query1.Results[i][3];
+            DateTime dateCreated = Convert.ToDateTime(query1.Results[i][4]);
+            bool expired = Convert.ToBoolean(Convert.ToInt32(query1.Results[i][5]));
+            int researcherID = Convert.ToInt32(query1.Results[i][6]);
+
+            List<Qualifier> qualifiers = new List<Qualifier>();
+            queryString = "select Q.Qual_ID, Question, Description from Study_Qualifiers SQ, Qualifiers Q where Study_ID = " + studyID + " and Q.Qual_ID = SQ.Qual_ID";
+            DatabaseQuery query2 = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+            foreach (List<String> result in query2.Results) {
+                int qualID = Convert.ToInt32(result[0]);
+                string question = result[1];
+                string qualDescription = result[2];
+                Qualifier tempQualifiers = new Qualifier(qualID, question, description);
+                qualifiers.Add(tempQualifiers);
+            }
+
+            Study temp = new Study(studyID, name, description, incentive, dateCreated, expired, researcherID, qualifiers);
+            studies.Add(temp);
+        }
+        return studies;
+    }
+
     public static int InsertParticipantAnswer(int partID, int answerID) {
         string queryString = "insert into Participant_Answers " +
                              "(Par_ID, Ans_ID) " +
