@@ -53,7 +53,7 @@ public class Matchmaker {
                 //if the qualifier doesn't exist in the list 
                 if (exists == false) {
                     //then create it and add it to the list.
-                    qualifier = new Qualifier(Convert.ToInt32(record[9]), record[10], record[11], new List<Answer>());                  
+                    qualifier = new Qualifier(Convert.ToInt32(record[9]), record[10], record[11], Convert.ToInt32(record[12]), new List<Answer>());                  
                     //then create the answer object
                     answer = new Answer(Convert.ToInt32(record[5]), record[7], Convert.ToInt32(record[8]), qualifier);
                     //Add it to the list of answers
