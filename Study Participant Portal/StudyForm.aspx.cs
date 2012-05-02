@@ -7,32 +7,33 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class StudyForm : System.Web.UI.Page {
-    Study study;
-    Researcher researcher;
+
+    private Study Study {
+        get { return (Study)Session["study"]; }
+        set { Session["study"] = value; }
+    }
 
     protected void Page_Load(object sender, EventArgs e) {
         if (!IsPostBack) {
-        
+            int studyID = Convert.ToInt32(Request.QueryString["study_id"]);
+            Study = new Study(studyID);
+            lblStdName.Text = Study.Name;
+            lblStdDate.Text = Study.DateCreated.ToString();
+            lblStdDescription.Text = Study.Description;
+            lblEmailStatus.Visible = false;
         }
-
-        int studyID = Convert.ToInt32(Request.QueryString["study_id"]);
-        study = new Study(studyID);
-        researcher = new Researcher(study.ResearcherID);
-        lblStdName.Text = study.Name;
-        lblStdDate.Text = study.DateCreated.ToString();
-        lblStdDescription.Text = study.Description ;
-        generateQualifiers(study);
-        lblEmailStatus.Visible = false;
+        pnlStdQualifiers.Controls.Add(generateQualifiers(Study));
     }
 
     /// <summary>
-    /// Dynamically creates panels that store each qualifier and adds them to the main panel of the page.
+    /// Dynamically creates panels that store each qualifier and answer
     /// </summary>
     /// <param name="study"></param>
-    private void generateQualifiers(Study study) {
+    public Panel generateQualifiers(Study study) {
+        Panel pnlQualifer = new Panel();
         foreach (Qualifier qualifier in study.Qualifiers) {
             //create a new panel that will hold all the information for this qualifier
-            Panel pnlQualifer = new Panel();
+            
             Label lblQualifier = new Label();
             RadioButtonList rblistAnswers = new RadioButtonList();
             foreach (Answer answer in qualifier.Answers) {
@@ -43,8 +44,8 @@ public partial class StudyForm : System.Web.UI.Page {
             rblistAnswers.Enabled = false;
             pnlQualifer.Controls.Add(rblistAnswers);
             //add the panel we just made to the form
-            pnlStdQualifiers.Controls.Add(pnlQualifer); 
         }
+        return pnlQualifer; 
     }
 
     /// <summary>
@@ -60,15 +61,12 @@ public partial class StudyForm : System.Web.UI.Page {
         TableHeaderCell headerName = new TableHeaderCell();
         TableHeaderCell headerEmail = new TableHeaderCell();
         TableHeaderCell headerScore = new TableHeaderCell();
-        TableHeaderCell headerMoreInfo = new TableHeaderCell();
         headerName.Text = "Name";
         headerEmail.Text = "Email";
         headerScore.Text = "Score";
-        headerMoreInfo.Text = "View More Info";
         header.Cells.Add(headerName);
         header.Cells.Add(headerEmail);
         header.Cells.Add(headerScore);
-        header.Cells.Add(headerMoreInfo);
         tblResults.Rows.Add(header);
         tblResults.CellSpacing = 3;
         tblResults.CellPadding = 5;
@@ -80,24 +78,21 @@ public partial class StudyForm : System.Web.UI.Page {
             TableCell cellName = new TableCell();
             TableCell cellEmail = new TableCell();
             TableCell cellScore = new TableCell();
-            TableCell cellInfoBtn = new TableCell();
 
             cellID.Text = result.Key.UserID.ToString();
             cellID.Visible = false;
-            cellName.Text = result.Key.FirstName + " " + result.Key.LastName;
+            HyperLink link = new HyperLink();
+            link.ToolTip = "Click the link to view more information about this user";
+            link.Text = result.Key.FirstName + " " + result.Key.LastName;
+            link.NavigateUrl="ParticipantInfo.aspx?participant_id=" + cellID.Text + "&study_id=" + studyID;
+            cellName.Controls.Add(link);
             cellEmail.Text = result.Key.Email;
             cellScore.Text = result.Value.ToString();
-            Button btnMoreInfo = new Button();
-            btnMoreInfo.Text = "Submit";
-            btnMoreInfo.CommandArgument = cellID.Text;
-            btnMoreInfo.Command += new CommandEventHandler(btnMoreInfo_Click);
-            cellInfoBtn.Controls.Add(btnMoreInfo);
-
+            
             row.Cells.Add(cellID);
             row.Cells.Add(cellName);
             row.Cells.Add(cellEmail);
             row.Cells.Add(cellScore);
-            row.Cells.Add(cellInfoBtn);
             tblResults.Rows.AddAt(getIndexToAdd(tblResults, row), row);
             pnlmatchmakingResults.Controls.Add(tblResults);
         }
@@ -121,11 +116,6 @@ public partial class StudyForm : System.Web.UI.Page {
             }
         }
         return i;
-    }
-
-    protected void btnMoreInfo_Click(object sender, CommandEventArgs e) {
-        int participantID = Convert.ToInt32(e.CommandArgument.ToString());
-        Response.Redirect("default.aspx");
     }
 
     protected void btnEmailParticipant_Click(object sender, EventArgs e) {

@@ -63,13 +63,14 @@ public class Study {
         this.researcherID = Convert.ToInt32(query.Results[0][5]);
         this.studyID = studyID;
 
-        queryString = "select Q.Qual_ID, Question, Description from Study_Qualifiers SQ, Qualifiers Q where Study_ID = " + studyID + " and Q.Qual_ID = SQ.Qual_ID";
+        queryString = "select Q.Qual_ID, Question, Description, Res_ID from Study_Qualifiers SQ, Qualifiers Q where Study_ID = " + studyID + " and Q.Qual_ID = SQ.Qual_ID";
         query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
         foreach (List<String> result in query.Results) {
             int qualID = Convert.ToInt32(result[0]);
             string question = result[1];
             string description = result[2];
-            Qualifier tempQualifiers = new Qualifier(qualID, question, description);
+            int resID = Convert.ToInt32(result[3]);
+            Qualifier tempQualifiers = new Qualifier(qualID, question, description, resID);
             this.qualifiers.Add(tempQualifiers);
         }
     }
