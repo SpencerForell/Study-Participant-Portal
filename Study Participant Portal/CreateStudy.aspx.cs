@@ -287,6 +287,18 @@ public partial class CreateStudy : System.Web.UI.Page {
         study = new Study(studyID, tbName.Text, tbDescription.Text, tbIncentive.Text, DateTime.Now, Convert.ToBoolean(expired), res.UserID, study.Qualifiers);
 
         finishStudy(study);
+
+        //Send an email A notification email out to all the participants that a new study is ready
+        if (!isEdit) {
+            EmailSender mailSender = new EmailSender();
+            List<string> recipients = DAL.GetRecipientEmails();
+            string subject = "New research studies are available!";
+            StringBuilder body = new StringBuilder("Please log on to the Study Participant Portal to check out new studies!");
+            mailSender.sendEmail("NoReply@gmail.com", recipients, subject, body);
+
+            mailSender = null;
+            body = null;
+        }
     }
 
 

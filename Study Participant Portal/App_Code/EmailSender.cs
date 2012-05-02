@@ -10,50 +10,30 @@ using System.Net.Mail;
 /// </summary>
 public class EmailSender
 {
-    private List<string> addressTo;
-    private string subject;
-    private StringBuilder body;
-
-    public List<string> AddressTo {
-        set {
-            if (addressTo == null) {
-                addressTo = new List<string>();
-            }
-            else {
-                addressTo = value;
-            }
-        }
-    }
-
-    public string Subject {
-        set { subject = value; }
-    }
-
-    public StringBuilder Body {
-        set { body = value; }
-    }
-
-	public EmailSender(List<string> to, string subject, StringBuilder body)
+	public void sendEmail(string sender, List<string> recipients, string subject, StringBuilder body)
 	{
-        body = new StringBuilder();
-        this.addressTo = to;
-        this.subject = subject;
-        this.body = body;
-	}
-
-    private void sendEmail() {
+        string username = "studyparticipantportal@gmail.com";
+        string password = "2012SPP_user";
+        // Set the email parameters
         MailMessage mail = new MailMessage();
-        SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+        SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+        client.EnableSsl = true;
+        client.UseDefaultCredentials = false;
 
-        mail.From = new MailAddress("muellmax36@gmail.com");
-        foreach (string address in this.addressTo) {
-            mail.To.Add(address);
+        System.Net.NetworkCredential credential = new System.Net.NetworkCredential(username, password);
+        client.Credentials = credential;
+        mail.From = new MailAddress(sender);
+        foreach (string recipient in recipients) {
+            mail.To.Add(recipient);
         }
+        mail.Subject = subject;
+        mail.Body = body.ToString();
 
-        mail.Subject = this.subject;
-        mail.Body = this.body.ToString();
-        smtpServer.Port = 587;
+        // Send the email
+        client.Send(mail);
 
-        
-    }
+        // Clean up
+        client.Dispose();
+        mail.Dispose();
+	}
 }

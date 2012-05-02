@@ -32,6 +32,7 @@ public class Qualifier {
 
     public List<Answer> Answers {
         get { return answers; }
+        set { answers = value; }
     }
 
     public Qualifier(int qualID) {
@@ -68,5 +69,12 @@ public class Qualifier {
             Answer tempAnswer = new Answer(ansID, answer, score, this);
             this.answers.Add(tempAnswer);
         }
+    }
+
+    public Qualifier(int qualID, string question, string description, List<Answer> answers) {
+        this.qualID = qualID;
+        this.question = question;
+        this.description = description;
+        this.answers = answers;
     }
 }

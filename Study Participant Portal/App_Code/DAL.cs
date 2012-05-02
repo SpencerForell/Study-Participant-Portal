@@ -118,6 +118,48 @@ public static class DAL {
         return ids;
     }
 
+    public static Dictionary<int, List<List<string>>> GetParticipantsOptimized() {
+        List<string> participantAnswer = null;
+        List<List<string>> temp = null;
+        Dictionary<int, List<List<string>>> participants = new Dictionary<int, List<List<string>>>();
+        string queryString = "select P.Par_ID, P.User_Name, P.First_Name, P.Last_Name, P.Email, " +
+                             "A.Ans_ID, A.Qual_ID, A.Answer, A.Rank, Q.Qual_ID, Q.Question, Q.Description, Q.Res_ID " +
+                             "from Participant as P left outer join Participant_Answers as PA " +
+                             "on P.Par_ID = PA.Par_ID left outer join Answers as A on PA.Ans_ID = A.Ans_ID " +
+                             "left outer join Qualifiers as Q on A.Qual_ID = Q.Qual_ID";
+
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+        for (int i = 0; i < query.Results.Count; i++) {
+            participantAnswer = new List<string>();
+            for (int j = 0; j < query.Results[i].Count; j++) {
+                participantAnswer.Add(query.Results[i][j]);
+            }
+            if (participants.ContainsKey(Convert.ToInt32(query.Results[i][0]))) {
+                participants[Convert.ToInt32(query.Results[i][0])].Add(participantAnswer);
+            }
+            else {
+                temp = new List<List<string>>();
+                temp.Add(participantAnswer);
+                participants.Add(Convert.ToInt32(query.Results[i][0]), temp);
+            }
+        }
+        
+        return participants;
+    }
+
+    public static List<string> GetRecipientEmails() {
+        List<string> recipients = new List<string>();
+        string queryString = "select Email from Participant";
+
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+
+        for (int i = 0; i < query.Results.Count; i++) {
+            recipients.Add(query.Results[i][0]);
+        }
+
+        return recipients;
+    }
+
     public static List<Qualifier> GetQualifiers() {
         string queryString = "select Qual_ID from Qualifiers";
         Qualifier qual = null;
