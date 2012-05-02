@@ -217,7 +217,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         if (qualEditIndex > -1) {
             qualID = study.Qualifiers[qualEditIndex].QualID;
         }
-        qualifier = new Qualifier(qualID, tbQuestion.Text, tbQualDesc.Text);
+        qualifier = new Qualifier(qualID, tbQuestion.Text, tbQualDesc.Text, Convert.ToInt32(((Researcher)Session["user"]).UserID));
         //clear all of the answers and then add them in one at a time to the qualifier
         qualifier.Answers.Clear();
         foreach (ListItem item in lbAnswerList.Items) {

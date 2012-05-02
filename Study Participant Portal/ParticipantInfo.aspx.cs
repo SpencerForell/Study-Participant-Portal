@@ -6,7 +6,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class ParticipantInfo : System.Web.UI.Page {
-
     
     protected void Page_Load(object sender, EventArgs e) {
         if (!IsPostBack) {
@@ -19,8 +18,6 @@ public partial class ParticipantInfo : System.Web.UI.Page {
 
         }
     }
-
-
 
     /// <summary>
     /// Shows questions/answers for all existing studies

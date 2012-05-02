@@ -32,6 +32,7 @@ public class Qualifier {
 
     public List<Answer> Answers {
         get { return answers; }
+        set { answers = value; }
     }
 
     public Qualifier(int qualID) {
@@ -54,10 +55,11 @@ public class Qualifier {
         }
 	}
 
-    public Qualifier(int qualID, string question, string description) {
+    public Qualifier(int qualID, string question, string description, int resID) {
         this.qualID = qualID;
         this.question = question;
         this.description = description;
+        this.resID = resID;
 
         string queryString = "select Ans_ID, Answer, Rank from Answers where Qual_ID = " + qualID;
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
@@ -68,5 +70,13 @@ public class Qualifier {
             Answer tempAnswer = new Answer(ansID, answer, score, this);
             this.answers.Add(tempAnswer);
         }
+    }
+
+    public Qualifier(int qualID, string question, string description, int resID, List<Answer> answers) {
+        this.qualID = qualID;
+        this.question = question;
+        this.description = description;
+        this.resID = resID;
+        this.answers = answers;
     }
 }
