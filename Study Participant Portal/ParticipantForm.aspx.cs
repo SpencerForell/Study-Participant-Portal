@@ -8,8 +8,6 @@ using System.Web.UI.WebControls;
 public partial class ParticipantForm: System.Web.UI.Page {
 
     // Class Variables
-    int qualCount;
-    Qualifier qual = null;
     List<Qualifier> qualifiers = new List<Qualifier>();
     
     /// <summary>
@@ -20,8 +18,6 @@ public partial class ParticipantForm: System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e) {
-        qualCount = 0;
-        bool skipFlag = false;
         bool option = false;
         Participant part = (Participant)Session["User"];
         List<int> ansIDs = DAL.GetParticipantAnswers(part.UserID);
@@ -31,37 +27,17 @@ public partial class ParticipantForm: System.Web.UI.Page {
             populateListbox(part.UserID);
         }
 
-        // Populate the qualifier list
+        // Populate the qualifier list. This datalayer method gets all of the qualifiers
+        // that the participant has not previously answered and stores them in the
+        // qualifiers list.
         qualifiers = DAL.GetQualifiers(part.UserID);
 
         // Populate the Qualifier Panel
         for (int i = 0; i < qualifiers.Count; i++) {
-            skipFlag = false;
-            qual = qualifiers[i];
-
-            // Logic to filter out previously answered questions
-            foreach (int id in ansIDs) {
-                foreach (Answer ans in qual.Answers) {
-                    if (id == ans.AnsID) {
-                        skipFlag = true;
-                        qualCount++;
-                        break;
-                    }
-                }
-                if (skipFlag == true) {
-                    break;
-                }
-            }
-
-            if (skipFlag == true) {
-                continue;
-            }
-
             // create each individual question and answer
-            pnlQualList.Controls.Add(CreateQuestionAnswer(qual));
+            pnlQualList.Controls.Add(CreateQuestionAnswer(qualifiers[i]));
             pnlQualList.Controls.Add(new LiteralControl("<br />"));
-            option = true;
-            
+            option = true;           
         }
 
         // Don't show the option panel if there aren't new qualifiers
@@ -70,8 +46,6 @@ public partial class ParticipantForm: System.Web.UI.Page {
             pnlQualList.Visible = false;
             pnlStudyList.Visible = true;
         }
-
-
     }
 
     /// <summary>
@@ -136,7 +110,7 @@ public partial class ParticipantForm: System.Web.UI.Page {
     }
 
     /// <summary>
-    /// 
+    /// // button to edit that Participant user information
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -182,6 +156,8 @@ public partial class ParticipantForm: System.Web.UI.Page {
         List<int> ids = new List<int>();
         int index = 0;
 
+        // this logic allows us to only submit answers that were selected,
+        // skipping useless empty answers from the list.
         foreach (Qualifier qual in qualifiers) {
             skipFlag = true;
             foreach (Answer ans in qual.Answers) {
@@ -203,7 +179,10 @@ public partial class ParticipantForm: System.Web.UI.Page {
     }
 
     /// <summary>
-    /// 
+    /// This method acts on the submit answers click event. It goes through and populates
+    /// a list of answers that the user has selected. If the user skips an answer then
+    /// it puts an empty string in the list in its place. This keeps the Answer count in
+    /// sync with the qualifier count and also keeps them in order.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -225,6 +204,8 @@ public partial class ParticipantForm: System.Web.UI.Page {
                 }
             }
         }
+
+        // logic to display error message if no answers were copmleted.
         foreach (string answer in answers) {
             if (!answer.Equals(string.Empty)) {
                 noSelectionFlag = false;
@@ -234,6 +215,8 @@ public partial class ParticipantForm: System.Web.UI.Page {
             lblNoSelection.Visible = true;
             return;
         }
+
+        // load the answers and set appropriate visibility for panels and buttons
         loadAnswers(answers);
         btnSubmitQuestions.Visible = false;
         pnlQualList.Visible = false;
@@ -243,7 +226,9 @@ public partial class ParticipantForm: System.Web.UI.Page {
     }
 
     /// <summary>
-    /// 
+    /// Once the user has completed the answers, then the user may click this button to be fowarded back 
+    /// to the main participant screen. From this point they can either continue and answer more questions
+    /// or logout.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

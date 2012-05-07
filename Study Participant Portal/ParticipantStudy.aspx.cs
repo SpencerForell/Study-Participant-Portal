@@ -12,8 +12,11 @@ public partial class ParticipantStudy : System.Web.UI.Page {
     int qualCount;
     Study study = null;
     Qualifier qual = null;
+
+    // All of the qualifiers that are in the study will be stored in study Qualifiers
+    // All of the qualifiers that are previously unanswered will be stored in relevantQualifiers
     List<Qualifier> studyQualifiers = new List<Qualifier>();
-    List<Qualifier> releventQualifiers = new List<Qualifier>();
+    List<Qualifier> relevantQualifiers = new List<Qualifier>();
     
 
     /// <summary>
@@ -27,14 +30,16 @@ public partial class ParticipantStudy : System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e) {
-        qualCount = 0;
-        bool skipFlag = false;
+        // Assign our local variables
+        qualCount = 0; // used to check if all the qualifiers for a study have been previously answered.
+        bool skipFlag = false; // used to determine if we need to skip a particular qualifier
+
         int partID = ((Participant)Session["user"]).UserID;
         study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
         List<int> ansIDs = DAL.GetParticipantAnswers(partID);
-        List<int> removeIndeces = new List<int>();
         List<string> resNameEamil = DAL.GetResearcher(study.ResearcherID);        
         
+        // Assign all of the qualifiers for the study
         studyQualifiers = study.Qualifiers;
         
         if (!IsPostBack) {
@@ -45,6 +50,7 @@ public partial class ParticipantStudy : System.Web.UI.Page {
         lblResEmail.Text = resNameEamil[1];
         lblDescription.Text = study.Description;
 
+        // Logic to go through and check for previously answered Study Qualifiers
         for (int i = 0; i < studyQualifiers.Count; i++) {
             skipFlag = false;
             qual = studyQualifiers[i];
@@ -62,13 +68,16 @@ public partial class ParticipantStudy : System.Web.UI.Page {
                 }
             }
 
+            // if the qualifier has previously been answered don't add it to the list,
+            // if not do add it.
             if (skipFlag == true) {
                 continue;
             }
             else {
-                releventQualifiers.Add(qual);
+                relevantQualifiers.Add(qual);
             }
 
+            // Create our individual question and answer
             pnlQuals.Controls.Add(CreateQuestionAnswer(qual));
             pnlQuals.Controls.Add(new LiteralControl("<br />"));            
         }       
@@ -170,7 +179,9 @@ public partial class ParticipantStudy : System.Web.UI.Page {
         List<int> ids = new List<int>();
         int index = 0;
 
-        foreach (Qualifier qual in releventQualifiers) {
+        // in case some qualifiers were answered previously, we will use the relevantQualifiers
+        // instead of the StudyQualifiers to iterate through. 
+        foreach (Qualifier qual in relevantQualifiers) {
             foreach (Answer ans in qual.Answers) {
                 if (answers[index].Equals(ans.AnswerText)) {
                     ids.Add(ans.AnsID);
@@ -201,6 +212,7 @@ public partial class ParticipantStudy : System.Web.UI.Page {
     private void ActivateConfirmationPnl(List<string> answers) {
 
     }
+
     protected void btnConfirm_Click(object sender, EventArgs e) {
         Response.Redirect("ParticipantForm.aspx");
     }
