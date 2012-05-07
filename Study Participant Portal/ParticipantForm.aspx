@@ -9,7 +9,18 @@
     </h2>
     <asp:Button ID="btnParEdit" runat="server" Text="Edit Profile" 
             onclick="btnParEdit_Click" />
+    <asp:Button ID="btnSubmitQuestions" runat="server" Text="Submit" 
+        Visible="false" Enabled="true" onclick="btnSubmitQuestions_Click" />
+    <asp:Label ID="lblNoSelection" runat="server" ForeColor="Red" Text="Please select an answer for at least one question and try again." Visible="false" />
     <br />
+    <asp:Panel ID="pnlConfirmation" runat="server" Visible="false">
+        <asp:Label ID="lblConfirmation" runat="server" Font-Size="14px" Text="Thank you for your contributions. Should you be selected for a study, a researcher will contact you." />
+        <br />
+        <br />
+        <br />
+        <asp:Button ID="btnConfirm" runat="server" Text="Back To Studies" 
+            onclick="btnConfirm_Click" />
+    </asp:Panel>
     <asp:Panel ID="pnlCrossroad" runat="server" Visible="true">
         <asp:Label ID="lblChoice" runat="server" CssClass="label" Text="There are qualifying questions that you have not answered! Would you like to answer them now?"></asp:Label>
         <br />
@@ -36,8 +47,6 @@
     <asp:Panel ID="pnlQualList" runat="server" Visible="false" GroupingText="Qualifying Questions">
     
     </asp:Panel>
-    <asp:Button ID="btnSubmit" runat="server" Visible="false" 
-        onclick="btnSubmit_Click" />
     <br />
     <asp:Label ID="lblAnswerError" runat="server" ForeColor="Red" Visible="false"></asp:Label>
 </asp:Content>

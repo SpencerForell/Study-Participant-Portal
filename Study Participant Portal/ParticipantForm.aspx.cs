@@ -11,7 +11,14 @@ public partial class ParticipantForm: System.Web.UI.Page {
     int qualCount;
     Qualifier qual = null;
     List<Qualifier> qualifiers = new List<Qualifier>();
-
+    
+    /// <summary>
+    /// This method does quite a lot. First it populates the Study List box with all of the studies.
+    /// Then it populates a qualifier panel with all of the qualifiers that the participant has
+    /// not answered yet. It dynamically constructs each qualifier answer.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e) {
         qualCount = 0;
         bool skipFlag = false;
@@ -25,7 +32,7 @@ public partial class ParticipantForm: System.Web.UI.Page {
         }
 
         // Populate the qualifier list
-        qualifiers = DAL.GetQualifiers();
+        qualifiers = DAL.GetQualifiers(part.UserID);
 
         // Populate the Qualifier Panel
         for (int i = 0; i < qualifiers.Count; i++) {
@@ -67,12 +74,18 @@ public partial class ParticipantForm: System.Web.UI.Page {
 
     }
 
+    /// <summary>
+    /// Dynamically create the question and answer.
+    /// </summary>
+    /// <param name="question"></param>
+    /// <returns></returns>
     private Panel CreateQuestionAnswer(Qualifier question) {
         Panel panel = new Panel();
         Label lblQuest = new Label();
         RadioButtonList rbList = new RadioButtonList();
         ListItem li = null;
 
+        
         rbList.Font.Size = 12;
         lblQuest.Font.Size = 14;
         lblQuest.Text = question.Question;
@@ -90,6 +103,10 @@ public partial class ParticipantForm: System.Web.UI.Page {
         return panel;
     }
 
+    /// <summary>
+    /// Populate the study list box
+    /// </summary>
+    /// <param name="user_id"></param>
     private void populateListbox(int user_id) {
         lboxStudyList.Items.Clear();
         string queryString = "Select Study_ID, Name from Study order by Name";
@@ -102,6 +119,12 @@ public partial class ParticipantForm: System.Web.UI.Page {
             resultNum++;
         }
     }
+
+    /// <summary>
+    /// Button to view the Study information from the Study List box.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnView_Click(object sender, EventArgs e) {
         if (lboxStudyList.SelectedIndex < 0) {
             lblError.Text = "Please select a study to view.";
@@ -111,41 +134,46 @@ public partial class ParticipantForm: System.Web.UI.Page {
             Response.Redirect("ParticipantStudy.aspx?study_id=" + studyID);
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnParEdit_Click(object sender, EventArgs e) {
         Response.Redirect("CreateAccount.aspx?user=Participant&edit=true");
     }
 
+    /// <summary>
+    /// Click this button to Answer all questions
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnGoQuestions_Click(object sender, EventArgs e) {
         pnlCrossroad.Visible = false;
         pnlStudyList.Visible = false;
         pnlQualList.Visible = true;
+        btnSubmitQuestions.Visible = true;
     }
 
+    /// <summary>
+    /// click this button to go the the study list.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnGoStudies_Click(object sender, EventArgs e) {
         pnlCrossroad.Visible = false;
         pnlQualList.Visible = false;
         pnlStudyList.Visible = true;
+        btnSubmitQuestions.Visible = false;
     }
 
-    protected void btnSubmit_Click(object sender, EventArgs e) {
-        List<string> answers = new List<string>();
-        foreach (Control control in pnlQualList.Controls) {
-            foreach (Control item in control.Controls) {
-                if (item is RadioButtonList) {
-                    string answer = ((RadioButtonList)item).SelectedValue.ToString();
-
-                    if (answer.Equals(string.Empty)) {
-                        lblAnswerError.Visible = true;
-                        return;
-                    }
-                    answers.Add(answer);
-                }
-            }
-        }
- 
-    }
-
+    /// <summary>
+    /// This is a helper method to load the Submitted answers into the database.
+    /// </summary>
+    /// <param name="answers"></param>
     private void loadAnswers(List<string> answers) {
+        bool skipFlag = true;
         if (lblAnswerError.Visible == true) {
             lblAnswerError.Visible = false;
         }
@@ -155,17 +183,74 @@ public partial class ParticipantForm: System.Web.UI.Page {
         int index = 0;
 
         foreach (Qualifier qual in qualifiers) {
+            skipFlag = true;
             foreach (Answer ans in qual.Answers) {
                 if (answers[index].Equals(ans.AnswerText)) {
                     ids.Add(ans.AnsID);
+                    skipFlag = false;
                     index++;
                     break;
                 }
+            }
+            if (skipFlag == true) {
+                index++;
             }
         }
 
         foreach (int id in ids) {
             DAL.InsertParticipantAnswer(partID, id);
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSubmitQuestions_Click(object sender, EventArgs e) {
+        bool noSelectionFlag = true;
+        List<string> answers = new List<string>();
+        foreach (Control control in pnlQualList.Controls) {
+            foreach (Control item in control.Controls) {
+                if (item is RadioButtonList) {
+                    string answer = ((RadioButtonList)item).SelectedValue.ToString();
+
+                    if (!answer.Equals(string.Empty)) {
+                        answers.Add(answer);
+                    }
+                    else {
+                        answers.Add(string.Empty);
+                    }
+                    
+                }
+            }
+        }
+        foreach (string answer in answers) {
+            if (!answer.Equals(string.Empty)) {
+                noSelectionFlag = false;
+            }
+        }
+        if (noSelectionFlag == true) {
+            lblNoSelection.Visible = true;
+            return;
+        }
+        loadAnswers(answers);
+        btnSubmitQuestions.Visible = false;
+        pnlQualList.Visible = false;
+        pnlCrossroad.Visible = false;
+        pnlStudyList.Visible = false;
+        pnlConfirmation.Visible = true;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnConfirm_Click(object sender, EventArgs e) {
+        pnlConfirmation.Visible = false;
+        pnlCrossroad.Visible = false;
+        pnlQualList.Visible = false;
+        pnlStudyList.Visible = true;
     }
 }

@@ -193,8 +193,11 @@ public static class DAL {
         return recipients;
     }
 
-    public static List<Qualifier> GetQualifiers() {
-        string queryString = "select Qual_ID from Qualifiers";
+    public static List<Qualifier> GetQualifiers(int parID) {
+        string queryString = "select distinct Qual_ID from Answers " +
+                             "where Qual_ID not in(select Qual_ID from Answers As A " +
+                             "inner join Participant_Answers As PA on A.Ans_ID = PA.Ans_ID " +
+                             "where PA.Par_ID = " + parID.ToString() + ")";
         Qualifier qual = null;
         List<Qualifier> quals = new List<Qualifier>();
         

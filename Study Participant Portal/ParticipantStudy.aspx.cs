@@ -12,7 +12,8 @@ public partial class ParticipantStudy : System.Web.UI.Page {
     int qualCount;
     Study study = null;
     Qualifier qual = null;
-    List<Qualifier> qualifiers = new List<Qualifier>();
+    List<Qualifier> studyQualifiers = new List<Qualifier>();
+    List<Qualifier> releventQualifiers = new List<Qualifier>();
     
 
     /// <summary>
@@ -31,9 +32,10 @@ public partial class ParticipantStudy : System.Web.UI.Page {
         int partID = ((Participant)Session["user"]).UserID;
         study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
         List<int> ansIDs = DAL.GetParticipantAnswers(partID);
+        List<int> removeIndeces = new List<int>();
         List<string> resNameEamil = DAL.GetResearcher(study.ResearcherID);        
         
-        qualifiers = study.Qualifiers;
+        studyQualifiers = study.Qualifiers;
         
         if (!IsPostBack) {
             pnlQuals.Visible = false;
@@ -43,9 +45,9 @@ public partial class ParticipantStudy : System.Web.UI.Page {
         lblResEmail.Text = resNameEamil[1];
         lblDescription.Text = study.Description;
 
-        for (int i = 0; i < qualifiers.Count; i++) {
+        for (int i = 0; i < studyQualifiers.Count; i++) {
             skipFlag = false;
-            qual = qualifiers[i];
+            qual = studyQualifiers[i];
 
             foreach (int id in ansIDs) {
                 foreach (Answer ans in qual.Answers) {
@@ -62,6 +64,9 @@ public partial class ParticipantStudy : System.Web.UI.Page {
 
             if (skipFlag == true) {
                 continue;
+            }
+            else {
+                releventQualifiers.Add(qual);
             }
 
             pnlQuals.Controls.Add(CreateQuestionAnswer(qual));
@@ -108,7 +113,7 @@ public partial class ParticipantStudy : System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnShowQuestions_Click(object sender, EventArgs e) {
-        if (qualCount == qualifiers.Count) {
+        if (qualCount == studyQualifiers.Count) {
             lblPreviouslyAnswered.Visible = true;
             return;
         }
@@ -165,7 +170,7 @@ public partial class ParticipantStudy : System.Web.UI.Page {
         List<int> ids = new List<int>();
         int index = 0;
 
-        foreach (Qualifier qual in qualifiers) {
+        foreach (Qualifier qual in releventQualifiers) {
             foreach (Answer ans in qual.Answers) {
                 if (answers[index].Equals(ans.AnswerText)) {
                     ids.Add(ans.AnsID);

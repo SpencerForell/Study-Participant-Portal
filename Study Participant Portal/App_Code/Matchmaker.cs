@@ -36,6 +36,10 @@ public class Matchmaker {
 
         //iterate through each participant in the raw dictionary
         foreach (KeyValuePair<int, List<List<string>>> kvp in participantsRaw) {
+            //first thing to do is check to make sure the participant has filled out at least one answer.
+            if (kvp.Value[0][9] == null || kvp.Value[0][9] == String.Empty) {
+                continue;
+            }
             answers = new List<Answer>();
             //iterate through each record in the participant
             foreach (List<string> record in kvp.Value) {
