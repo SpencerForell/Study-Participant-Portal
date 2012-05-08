@@ -13,6 +13,7 @@ public partial class CreateStudy : System.Web.UI.Page {
     private int ansEditIndex = -1; //the answer being selected to edit
     private int qualEditIndex = -1; //the qualifier being selected to edit
     private bool isEdit = false; //boolean that is set depending on if the study is new or being updated
+    private List<Qualifier> existingQualList;
 
     protected void Page_Load(object sender, EventArgs e) {
         isEdit = Convert.ToBoolean(Request.QueryString["edit"] == "true");
@@ -32,6 +33,52 @@ public partial class CreateStudy : System.Web.UI.Page {
             //create a temporary study that will be overwritten later
             study = new Study(-1, "", "", "", DateTime.Now, false, 0, new List<Qualifier>());
         }
+        // Create all of our qualifiers to be used to select from
+        existingQualList = ConstructQualifiers(new Dictionary<int, List<List<string>>>());
+
+        // populate Pre existing qualifier list box
+        foreach (Qualifier qual in existingQualList) {
+            lbPreDefinedQuals.Items.Add(qual.Question);
+        }
+    }
+
+    private List<Qualifier> ConstructQualifiers(Dictionary<int, List<List<string>>> rawData) {
+        Dictionary<int, List<List<string>>> qualifiersRaw = DAL.GetAllQualifiers();
+        List<Qualifier> qualifiers = new List<Qualifier>();
+        List<Answer> answers = null;
+        Qualifier qualifier = null;
+        Answer answer = null;
+        bool exists = false;
+        int index = 0;
+
+        // iterate through each answer in the raw dictionary
+        foreach (KeyValuePair<int, List<List<string>>> kvp in qualifiersRaw) {
+            exists = false;
+            answers = new List<Answer>();
+            //iterate through each record in the raw qualifier
+            foreach (List<string> record in kvp.Value) {
+                for (int i = 0; i < qualifiers.Count; i++) {
+                    if (qualifiers[i].QualID == Convert.ToInt32(record[0])) {
+                        exists = true;
+                        index = i;
+                        break;
+                    }
+                }
+                if (exists == false) {
+                    qualifier = new Qualifier(Convert.ToInt32(record[0]), record[1], record[2], Convert.ToInt32(record[3]), new List<Answer>());
+                    answer = new Answer(Convert.ToInt32(record[4]), record[5], Convert.ToInt32(record[6]), qualifier);
+                    answers.Add(answer);
+                    qualifier.Answers.Add(answer);
+                    qualifiers.Add(qualifier);
+                }
+                else {
+                    answer = new Answer(Convert.ToInt32(record[4]), record[5], Convert.ToInt32(record[6]), qualifiers[index]);
+                    answers.Add(answer);
+                    qualifiers[index].Answers.Add(answer);
+                }
+            }
+        }
+        return qualifiers;
     }
 
     /// <summary>

@@ -19,7 +19,7 @@
                 </asp:Panel>
                 <asp:Button ID="btnFindParticipants" runat="server" Text="Find Participants" onclick="btnFindParticipants_Click" />
             </td>
-            <td style="width:49%; vertical-align:top;>               
+            <td style="width:49%; vertical-align:top;">               
                    <asp:Panel ID="pnlmatchmakingResults" runat="server"  GroupingText="Participants" Visible="false" Width="100%" ></asp:Panel>
                    <asp:Button ID="btnEmailParticipant" runat="server" Text="Email Participants" Visible="false" onclick="btnEmailParticipant_Click" />
                    <asp:Label ID="lblEmailStatus" runat="server" Visible="false" Text="Emails have been succesfully sent out to the list of participants."></asp:Label>

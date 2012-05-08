@@ -211,6 +211,32 @@ public static class DAL {
         return quals;
     }
 
+    public static Dictionary<int, List<List<string>>> GetAllQualifiers() {
+        List<string> answer = null;
+        List<List<string>> temp = null;
+        Dictionary<int, List<List<string>>> qualifiers = new Dictionary<int, List<List<string>>>();
+        string queryString = "select Q.Qual_ID, Q.Question, Q.Description, Q.Res_ID, A.Ans_ID, " +
+                             "A.Answer, A.Rank from Qualifiers As Q inner join Answers As A " +
+                             "on Q.Qual_ID = A.Qual_ID";
+
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+        for (int i = 0; i < query.Results.Count; i++) {
+            answer = new List<string>();
+            for (int j = 0; j < query.Results[i].Count; j++) {
+                answer.Add(query.Results[i][j]);
+            }
+            if (qualifiers.ContainsKey(Convert.ToInt32(query.Results[i][0]))) {
+                qualifiers[Convert.ToInt32(query.Results[i][0])].Add(answer);
+            }
+            else {
+                temp = new List<List<string>>();
+                temp.Add(answer);
+                qualifiers.Add(Convert.ToInt32(query.Results[i][0]), temp);
+            }
+        }
+        return qualifiers;
+    }
+
     public static int InsertParticipantAnswer(int partID, int answerID) {
         string queryString = "insert into Participant_Answers " +
                              "(Par_ID, Ans_ID) " +
