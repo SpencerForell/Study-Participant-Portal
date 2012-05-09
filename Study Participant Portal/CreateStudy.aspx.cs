@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text.RegularExpressions;
 
+
 public partial class CreateStudy : System.Web.UI.Page {
 
     Study study;
@@ -14,8 +15,10 @@ public partial class CreateStudy : System.Web.UI.Page {
     private int qualEditIndex = -1; //the qualifier being selected to edit
     private bool isEdit = false; //boolean that is set depending on if the study is new or being updated
     private List<Qualifier> existingQualList;
+    StringBuilder temp = null;
 
     protected void Page_Load(object sender, EventArgs e) {
+        int count;
         isEdit = Convert.ToBoolean(Request.QueryString["edit"] == "true");
         qualEditIndex = Convert.ToInt32(Session["qualEditIndex"]);
         if (!IsPostBack) {
@@ -37,8 +40,28 @@ public partial class CreateStudy : System.Web.UI.Page {
         existingQualList = ConstructQualifiers(new Dictionary<int, List<List<string>>>());
 
         // populate Pre existing qualifier list box
-        foreach (Qualifier qual in existingQualList) {
-            lbPreDefinedQuals.Items.Add(qual.Question);
+        if (!IsPostBack) {
+            foreach (Qualifier qual in existingQualList) {
+                lbPreDefinedQuals.Items.Add(qual.Question);
+                count = lbPreDefinedQuals.Items.Count - 1;
+                lbPreDefinedQuals.Items[count].Attributes.Add("Answer", "Test");
+            }
+        }
+   
+        if (!IsPostBack) {
+            Session["answerText"] = new List<string>();
+            foreach (Qualifier qual in existingQualList) {
+                temp = new StringBuilder("Answers: \n");
+                foreach (Answer ans in qual.Answers) {
+                    temp.AppendLine(ans.AnswerText);
+                }
+                ((List<string>)Session["answerText"]).Add(temp.ToString());
+                temp = null;
+            }
+        }
+
+        for (int i = 0; i < lbPreDefinedQuals.Items.Count; i++) {
+            lbPreDefinedQuals.Items[i].Attributes.Add("Title", ((List<string>)Session["AnswerText"])[i]);
         }
     }
 
@@ -472,6 +495,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             pnlQuals.Visible = true;
             clearQualForms();
             pnlExistingQuals.Visible = false;
+            pnlPreExistingQuals.Visible = false;
 
             //get the index of the Qualifier we are editing
             qualEditIndex = lbQualifiers.SelectedIndex;
@@ -512,6 +536,8 @@ public partial class CreateStudy : System.Web.UI.Page {
         lbQualifiers.SelectedIndex = -1;
         Session["qualEditIndex"] = -1;
         pnlExistingQuals.Visible = false;
+
+
     }
 
     /// <summary>
@@ -546,5 +572,40 @@ public partial class CreateStudy : System.Web.UI.Page {
         study.Qualifiers.RemoveAt(lbQualifiers.SelectedIndex);
         Session["study"] = study;
         lbQualifiers.Items.RemoveAt(lbQualifiers.SelectedIndex);
+    }
+
+    protected void btnAddQual_Click(object sender, EventArgs e) {
+        Qualifier currQual = null;
+        Researcher res = (Researcher)Session["User"];
+        
+        // get the current Qual object
+        for (int i = 0; i < existingQualList.Count; i++) {
+            if (lbPreDefinedQuals.SelectedValue.Equals(existingQualList[i].Question)) {
+                currQual = existingQualList[i];
+                break;
+            }
+        }
+        // if the user is the creator of the qualifier allow editing. Else disable editing.
+        if (res.UserID == currQual.ResID) {
+            pnlNewQuals.Enabled = true;
+        }
+        else {
+            pnlNewQuals.Enabled = false;
+        }
+
+        // populate the fields
+        tbQuestion.Text = currQual.Question;
+        tbQualDesc.Text = currQual.Description;
+        lbAnswerList.Items.Clear();
+        foreach (Answer ans in currQual.Answers) {
+            lbAnswerList.Items.Add(ans.AnswerText + " [" + ans.Score.ToString() + "]");
+        }
+    }
+
+    protected void btnRemoveQual_Click(object sender, EventArgs e) {
+        tbQuestion.Text = string.Empty;
+        tbQualDesc.Text = string.Empty;
+        lbAnswerList.Items.Clear();
+        pnlNewQuals.Enabled = true;
     }
 }

@@ -69,6 +69,23 @@ public static class DAL {
         return qualID;
     }
 
+    /// <summary>
+    /// Inserts a pre-existing qualifier into the Study_Qualifier table.
+    /// Doesn't insert into the Qualifier table because its pre-existing.
+    /// </summary>
+    /// <param name="qualifier"></param>
+    /// <param name="studyID"></param>
+    /// <returns></returns>
+    public static int InsertExisingQualifier(Qualifier qualifier, int studyID) {
+        string queryString = "insert into Study_Qualifiers " +
+                             "(Qual_ID, Study_ID) " +
+                             "values " +
+                             "(" + qualifier.QualID + ", " + studyID + ")";
+
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
+        return query.LastInsertID;
+    }
+
     public static int InsertAnswer(Answer answer, int qualID) {
         List<string> scrubbedInput = sanitizeInputs(answer.AnswerText, answer.Score.ToString());
         string queryString = "insert into Answers " +

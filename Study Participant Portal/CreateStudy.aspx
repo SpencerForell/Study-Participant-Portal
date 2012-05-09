@@ -116,7 +116,11 @@
                                 <td><asp:ListBox ID="lbPreDefinedQuals" runat="server" Height="351px" Width="357px"></asp:ListBox></td>
                             </tr>
                             <tr>
-                                <td><asp:Button ID="btnAddQual" runat="server" Text="Add Qualifier" /></td>
+                                <td><asp:Button ID="btnAddQual" runat="server" Text="Add Qualifier" 
+                                        onclick="btnAddQual_Click" />
+                                    <asp:Button ID="btnRemoveQual" runat="server" 
+                                        Text="Remove From Qualifier Details" onclick="btnRemoveQual_Click" />
+                                </td>
                             </tr>
                         </table>
                     </asp:Panel> 
