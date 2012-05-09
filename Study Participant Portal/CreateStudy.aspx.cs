@@ -508,10 +508,21 @@ public partial class CreateStudy : System.Web.UI.Page {
             //get the index of the Qualifier we are editing
             qualEditIndex = lbQualifiers.SelectedIndex;
             //store the index in a session variable so we can keep it through a postback
-            Session["qualEditIndex"] = qualEditIndex; 
+            Session["qualEditIndex"] = qualEditIndex;
             //populate the answers from the selected qual
-            ///int qualID = Convert.ToInt32(lbQualifiers.SelectedValue);
-            fillInQualForms(study.Qualifiers[qualEditIndex]);
+
+            Qualifier qualifier = study.Qualifiers[qualEditIndex];
+            Researcher res =(Researcher)Session["user"];
+            bool enabled;
+            // if the user is the creator of the qualifier allow editing. Else disable editing.
+            if (res.UserID == qualifier.ResID) {
+                enabled = true;
+            }
+            else {
+                enabled = false;
+            }
+            fillInQualForms(qualifier, enabled);
+
         }
     }
 
@@ -519,7 +530,7 @@ public partial class CreateStudy : System.Web.UI.Page {
     /// Autofills in the forms requried for editing a qualifier
     /// </summary>
     /// <param name="qualifier">The qualifier that is going to be auto-populated</param>
-    private void fillInQualForms(Qualifier qualifier) {
+    private void fillInQualForms(Qualifier qualifier, bool enabled) {
         tbQualDesc.Text = qualifier.Description;
         tbQuestion.Text = qualifier.Question;
 
@@ -529,6 +540,13 @@ public partial class CreateStudy : System.Web.UI.Page {
         foreach (Answer answer in qualifier.Answers) {
             ListItem item = new ListItem(answer.AnswerText + " [" + answer.Score.ToString() + "]", answer.AnsID.ToString());
             lbAnswerList.Items.Add(item);
+        }
+
+        if (enabled) {
+            pnlNewQuals.Enabled = true;
+        }
+        else {
+            pnlNewQuals.Enabled = false;
         }
     }
 
@@ -543,6 +561,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         clearQualForms();
         lbQualifiers.SelectedIndex = -1;
         Session["qualEditIndex"] = -1;
+        pnlNewQuals.Enabled = true;
         pnlExistingQuals.Visible = false;
         pnlPreExistingQuals.Visible = true;
     }
@@ -596,21 +615,8 @@ public partial class CreateStudy : System.Web.UI.Page {
                 break;
             }
         }
-        // if the user is the creator of the qualifier allow editing. Else disable editing.
-        if (res.UserID == currQual.ResID) {
-            pnlNewQuals.Enabled = true;
-        }
-        else {
-            pnlNewQuals.Enabled = false;
-        }
 
-        // populate the fields
-        tbQuestion.Text = currQual.Question;
-        tbQualDesc.Text = currQual.Description;
-        lbAnswerList.Items.Clear();
-        foreach (Answer ans in currQual.Answers) {
-            lbAnswerList.Items.Add(ans.AnswerText + " [" + ans.Score.ToString() + "]");
-        }
+        fillInQualForms(currQual, false);
     }
 
     protected void btnRemoveQual_Click(object sender, EventArgs e) {
