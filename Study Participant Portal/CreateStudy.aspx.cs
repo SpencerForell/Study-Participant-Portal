@@ -295,8 +295,8 @@ public partial class CreateStudy : System.Web.UI.Page {
             string ans = ansRank[0];
             int rank = Convert.ToInt32(ansRank[1]);
             int ansID = -1;
-            if (Convert.ToInt32(item.Value) > 0) {
-                ansID = Convert.ToInt32(item.Value);
+            if (Convert.ToInt32(rank) > 0) {
+                ansID = Convert.ToInt32(rank);
             }
             Answer answer = new Answer(ansID, ans, rank, qualifier);
             qualifier.Answers.Add(answer);
@@ -385,12 +385,20 @@ public partial class CreateStudy : System.Web.UI.Page {
             DAL.UpdateStudy(study);
         }
         foreach (Qualifier qualifier in study.Qualifiers) {
-            //if qualifierID is -1 it is a new study, insert it into the database
+            //if qualifierID is -1 it is a new qualifier, insert it into the database
             if (qualifier.QualID == -1) {
                 qualifier.QualID = DAL.InsertQualifier(qualifier, study.StudyID);
             }
             else {
-                DAL.UpdateQualifier(qualifier);
+                //if the study already has this qualifier in it than just update it
+                if (DAL.QualifierExistsInStudy(study.StudyID, qualifier.QualID)) {
+                    DAL.UpdateQualifier(qualifier);
+                }
+                //if the study doesn't have this qualifier than they must be adding an existing
+                //study and we only need to add it to the Study_Qualifier table but not the Qualifier table
+                else {
+                    DAL.InsertExisingQualifier(qualifier, study.StudyID);
+                }
             }
             //if answerID is -1, it is a new answer, insert it into the database
             foreach (Answer answer in qualifier.Answers) {
@@ -461,7 +469,7 @@ public partial class CreateStudy : System.Web.UI.Page {
                 }   
             }
             if (!found) {
-                DAL.DeleteQualifier(oldQualifier);
+                DAL.DeleteQualifier(oldQualifier, study);
             }
         }
     }
@@ -536,8 +544,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         lbQualifiers.SelectedIndex = -1;
         Session["qualEditIndex"] = -1;
         pnlExistingQuals.Visible = false;
-
-
+        pnlPreExistingQuals.Visible = true;
     }
 
     /// <summary>
@@ -582,6 +589,10 @@ public partial class CreateStudy : System.Web.UI.Page {
         for (int i = 0; i < existingQualList.Count; i++) {
             if (lbPreDefinedQuals.SelectedValue.Equals(existingQualList[i].Question)) {
                 currQual = existingQualList[i];
+                //add the qualifier to our study
+                study.Qualifiers.Add(currQual);
+                //select the qualifier we just added
+                Session["qualEditIndex"] = study.Qualifiers.Count-1;
                 break;
             }
         }

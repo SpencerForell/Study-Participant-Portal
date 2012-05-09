@@ -97,6 +97,20 @@ public static class DAL {
         return query.LastInsertID;
     }
 
+    public static bool QualifierExistsInStudy(int studyID, int qualID) {
+        string queryString = "select 'True' " + 
+                             "from Study_Qualifiers " +
+                             "where Study_ID = " + studyID + " and Qual_ID =  " + qualID;
+
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+        try {
+            return Convert.ToBoolean(query.Results[0][0]);
+        }
+        catch {
+            return false;
+        }
+    }
+
     public static List<int> GetParticipantAnswers(int partID) {
         List<int> answerIDs = new List<int>();
         string queryString = "select Ans_ID " +
@@ -326,11 +340,14 @@ public static class DAL {
     }
 
 
-    public static void DeleteQualifier(Qualifier qualifier) {
+    public static void DeleteQualifier(Qualifier qualifier, Study study) {
         if (qualifier.QualID <= 0) {
-            throw new Exception("Invalid qualifier to delete, the AnsID = " + qualifier.QualID);
+            throw new Exception("Invalid qualifier to delete, the qualID = " + qualifier.QualID);
         }
-        string queryString = "delete from Qualifiers where Qual_ID = " + qualifier.QualID;
+        if (study.StudyID <= 0) {
+            throw new Exception("Invalid study to delete, the studyID = " + study.StudyID);
+        }
+        string queryString = "delete from Study_Qualifiers where Qual_ID = " + qualifier.QualID + " and Study_ID = " + study.StudyID;
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Delete);
     }
 }
