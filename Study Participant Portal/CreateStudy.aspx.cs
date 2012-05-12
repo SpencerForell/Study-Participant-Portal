@@ -294,6 +294,8 @@ public partial class CreateStudy : System.Web.UI.Page {
             List<String> ansRank = sepearateAnswerAndRank(item.Text);
             string ans = ansRank[0];
             int rank = Convert.ToInt32(ansRank[1]);
+            // I feel like this is the root of the bug. Why are we setting the
+            // ansID equal to the rank? This causes major problems when we try to insert the answer into the database.
             int ansID = -1;
             if (Convert.ToInt32(rank) > 0) {
                 ansID = Convert.ToInt32(rank);
@@ -407,6 +409,10 @@ public partial class CreateStudy : System.Web.UI.Page {
                     answer.AnsID = ansID;
                 }
                 else {
+                    // bug continued:
+                    // Because we are setting the ansID equal to the rank,
+                    // when the rank of the answer is greater than 0 we are updating.
+                    // This explains why we only have answers in the database of rank -1 or 0
                     DAL.UpdateAnswer(answer);
                 }
             }
