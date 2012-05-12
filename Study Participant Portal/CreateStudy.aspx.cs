@@ -297,8 +297,8 @@ public partial class CreateStudy : System.Web.UI.Page {
             // I feel like this is the root of the bug. Why are we setting the
             // ansID equal to the rank? This causes major problems when we try to insert the answer into the database.
             int ansID = -1;
-            if (Convert.ToInt32(rank) > 0) {
-                ansID = Convert.ToInt32(rank);
+            if (Convert.ToInt32(item.Value) > 0) {
+                ansID = Convert.ToInt32(item.Value);
             }
             Answer answer = new Answer(ansID, ans, rank, qualifier);
             qualifier.Answers.Add(answer);
