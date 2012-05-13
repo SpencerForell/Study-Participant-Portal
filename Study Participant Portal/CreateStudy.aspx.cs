@@ -275,12 +275,43 @@ public partial class CreateStudy : System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnSaveQualifier(object sender, EventArgs e) {
+        List<Answer> answersInListBox = new List<Answer>();
+        int studyID;
         //error checking to make sure they filled out all of the forms correctly
         if (tbQualDesc.Text.Equals(string.Empty) || tbQuestion.Text.Equals(string.Empty) || lbAnswerList.Items.Count == 0) {
             lblErrorCont.Visible = true;
             return;
         }
         lblErrorCont.Visible = false;
+
+
+        //code to save the qualifier if it was selected from the list of previously created qualifiers
+        foreach (Qualifier existingQual in existingQualList) {
+            // we only need to enter this logic when the qualifier is new 
+            if ((existingQual.Question.Equals(tbQuestion.Text)) && (((bool)Session["qualIsNew"]) == true)) {
+                study.Qualifiers.Add(existingQual);
+
+                studyID = -1;
+                if (isEdit) {
+                    studyID = Convert.ToInt32(Request.QueryString["study_id"]);
+                }
+                study = new Study(studyID, tbName.Text, tbDescription.Text, tbIncentive.Text, DateTime.Now, cbStdExpired.Checked, ((Researcher)(Session["user"])).UserID, study.Qualifiers);
+                Session["study"] = study;
+
+                // clear the contents of the fields for new entries
+                tbQualDesc.Text = string.Empty;
+                tbQuestion.Text = string.Empty;
+                tbAnswer.Text = string.Empty;
+                tbScore.Text = string.Empty;
+                lbAnswerList.Items.Clear();
+                populateQualifiers(study.Qualifiers);
+                Session["qualEditIndex"] = -1;
+                pnlQuals.Visible = false;
+                pnlExistingQuals.Visible = true;
+                return;
+            }
+        }
+        //end new code
 
         Qualifier qualifier = null;
         int qualID = -1;
@@ -313,7 +344,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             study.Qualifiers.Remove(study.Qualifiers[qualEditIndex]);
             study.Qualifiers.Add(qualifier);
         }
-        int studyID = -1;
+        studyID = -1;
         if (isEdit) {
             studyID = Convert.ToInt32(Request.QueryString["study_id"]);
         }
@@ -563,6 +594,7 @@ public partial class CreateStudy : System.Web.UI.Page {
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnNewQual_Click(object sender, EventArgs e) {
+        Session["qualIsNew"] = true;
         pnlQuals.Visible = true;
         clearQualForms();
         lbQualifiers.SelectedIndex = -1;
@@ -615,7 +647,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             if (lbPreDefinedQuals.SelectedValue.Equals(existingQualList[i].Question)) {
                 currQual = existingQualList[i];
                 //add the qualifier to our study
-                study.Qualifiers.Add(currQual);
+                //study.Qualifiers.Add(currQual);
                 //select the qualifier we just added
                 Session["qualEditIndex"] = study.Qualifiers.Count-1;
                 break;

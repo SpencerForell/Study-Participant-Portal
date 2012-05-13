@@ -112,11 +112,11 @@ public class Matchmaker {
                     if (ans.Qualifier.QualID == qual.QualID) {
                         //Populate the dictionary
                         if (results.ContainsKey(p)) {
-                            if (results[p] == -1) {
+                            if (results[p] < 0) {
                                 continue;
                             }
-                            else if (ans.Score == -1) {
-                                results[p] = -1;
+                            else if (ans.Score < 0) {
+                                results[p] = ans.Score;
                             }
                             else {
                                 results[p] = results[p] += ans.Score;
