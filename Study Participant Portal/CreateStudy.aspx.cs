@@ -402,6 +402,8 @@ public partial class CreateStudy : System.Web.UI.Page {
             mailSender = null;
             body = null;
         }
+
+        Response.Redirect("StudyForm.aspx?study_id=" + study.StudyID);
     }
 
 
@@ -452,7 +454,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         removeDeletedAnwers(study);
         removeDeletedQualifiers(study);
 
-        Response.Redirect("StudyForm.aspx?study_id=" + study.StudyID);
+        return;
     }
 
     /// <summary>
