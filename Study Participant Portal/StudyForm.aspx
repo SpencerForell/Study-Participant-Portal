@@ -21,8 +21,12 @@
             </td>
             <td style="width:49%; vertical-align:top;">               
                    <asp:Panel ID="pnlmatchmakingResults" runat="server"  GroupingText="Participants" Visible="false" Width="100%" ></asp:Panel>
-                   <asp:Button ID="btnEmailParticipant" runat="server" Text="Email Participants" Visible="false" onclick="btnEmailParticipant_Click" />
-                   <asp:Label ID="lblEmailStatus" runat="server" Visible="false" Text="Emails have been succesfully sent out to the list of participants."></asp:Label>
+                   <asp:Button ID="btnEmailParticipant" runat="server" Text="Get Participant Emails" Visible="false" onclick="btnEmailParticipant_Click" />
+                   <br />
+                   <asp:Label ID="lblEmailStatus" runat="server" Visible="false" Text="Use the textbox below to copy paste the emails into the mailing client of your choice."></asp:Label>
+                   <br />
+                   <asp:TextBox ID="tbEmailList" runat="server" TextMode="MultiLine" Enabled="false" Width="100%" Visible="false" ></asp:TextBox>
+                   <br />
                 
             </td>
         </tr>

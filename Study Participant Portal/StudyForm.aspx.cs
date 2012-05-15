@@ -99,6 +99,7 @@ public partial class StudyForm : System.Web.UI.Page {
 
         pnlmatchmakingResults.Visible = true;
         btnEmailParticipant.Visible = true;
+
     }
 
     private int getIndexToAdd(Table tblResults, TableRow row) {
@@ -119,8 +120,26 @@ public partial class StudyForm : System.Web.UI.Page {
     }
 
     protected void btnEmailParticipant_Click(object sender, EventArgs e) {
-        btnFindParticipants_Click(sender, e);
+        List<String> emails = getEmails(Study);
         btnEmailParticipant.Visible = false;
+        foreach (String email in emails) {
+            tbEmailList.Text = email + ",";
+        }
+        //only remove the last comma if there have been some emails inserted in 
+        if (tbEmailList.Text.Length != 0) {
+            tbEmailList.Text = tbEmailList.Text.Remove(tbEmailList.Text.Length - 1);
+        }
+        btnFindParticipants_Click(sender, e);
+    }
+
+    private List<string> getEmails(Study study) {
+        List<String> emails = new List<string>();
+        Matchmaker matchmaker = new Matchmaker(new Study(study.StudyID));
+        foreach (KeyValuePair<Participant, int> result in matchmaker.Results) {
+            emails.Add(result.Key.Email);
+        }
+        tbEmailList.Visible = true;
         lblEmailStatus.Visible = true;
+        return emails;
     }
 }
