@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <td><asp:CheckBox ID="cbStdExpired" runat="server" Visible="false" />
-                    <asp:Label ID="lblExpired2" runat="server" Visible="false" Text="Check this if the study has been completed"></asp:Label></td
+                    <asp:Label ID="lblExpired2" runat="server" Visible="false" Text="Check this if the study has been completed"></asp:Label></td>
             </tr>
         </table>  
         <br />
@@ -86,23 +86,32 @@
                                 <td colspan = 2><asp:Label ID="lblErrorAdd" runat="server" Text="Please provide an answer, and a score. The score must be between -1-9" ForeColor="Red" Visible="false"></asp:Label></td>
                             </tr>
                             <tr>
-                                <td>Possible Answer</td><td>Score</td>
-                            </tr>
-                            <tr><td><asp:TextBox ID="tbAnswer" runat="server" Width="100%"></asp:TextBox></td>
-                                <td><asp:TextBox ID="tbScore" runat="server" Width="100%"></asp:TextBox></td>
-                            </tr>
-                            <tr>
-                                <td>Click Add to add the current possible answer to the list below</td>
-                                <td><asp:Button ID="btnAddAnswer" runat="server" Text="Save Answer"  onclick="btnAddAnswer_Click" /></td>
-                            </tr>
-                            <tr>
-                                <td colspan=2><asp:ListBox ID="lbAnswerList" runat="server" Width="100%"></asp:ListBox></td>
-                            </tr>
-                            <tr>
-                                <td colspan=2><asp:Button ID="btnRemove" runat="server" Text="Remove Answer" onclick="btnRemoveAnswer_Click" />
-                                <asp:Button ID="btnClear" runat="server" Text="Clear Answers" onclick="btnClear_Click" />
-                                <asp:Button ID="btnEdit" runat="server" Text="Edit Answer" onclick="btnEdit_Click" /></td>                  
-                            </tr>       
+                                <td>
+                                    <asp:Panel ID="pnlAnswers" runat="server" GroupingText="Answer Details">
+                                        <table>
+                                        <tr>
+                                            <td>Possible Answer</td><td>Score</td>
+                                        </tr>
+                            
+                                        <tr><td><asp:TextBox ID="tbAnswer" runat="server" Width="100%"></asp:TextBox></td>
+                                            <td><asp:TextBox ID="tbScore" runat="server" Width="100%"></asp:TextBox></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Click Add to add the current possible answer to the list below</td>
+                                            <td><asp:Button ID="btnAddAnswer" runat="server" Text="Save Answer"  onclick="btnAddAnswer_Click" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan=2><asp:ListBox ID="lbAnswerList" runat="server" Width="100%"></asp:ListBox></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan=2><asp:Button ID="btnRemove" runat="server" Text="Remove Answer" onclick="btnRemoveAnswer_Click" />
+                                            <asp:Button ID="btnClear" runat="server" Text="Clear Answers" onclick="btnClear_Click" />
+                                            <asp:Button ID="btnEdit" runat="server" Text="Edit Answer" onclick="btnEdit_Click" /></td>                  
+                                        </tr>
+                                        </table>
+                                    </asp:Panel>  
+                                </td>
+                            </tr>      
                         </table>
                     </asp:Panel>
                 </td>
@@ -113,7 +122,7 @@
                                 <td>Select from the list of pre-defined qualifiers below.</td>
                             </tr>
                             <tr>
-                                <td><asp:ListBox ID="lbPreDefinedQuals" runat="server" Height="351px" Width="357px"></asp:ListBox></td>
+                                <td><asp:ListBox ID="lbPreDefinedQuals" runat="server" Height="435px" Width="357px"></asp:ListBox></td>
                             </tr>
                             <tr>
                                 <td><asp:Button ID="btnAddQual" runat="server" Text="Add Qualifier" 
