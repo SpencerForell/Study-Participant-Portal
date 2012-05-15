@@ -92,6 +92,12 @@ first child of the left and right table columns */
 /* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
 
+.latestStudy
+{
+    font-size: 16pt;
+    font-family:Century Gothic;
+}
+
 .page
 {
     width: 960px;

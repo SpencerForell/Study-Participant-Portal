@@ -268,6 +268,18 @@ public static class DAL {
         return qualifiers;
     }
 
+    /// <summary>
+    /// Query to return the most recently created study to use in the main panel on the front page
+    /// </summary>
+    /// <returns></returns>
+    public static Study GetLatestStudy() {
+        string queryString = "select Study_ID, Name, Description, Incentive, Creation_Date, Expired, Res_ID from Study order by Creation_Date desc limit 1";
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+        List<string> result = query.Results[0];
+        Study study = new Study(Convert.ToInt32(result[0]), result[1], result[2], result[3],Convert.ToDateTime(result[4]), Convert.ToBoolean(Convert.ToInt32(result[5])), Convert.ToInt32(result[6]), null);
+        return study;
+    }
+
     public static int InsertParticipantAnswer(int partID, int answerID) {
         string queryString = "insert into Participant_Answers " +
                              "(Par_ID, Ans_ID) " +

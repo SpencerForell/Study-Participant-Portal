@@ -11,7 +11,6 @@ public partial class _Default : System.Web.UI.Page {
 
     protected void Page_Load(object sender, EventArgs e) {
         if (!IsPostBack) {
-            
             if (Session["user"] == null) {
                 
             }
@@ -26,8 +25,16 @@ public partial class _Default : System.Web.UI.Page {
                         break;
                 }
             }
+            updateLatestStudy();
              
         }
+    }
+
+    private void updateLatestStudy() {
+        Study study = DAL.GetLatestStudy();
+        lblWeeklyStudyName.Text = "Name: " + study.Name;
+        lblIncentive.Text = "Incentive: " + study.Incentive;
+        lblWeeklyStudyDesc.Text = "Description: " + study.Description;
     }
 
     protected void btnResearcher_Click(object sender, EventArgs e) {

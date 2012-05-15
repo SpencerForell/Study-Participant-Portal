@@ -9,37 +9,46 @@
     </h2>
     <!-- Panel for getting started-->
     <asp:Panel ID="pnlMain" runat="server">
-         To begin, click on the appropriate button below.
-        <br /><br />
         <table>
+            <tr>
+                <td colspan=5 style="width:70%">
+                <asp:Label runat="server" ID="lblProgramDescription" Width="80%" Text="Our goal is to provide the best experience for researchers and participants to partake in research studies. 
+                Researchers can create and modify studies,  while participants can see if they are eligible to take part in studies to receive the incentive offered. Click the appropriate button below
+                to get started."></asp:Label>
+                </td>
+                <td rowspan=6><asp:Image ID="imgHome" runat="server" Height="250" Width="250" ImageUrl="~/Images/case-studies.jpg" /></td>
+            </tr>
+            <tr>
+                <td><br /><br /></td>
+            </tr>
             <tr>
                 <th width =100> User Type </th>
                 <th> Description </th>
                 <th width=150></th>
-                <th rowspan=4><asp:Image ID="imgHome" runat="server" Height="150" ImageUrl="~/Images/portalImage.jpg" /></th>
             </tr>
             <tr>
                 <td><asp:Button ID="btnResearcher" runat="server" Text="Researcher" Width="100%" onclick="btnResearcher_Click"/></td>
-                <td> Researchers can create, edit and view studies</td>
+                <td> Researchers can create, edit and view studies.</td>
             </tr>
             <tr>
                 <td><asp:Button ID="btnParticipant" runat="server" Text="Participant" Width="100%" onclick="btnParticipant_Click"/></td>
-                <td>Participants can view and volunteer for studies</td>
+                <td>Participants can view and volunteer for studies.</td>
             </tr>
             <tr height =100>
                 <td></td>
             </tr>
         </table>
     </asp:Panel>
-    <br />
 
     <!-- Panel for study of the week-->
-    <asp:Panel ID="pnlWeeklyStudy" runat="server" GroupingText="Study of the week">
+    <asp:Panel ID="pnlWeeklyStudy" runat="server" GroupingText="Most Recent New Study">
         <table border="1" >
             <tr>
-                <td><asp:Label ID="lblWeeklyStudyName" runat="server" Width="100px" Text="Name"></asp:Label></td>
-                <td><asp:Label ID="lblWeeklyStudyDesc" runat="server" Text="Description of study of the week" ></asp:Label></td>
-                <td>Other miscallaneous study of the week things</td>
+                <td><asp:Label ID="lblWeeklyStudyName" runat="server" Width="70%" CssClass="latestStudy"></asp:Label></td>
+                <td><asp:Label ID="lblIncentive" runat="server" Width="70%" CssClass="latestStudy"></asp:Label> </td>
+            </tr>
+            <tr>
+                <td colspan=2><asp:Label ID="lblWeeklyStudyDesc" Width="80%" runat="server" CssClass="latestStudy"></asp:Label></td>
             </tr>
         </table>
         
