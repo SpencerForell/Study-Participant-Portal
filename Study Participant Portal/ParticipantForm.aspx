@@ -4,6 +4,7 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
+<asp:Panel ID="Wrapper" runat="server" CssClass="panel">
     <h2>
         Participant Page
     </h2>
@@ -49,4 +50,5 @@
     </asp:Panel>
     <br />
     <asp:Label ID="lblAnswerError" runat="server" ForeColor="Red" Visible="false"></asp:Label>
+</asp:Panel>
 </asp:Content>

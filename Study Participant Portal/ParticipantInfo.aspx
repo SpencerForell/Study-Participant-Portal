@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
+<asp:Panel ID="Wrapper" runat="server" CssClass="panel">
     <table style="width:100%">
         <tr>
             <td style="width:50%">
@@ -27,6 +28,6 @@
     
     </table>
 
-
+</asp:Panel>
 </asp:Content>
 

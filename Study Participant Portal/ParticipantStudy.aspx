@@ -3,6 +3,7 @@
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent"></asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
+<asp:Panel ID="Wrapper" runat="server" CssClass="panel">
     <h1>
         Study Details
     </h1>
@@ -51,4 +52,5 @@
     <asp:Button ID="btnHide" runat="server" Text="Hide Answers" Visible="false" onclick="btnHide_Click" />
     <br />
     <asp:Label ID="lblError" runat="server" Text="Please Select An Answer For Each Question." Visible="false" ForeColor="Red" />
+</asp:Panel>
 </asp:Content>
