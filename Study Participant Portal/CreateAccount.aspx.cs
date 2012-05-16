@@ -4,8 +4,54 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 public partial class CreateAccount : System.Web.UI.Page {
+
+    bool invalid = false;
+
+    /// <summary>
+    /// Method to try and validate user input for emails (found on http://msdn.microsoft.com/en-us/library/01escwtf.aspx)
+    /// </summary>
+    /// <param name="strIn"></param>
+    /// <returns></returns>
+    private bool IsValidEmail(string strIn) {
+        invalid = false;
+        if (String.IsNullOrEmpty(strIn))
+            return false;
+
+        // Use IdnMapping class to convert Unicode domain names.
+        strIn = Regex.Replace(strIn, @"(@)(.+)$", this.DomainMapper);
+        if (invalid)
+            return false;
+
+        // Return true if strIn is in valid e-mail format.
+        bool temp = Regex.IsMatch(strIn,
+               @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+               @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$",
+               RegexOptions.IgnoreCase);
+        return temp;
+    }
+
+    /// <summary>
+    /// Helper method for IsValidEmail (found on http://msdn.microsoft.com/en-us/library/01escwtf.aspx)
+    /// </summary>
+    /// <param name="match"></param>
+    /// <returns></returns>
+    private string DomainMapper(Match match) {
+        // IdnMapping class with default property values.
+        IdnMapping idn = new IdnMapping();
+
+        string domainName = match.Groups[2].Value;
+        try {
+            domainName = idn.GetAscii(domainName);
+        }
+        catch (ArgumentException) {
+            invalid = true;
+        }
+        return match.Groups[1].Value + domainName;
+    }
 
     /// <summary>
     /// Method that checks if the fields are correctly filled out before hitting 'submit' to try and create an account. 
@@ -18,7 +64,7 @@ public partial class CreateAccount : System.Web.UI.Page {
             case SuperUser.UserType.Participant:
                 lblParStatus.Text = "";
                 if (tbParPassword.Text == "" || tbParPassword.Text != tbParPasswordConfirm.Text) {
-                    lblParStatus.Text = "Invalid Password";
+                    lblParStatus.Text = "Invalid Password, they do not match";
                 }
                 if (tbParLastName.Text == "") {
                     lblParStatus.Text = "Please enter your Last Name";
@@ -28,6 +74,9 @@ public partial class CreateAccount : System.Web.UI.Page {
                 }
                 if (tbParUserName.Text == "") {
                     lblParStatus.Text = "Please enter a User Name";
+                }
+                if(!IsValidEmail(tbParEmail.Text)){
+                    lblParStatus.Text = "Please enter a valid Email";
                 }
                 if (lblParStatus.Text != "") {
                     return false;
@@ -47,6 +96,9 @@ public partial class CreateAccount : System.Web.UI.Page {
                 if (tbResUserName.Text == "") {
                     lblResStatus.Text = "Please enter a User Name";
                 }
+                if (!IsValidEmail(tbResEmail.Text)){
+                    lblResStatus.Text = "Please enter a valid Email";
+                }
                 if (lblResStatus.Text != "") {
                     return false;
                 }
@@ -55,6 +107,11 @@ public partial class CreateAccount : System.Web.UI.Page {
         return true;
     }
 
+    /// <summary>
+    /// Automatically fills in the appropriate text in the forms from the given logged in user
+    /// This should only be used when a user is logged in and their information is stored in the Session
+    /// </summary>
+    /// <param name="userType">Determines if user is a Researcher or Participant</param>
     private void autoFillForms(SuperUser.UserType userType) {
         SuperUser user = (SuperUser)Session["user"];
         int userID = user.UserID;

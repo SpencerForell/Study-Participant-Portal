@@ -136,7 +136,7 @@
                 </td>
             </tr>
         </table>
-        <asp:Label ID="lblQualContinue" runat="server" Text="Please click 'Create Qualifier' if you are ready to submit this qualifier. This will allow you to create other qualifiers as needed."></asp:Label>
+        <asp:Label ID="lblQualContinue" runat="server" Text="Please click 'Save Qualifier' if you are ready to submit this qualifier. This will allow you to create other qualifiers as needed."></asp:Label>
         <br />
         <asp:Button ID="btnContinue" runat="server" Text="Save Qualifier" Width="100px" onclick="btnSaveQualifier" />
         <asp:Button ID="btnQualCancel" runat="server" Text="Cancel" 
@@ -147,7 +147,7 @@
     </asp:Panel>
 
     
-        <asp:Label ID="lblFinished" runat="server" Text="Click 'Finished' if you are done modifying this study."></asp:Label>
+        <asp:Label ID="lblFinished" runat="server" Text="Click 'Finished' if you are done modifying this study. "></asp:Label>
         <br />
         <asp:Button ID="btnFinished" runat="server" Text="Finished" Width="100px" onclick="btnFinished_Click" />
         <asp:Button ID="btnStdCancel" runat="server" onclick="BtnStdCancel_Click" Text="Cancel" />
