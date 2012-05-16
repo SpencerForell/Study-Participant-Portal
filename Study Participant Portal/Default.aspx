@@ -122,7 +122,7 @@
                         onclick="btnParCancel_Click" />
                 </td>
                 <td>
-                    <asp:Image runat="server" ID="Image1" ImageAlign="AbsMiddle" Width="300" ImageUrl="~/Images/green earth.jpg" />                
+                    <asp:Image runat="server" ID="Image1" ImageAlign="AbsMiddle" Width="300" ImageUrl="~/Images/globe.png" />                
                 </td>
             </tr>
         </table>
