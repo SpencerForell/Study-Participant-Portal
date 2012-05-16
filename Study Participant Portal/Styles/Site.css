@@ -108,7 +108,11 @@ first child of the left and right table columns */
 
 .listbox
 {
-    background-color: #fff;
+    /*background-color: #fff;*/
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(206,220,231,1)), color-stop(100%,rgba(89,106,114,1))); /* Chrome,Safari4+ */
+    
+    
+    
 }
 
 .label

@@ -101,7 +101,7 @@
                                             <td><asp:Button ID="btnAddAnswer" runat="server" Text="Save Answer"  onclick="btnAddAnswer_Click" /></td>
                                         </tr>
                                         <tr>
-                                            <td colspan=2><asp:ListBox ID="lbAnswerList" runat="server" Width="100%"></asp:ListBox></td>
+                                            <td colspan=2><asp:ListBox ID="lbAnswerList" runat="server" Width="100%" CssClass="listbox"></asp:ListBox></td>
                                         </tr>
                                         <tr>
                                             <td colspan=2><asp:Button ID="btnRemove" runat="server" Text="Remove Answer" onclick="btnRemoveAnswer_Click" />
@@ -122,7 +122,7 @@
                                 <td>Select from the list of pre-defined qualifiers below.</td>
                             </tr>
                             <tr>
-                                <td><asp:ListBox ID="lbPreDefinedQuals" runat="server" Height="435px" Width="357px"></asp:ListBox></td>
+                                <td><asp:ListBox ID="lbPreDefinedQuals" runat="server" Height="435px" Width="357px" CssClass="listbox"></asp:ListBox></td>
                             </tr>
                             <tr>
                                 <td><asp:Button ID="btnAddQual" runat="server" Text="Add Qualifier" 
