@@ -32,9 +32,9 @@ public partial class _Default : System.Web.UI.Page {
 
     private void updateLatestStudy() {
         Study study = DAL.GetLatestStudy();
-        lblWeeklyStudyName.Text = "Name: " + study.Name;
-        lblIncentive.Text = "Incentive: " + study.Incentive;
-        lblWeeklyStudyDesc.Text = "Description: " + study.Description;
+        lblWeeklyStudyName.Text = study.Name;
+        lblWeeklyIncentive.Text = study.Incentive;
+        lblWeeklyStudyDesc.Text = study.Description;
     }
 
     protected void btnResearcher_Click(object sender, EventArgs e) {

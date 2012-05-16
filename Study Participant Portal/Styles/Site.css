@@ -34,7 +34,7 @@ p
     margin-bottom: 10px;
     line-height: 1.6em;
     height: 360px;
-    width: 434px;
+    width: 576px;
 }
 
 
@@ -94,7 +94,14 @@ first child of the left and right table columns */
 
 .latestStudy
 {
-    font-size: 16pt;
+    font-size: 14pt;
+    font-family:Century Gothic;
+}
+
+.latestStudyHeader
+{
+    font-weight:bold;
+    font-size: 15pt;
     font-family:Century Gothic;
 }
 
