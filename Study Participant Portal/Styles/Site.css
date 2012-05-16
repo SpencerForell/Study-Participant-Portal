@@ -132,7 +132,10 @@ first child of the left and right table columns */
     margin: 0px;
     padding: 0px;
     background: #4b6c9e;
-    width: 100%;
+    width: 111%;
+    top: -16px;
+    left: -103px;
+    height: 126px;
 }
 
 .header h1
@@ -282,6 +285,7 @@ div.accountInfo
     float: left;
     text-align: left;
     width: auto;
+    margin-left: 0px;
 }
 
 .loginDisplay
