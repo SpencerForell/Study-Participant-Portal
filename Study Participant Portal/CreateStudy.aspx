@@ -8,6 +8,7 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
+<asp:Panel ID="Wrapper" runat="server" cssClass="panel">
     <h2>
         Create Your Study
     </h2>
@@ -17,26 +18,26 @@
                 <td>Name</td>
             </tr>
             <tr> 
-                <td width="380px"><asp:TextBox ID="tbName" runat="server" Width="100%"></asp:TextBox></td>
+                <td width="380px"><asp:TextBox ID="tbName" runat="server" Width="100%" CssClass="textbox"></asp:TextBox></td>
             </tr>
             <tr>
                 <td>Description (100 chars)</td>
             </tr>
             <tr>
-                <td><asp:TextBox ID="tbDescription" TextMode="multiline" runat="server" Height="88px" Width="100%"></asp:TextBox></td>
+                <td><asp:TextBox ID="tbDescription" TextMode="multiline" runat="server" Height="88px" Width="100%" CssClass="textbox"></asp:TextBox></td>
             </tr>
             <tr>
                 <td>Incentive (100 chars)</td>
             </tr>
             <tr>
-                <td><asp:TextBox ID="tbIncentive" runat="server" Width="100%"></asp:TextBox></td>
+                <td><asp:TextBox ID="tbIncentive" runat="server" Width="100%" CssClass="textbox" ></asp:TextBox></td>
             </tr>
             <tr>
                 <td><asp:Label ID="lblExpired" runat="server" Visible="false" Text="Expired" ></asp:Label></td>
             </tr>
             <tr>
                 <td><asp:CheckBox ID="cbStdExpired" runat="server" Visible="false" />
-                    <asp:Label ID="lblExpired2" runat="server" Visible="false" Text="Check this if the study has been completed"></asp:Label></td>
+                    <asp:Label ID="lblExpired2" runat="server" Visible="false" CssClass="label" Text="Check this if the study has been completed"></asp:Label></td>
             </tr>
         </table>  
         <br />
@@ -50,7 +51,7 @@
                     <td>Existing Qualifiers</td>
                 </tr>
                 <tr>
-                    <td><asp:ListBox ID="lbQualifiers" Height="100px" Width="300px" runat="server"></asp:ListBox></td>
+                    <td><asp:ListBox ID="lbQualifiers" Height="100px" Width="300px" runat="server" CssClass="textbox"></asp:ListBox></td>
                     <td>
                         <asp:Button ID="btnNewQual" Width="100%" runat="server" Text="New Qualifier" onclick="btnNewQual_Click" />
                         <asp:Button ID="btnEditQual" Width="100%" runat="server" Text="Edit Qualifier" onclick="btnEditQual_Click"/><br />
@@ -65,19 +66,19 @@
         <table>
             <tr>
                 <td style="width:60%;">
-                    <asp:Panel ID="pnlNewQuals" runat="server" GroupingText="Qualifier Details">
+                    <asp:Panel ID="pnlNewQuals" runat="server" GroupingText="Qualifier Details" >
                         <table>
                             <tr>
                                 <td>Qualifier Description</td>
                             </tr>
                             <tr>
-                                <td colspan=2 style="width:200;"><asp:TextBox ID="tbQualDesc" runat="server" TextMode="MultiLine" Height="100px" Width="100%"></asp:TextBox></td>
+                                <td colspan=2 style="width:200;"><asp:TextBox ID="tbQualDesc" runat="server" TextMode="MultiLine" Height="100px" Width="100%" CssClass="textbox"></asp:TextBox></td>
                             </tr>
                             <tr>
                                 <td>Question to be answered</td>
                             </tr>
                             <tr>
-                                <td colspan=2><asp:TextBox ID="tbQuestion" runat="server" Width="100%"></asp:TextBox></td>
+                                <td colspan=2><asp:TextBox ID="tbQuestion" runat="server" Width="100%" CssClass="textbox"></asp:TextBox></td>
                             </tr>
                             <tr>
                                 <td><br /></td>
@@ -93,15 +94,15 @@
                                             <td>Possible Answer</td><td>Score</td>
                                         </tr>
                             
-                                        <tr><td><asp:TextBox ID="tbAnswer" runat="server" Width="100%"></asp:TextBox></td>
-                                            <td><asp:TextBox ID="tbScore" runat="server" Width="100%"></asp:TextBox></td>
+                                        <tr><td><asp:TextBox ID="tbAnswer" runat="server" Width="100%" CssClass="textbox"></asp:TextBox></td>
+                                            <td><asp:TextBox ID="tbScore" runat="server" Width="100%" CssClass="textbox"></asp:TextBox></td>
                                         </tr>
                                         <tr>
                                             <td>Click Add to add the current possible answer to the list below</td>
                                             <td><asp:Button ID="btnAddAnswer" runat="server" Text="Save Answer"  onclick="btnAddAnswer_Click" /></td>
                                         </tr>
                                         <tr>
-                                            <td colspan=2><asp:ListBox ID="lbAnswerList" runat="server" Width="100%"></asp:ListBox></td>
+                                            <td colspan=2><asp:ListBox ID="lbAnswerList" runat="server" Width="100%" CssClass="listbox"></asp:ListBox></td>
                                         </tr>
                                         <tr>
                                             <td colspan=2><asp:Button ID="btnRemove" runat="server" Text="Remove Answer" onclick="btnRemoveAnswer_Click" />
@@ -122,7 +123,7 @@
                                 <td>Select from the list of pre-defined qualifiers below.</td>
                             </tr>
                             <tr>
-                                <td><asp:ListBox ID="lbPreDefinedQuals" runat="server" Height="435px" Width="357px"></asp:ListBox></td>
+                                <td><asp:ListBox ID="lbPreDefinedQuals" runat="server" Height="435px" Width="357px" CssClass="listbox"></asp:ListBox></td>
                             </tr>
                             <tr>
                                 <td><asp:Button ID="btnAddQual" runat="server" Text="Add Qualifier" 
@@ -136,7 +137,7 @@
                 </td>
             </tr>
         </table>
-        <asp:Label ID="lblQualContinue" runat="server" Text="Please click 'Save Qualifier' if you are ready to submit this qualifier. This will allow you to create other qualifiers as needed."></asp:Label>
+        <asp:Label ID="lblQualContinue" runat="server" CssClass="label" Text="Please click 'Save Qualifier' if you are ready to submit this qualifier. This will allow you to create other qualifiers as needed."></asp:Label>
         <br />
         <asp:Button ID="btnContinue" runat="server" Text="Save Qualifier" Width="100px" onclick="btnSaveQualifier" />
         <asp:Button ID="btnQualCancel" runat="server" Text="Cancel" 
@@ -147,10 +148,11 @@
     </asp:Panel>
 
     
-        <asp:Label ID="lblFinished" runat="server" Text="Click 'Finished' if you are done modifying this study. "></asp:Label>
+        <asp:Label ID="lblFinished" runat="server" CssClass="label" Text="Click 'Finished' if you are done modifying this study. "></asp:Label>
         <br />
         <asp:Button ID="btnFinished" runat="server" Text="Finished" Width="100px" onclick="btnFinished_Click" />
         <asp:Button ID="btnStdCancel" runat="server" onclick="BtnStdCancel_Click" Text="Cancel" />
         <asp:Label ID="lblError" runat="server" ForeColor="Red" Visible="false"></asp:Label>
         <asp:Label ID="lblErrorFinish" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red" Visible="false"></asp:Label>
+</asp:Panel>
 </asp:Content>

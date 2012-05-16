@@ -46,6 +46,9 @@ public partial class CreateStudy : System.Web.UI.Page {
                 count = lbPreDefinedQuals.Items.Count - 1;
                 lbPreDefinedQuals.Items[count].Attributes.Add("Answer", "Test");
             }
+            for (int i = 0; i < lbPreDefinedQuals.Items.Count; i++) {
+                lbPreDefinedQuals.Items[i].Attributes.Add("style", "background-color: orange");
+            }
         }
    
         if (!IsPostBack) {

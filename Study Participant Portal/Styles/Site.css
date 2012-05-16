@@ -81,6 +81,12 @@ h5, h6
     font-size: 1em;
 }
 
+td
+{
+    font-size: 1em;
+    font-weight: 700;
+}
+
 /* this rule styles <h1> and <h2> tags that are the 
 first child of the left and right table columns */
 .rightColumn > h1, .rightColumn > h2, .leftColumn > h1, .leftColumn > h2
@@ -113,18 +119,27 @@ first child of the left and right table columns */
     border: 1px solid #496077;
 }
 
+.textbox
+{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(238,238,238,1)), color-stop(100%,rgba(204,204,204,1))); /* Chrome,Safari4+ */   
+}
+
 .listbox
 {
-    background-color: #fff;
+    /*background-color: #fff;*/
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(238,238,238,1)), color-stop(100%,rgba(204,204,204,1))); /* Chrome,Safari4+ */  
+}
+
+.panel
+{
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,1)), color-stop(33%,rgba(243,243,243,1)), color-stop(64%,rgba(237,237,237,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
 }
 
 .label
 {
-    font-size: x-large;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    font-size: 1em;
+    font-weight: 700;
 }
-
 
 .header
 {
@@ -249,9 +264,10 @@ fieldset label.inline
 
 legend 
 {
-    font-size: 1.1em;
-    font-weight: 600;
+    font-size: 1.2em;
+    font-weight: 700;
     padding: 2px 4px 8px 4px;
+    color: #3a4f63;
 }
 
 input.textEntry 

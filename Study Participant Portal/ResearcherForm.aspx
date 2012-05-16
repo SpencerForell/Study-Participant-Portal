@@ -4,6 +4,7 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
+<asp:Panel ID="Wrapper" runat="server" CssClass="panel">
     <h2>
         Researcher Page
     </h2>
@@ -14,9 +15,9 @@
         <table>
             <tr>
                 <td>
-                    <asp:Label ID="lblStatus" runat="server" Text="" ForeColor="Red"></asp:Label><br />
-                    <asp:Label ID="lblStudyList" runat="server" Text="Your Studies"></asp:Label><br />
-                    <asp:ListBox ID="lboxStudyList" runat="server" Height="204px" Width="401px"></asp:ListBox>
+                    <asp:Label ID="lblStatus" runat="server" Text="" ForeColor="Red" CssClass="label"></asp:Label><br />
+                    <asp:Label ID="lblStudyList" runat="server" Text="Your Studies" CssClass="label"></asp:Label><br />
+                    <asp:ListBox ID="lboxStudyList" runat="server" Height="204px" Width="401px" CssClass="textbox"></asp:ListBox>
                 </td>
                 <td>
                     <asp:Button ID="btnResCreate" runat="server" Text="Create Study" Width="100px" onclick="btnResCreate_Click" /><br />
@@ -26,5 +27,6 @@
             </tr>
         </table>
         <br />
+    </asp:Panel>
     </asp:Panel>
     </asp:Content>
