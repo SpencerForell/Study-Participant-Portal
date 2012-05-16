@@ -75,7 +75,7 @@ public partial class _Default : System.Web.UI.Page {
         string queryString = "select Par_ID, user_name, first_name, last_name, email from Participant where user_name = '" + tbParUser.Text + "' and password = '" + tbParPassword.Text + "'";
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
         if (query.Results.Count == 0) {
-            lblResSatus.Text = "Invalid login. Please try again.";
+            lblParStatus.Text = "Invalid login. Please try again.";
         }
         else if (query.Results.Count == 1) {
             int user_id = Convert.ToInt32(query.Results[0][0]);

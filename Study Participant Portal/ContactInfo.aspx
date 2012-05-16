@@ -6,16 +6,15 @@
     <h2>
         Contact info from the creators of the website:
     </h2>
-    <p>
-        Spencer Forell <br />
+    <asp:Panel runat="server" ID="pnl1" GroupingText="Spencer Forell" Width="220px">
         forells@onid.oregonstate.edu <br />
         Computer Science Major <br />
         Oregon State University <br />
-        <br /><br />
-        Max Mueller <br />
+    </asp:Panel>
+    <asp:Panel runat="server" ID="pnl2" GroupingText="Max Mueller" Width="220px">
         muellmax@onid.oregonstate.edu <br />
         Computer Science Major <br />
         Oregon State University <br />    
-    </p>
+    </asp:Panel>
 </asp:Content>
 

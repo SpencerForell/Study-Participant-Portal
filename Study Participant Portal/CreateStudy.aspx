@@ -51,7 +51,7 @@
                     <td>Existing Qualifiers</td>
                 </tr>
                 <tr>
-                    <td><asp:ListBox ID="lbQualifiers" Height="100px" Width="300px" runat="server" CssClass="textbox"></asp:ListBox></td>
+                    <td><asp:ListBox ID="lbQualifiers" Height="100px" Width="400px" runat="server" CssClass="textbox"></asp:ListBox></td>
                     <td>
                         <asp:Button ID="btnNewQual" Width="100%" runat="server" Text="New Qualifier" onclick="btnNewQual_Click" />
                         <asp:Button ID="btnEditQual" Width="100%" runat="server" Text="Edit Qualifier" onclick="btnEditQual_Click"/><br />
@@ -102,7 +102,7 @@
                                             <td><asp:Button ID="btnAddAnswer" runat="server" Text="Save Answer"  onclick="btnAddAnswer_Click" /></td>
                                         </tr>
                                         <tr>
-                                            <td colspan=2><asp:ListBox ID="lbAnswerList" runat="server" Width="100%" CssClass="listbox"></asp:ListBox></td>
+                                            <td colspan=2><asp:ListBox ID="lbAnswerList" runat="server" Width="100%" CssClass="listbox" ViewStateMode="Enabled"></asp:ListBox></td>
                                         </tr>
                                         <tr>
                                             <td colspan=2><asp:Button ID="btnRemove" runat="server" Text="Remove Answer" onclick="btnRemoveAnswer_Click" />

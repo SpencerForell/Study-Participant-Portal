@@ -55,7 +55,7 @@ public partial class ResearcherForm : System.Web.UI.Page {
     }
     protected void btnResView_Click(object sender, EventArgs e) {
         if (lboxStudyList.SelectedIndex < 0) {
-            lblStatus.Text = "Please select a Study to edit";
+            lblStatus.Text = "Please select a Study to view";
         }
         else {
             int study_id = Convert.ToInt32(lboxStudyList.SelectedValue);

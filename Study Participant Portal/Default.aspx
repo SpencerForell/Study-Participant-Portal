@@ -42,7 +42,7 @@
 
     <!-- Panel for study of the week-->
     <asp:Panel ID="pnlWeeklyStudy" runat="server" GroupingText="Most Recent New Study">
-        <table border="1" >
+        <table border="1" class="null">
             <tr>
                 <td>
                     <asp:Label ID="lblName" runat="server" Text="Name: " CssClass="latestStudyHeader"></asp:Label>
@@ -64,7 +64,7 @@
     </asp:Panel>
 
     <!-- Panel for researchers to login -->
-    <asp:Panel ID="pnlResearcher" runat="server" Visible = "false" GroupingText="Researcher Login">
+    <asp:Panel ID="pnlResearcher" runat="server" Visible = "false" GroupingText="Researcher Login" Width="80%">
         <table>
             <tr>
                 <td style="Width:500px">
@@ -90,18 +90,20 @@
                     <asp:Button ID="btnResCancel" runat="server" Text="Cancel" 
                         onclick="btnResCancel_Click" />
                 </td>
-                <td>
-                    <asp:Image runat="server" ID="earth" ImageAlign="AbsMiddle" Width="300" ImageUrl="~/Images/earth.png" />
+                <td style="float:right">
+                    <asp:Image runat="server" ID="earth" ImageAlign="AbsMiddle" Height="220" ImageUrl="~/Images/earth.png" />
                 </td>
             </tr>
         </table>
     </asp:Panel>
 
     <!-- Panel for participants to login -->
-    <asp:Panel ID="pnlParticipant" runat="server" Visible = "false" GroupingText="Participant Login">
+    <asp:Panel ID="pnlParticipant" runat="server" Visible = "false" GroupingText="Participant Login" Width="80%">
         <table>
             <tr>
                 <td style="width:500px">
+                    <asp:Label ID="lblParStatus" runat="server" Text="" ForeColor="Red"></asp:Label>
+                    <br />
                     <asp:Label ID="lblParUser" runat="server" Text="User" Width="75px"></asp:Label>
                     <asp:TextBox ID="tbParUser" runat="server" Width="173px"></asp:TextBox>
                     <br />
@@ -121,8 +123,8 @@
                     <asp:Button ID="btnParCancel" runat="server" Text="Cancel" 
                         onclick="btnParCancel_Click" />
                 </td>
-                <td>
-                    <asp:Image runat="server" ID="Image1" ImageAlign="AbsMiddle" Width="300" ImageUrl="~/Images/globe.png" />                
+                <td style="float:right">
+                    <asp:Image runat="server" ID="Image1" ImageAlign="AbsMiddle" Height="220" ImageUrl="~/Images/globe.png" />                
                 </td>
             </tr>
         </table>

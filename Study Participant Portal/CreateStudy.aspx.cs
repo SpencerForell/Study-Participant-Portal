@@ -19,6 +19,7 @@ public partial class CreateStudy : System.Web.UI.Page {
 
     protected void Page_Load(object sender, EventArgs e) {
         int count;
+        int x = lbAnswerList.SelectedIndex;
         isEdit = Convert.ToBoolean(Request.QueryString["edit"] == "true");
         qualEditIndex = Convert.ToInt32(Session["qualEditIndex"]);
         if (!IsPostBack) {
@@ -157,6 +158,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         }
         else {
             lblErrorAdd.Visible = false;
+            //
             if (tbQuestion.Enabled == false) {
                 lbAnswerList.Items[ansEditIndex].Text = tbAnswer.Text + " [" + tbScore.Text + "]";
                 tbQualDesc.Enabled = true;
@@ -172,7 +174,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             }
             else {
                 //the -1 should be the answer id if it has one
-                ListItem item = new ListItem(tbAnswer.Text + " [" + tbScore.Text + "]", "-1");
+                ListItem item = new ListItem(tbAnswer.Text + " [" + tbScore.Text + "]", ((lbAnswerList.Items.Count+1)*-1).ToString());
                 lbAnswerList.Items.Add(item);                
             }
             
@@ -416,7 +418,7 @@ public partial class CreateStudy : System.Web.UI.Page {
     /// <param name="study"></param>
     private void finishStudy(Study study) {
         //if studyID is -1 it is a new study, insert it into the database
-        if (study.StudyID == -1) {
+        if (study.StudyID < 0) {
             study.StudyID = DAL.InsertStudy(study);
         }
         else {
@@ -424,7 +426,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         }
         foreach (Qualifier qualifier in study.Qualifiers) {
             //if qualifierID is -1 it is a new qualifier, insert it into the database
-            if (qualifier.QualID == -1) {
+            if (qualifier.QualID < 0) {
                 qualifier.QualID = DAL.InsertQualifier(qualifier, study.StudyID);
             }
             else {
@@ -440,7 +442,7 @@ public partial class CreateStudy : System.Web.UI.Page {
             }
             //if answerID is -1, it is a new answer, insert it into the database
             foreach (Answer answer in qualifier.Answers) {
-                if (answer.AnsID == -1) {
+                if (answer.AnsID < 0) {
                     int ansID = DAL.InsertAnswer(answer, qualifier.QualID);
                     answer.AnsID = ansID;
                 }
@@ -569,7 +571,7 @@ public partial class CreateStudy : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Autofills in the forms requried for editing a qualifier
+    /// Autofills in the forms required for editing a qualifier
     /// </summary>
     /// <param name="qualifier">The qualifier that is going to be auto-populated</param>
     private void fillInQualForms(Qualifier qualifier, bool enabled) {
