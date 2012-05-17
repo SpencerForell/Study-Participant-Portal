@@ -45,7 +45,7 @@
 
     <asp:Label ID="lblPreviouslyAnswered" runat="server" Text="You have previously submitted answers for all of the questions." Visible="false" />
 
-    <asp:Panel ID="pnlQuals" runat="server" GroupingText="Qualifying Questions">
+    <asp:Panel ID="pnlQuals" runat="server" GroupingText="Requirement Questions">
     </asp:Panel>
 
     <asp:Button ID="btnSubmit" runat="server" Text="Submit Answers" Visible="false" onclick="btnSubmit_Click" />

@@ -23,7 +23,7 @@
             onclick="btnConfirm_Click" />
     </asp:Panel>
     <asp:Panel ID="pnlCrossroad" runat="server" Visible="true">
-        <asp:Label ID="lblChoice" runat="server" CssClass="label" Text="There are qualifying questions that you have not answered! Would you like to answer them now?"></asp:Label>
+        <asp:Label ID="lblChoice" runat="server" CssClass="label" Text="There are requirement questions that you have not answered! Would you like to answer them now?"></asp:Label>
         <br />
         <asp:Label ID="lblQuestionChoice" runat="server" Text="Yes! Let me answer all the questions now!"></asp:Label>
         <asp:Button ID="btnGoQuestions" runat="server" Text="GO" 
@@ -45,7 +45,7 @@
         <asp:Button ID="btnView" runat="server" Text="View Study" 
             onclick="btnView_Click" />
     </asp:Panel>
-    <asp:Panel ID="pnlQualList" runat="server" Visible="false" GroupingText="Qualifying Questions">
+    <asp:Panel ID="pnlQualList" runat="server" Visible="false" GroupingText="Requirement Questions">
     
     </asp:Panel>
     <br />
