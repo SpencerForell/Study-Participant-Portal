@@ -48,16 +48,16 @@
     <asp:Panel ID="pnlExistingQuals" runat="server" ScrollBars="Auto" >
             <table style="width:400px;">
                 <tr>
-                    <td>Existing Qualifiers</td>
+                    <td>Existing Requirements</td>
                 </tr>
                 <tr>
                     <td><asp:ListBox ID="lbQualifiers" Height="100px" Width="400px" runat="server" CssClass="textbox"></asp:ListBox></td>
                     <td>
-                        <asp:Button ID="btnNewQual" Width="100%" runat="server" Text="New Qualifier" onclick="btnNewQual_Click" />
-                        <asp:Button ID="btnEditQual" Width="100%" runat="server" Text="Edit Qualifier" onclick="btnEditQual_Click"/><br />
+                        <asp:Button ID="btnNewQual" Width="100%" runat="server" Text="New Requirement" onclick="btnNewQual_Click" />
+                        <asp:Button ID="btnEditQual" Width="100%" runat="server" Text="Edit Requirement" onclick="btnEditQual_Click"/><br />
                         <asp:Button ID="btnDeleteQual" Width="100%" runat="server" 
-                            Text="Delete Qualifier" onclick="btnDeleteQual_Click"/>
-                        <asp:Label ID="lblEditQualError" Width="130px" ForeColor="Red" runat="server" Visible="false" Text="Must select a qualifier from the box below to edit"></asp:Label></td>
+                            Text="Delete Requirement" onclick="btnDeleteQual_Click"/>
+                        <asp:Label ID="lblEditQualError" Width="130px" ForeColor="Red" runat="server" Visible="false" Text="Must select a requirement from the box below to edit"></asp:Label></td>
                 </tr>
             </table>
         </asp:Panel>
@@ -66,10 +66,10 @@
         <table>
             <tr>
                 <td style="width:60%;">
-                    <asp:Panel ID="pnlNewQuals" runat="server" GroupingText="Qualifier Details" >
+                    <asp:Panel ID="pnlNewQuals" runat="server" GroupingText="Requirement Details" >
                         <table>
                             <tr>
-                                <td>Qualifier Description</td>
+                                <td>Requirement Description</td>
                             </tr>
                             <tr>
                                 <td colspan=2 style="width:200;"><asp:TextBox ID="tbQualDesc" runat="server" TextMode="MultiLine" Height="100px" Width="100%" CssClass="textbox"></asp:TextBox></td>
@@ -117,19 +117,19 @@
                     </asp:Panel>
                 </td>
                 <td style="width:40%; vertical-align:top;">
-                    <asp:Panel ID="pnlPreExistingQuals" runat="server" GroupingText="Select Pre-Existing Qualifiers">
+                    <asp:Panel ID="pnlPreExistingQuals" runat="server" GroupingText="Select Pre-Existing Requirements">
                         <table>
                             <tr>
-                                <td>Select from the list of pre-defined qualifiers below.</td>
+                                <td>Select from the list of pre-defined requirements below.</td>
                             </tr>
                             <tr>
                                 <td><asp:ListBox ID="lbPreDefinedQuals" runat="server" Height="435px" Width="357px" CssClass="listbox"></asp:ListBox></td>
                             </tr>
                             <tr>
-                                <td><asp:Button ID="btnAddQual" runat="server" Text="Add Qualifier" 
+                                <td><asp:Button ID="btnAddQual" runat="server" Text="Add Requirement" 
                                         onclick="btnAddQual_Click" />
                                     <asp:Button ID="btnRemoveQual" runat="server" 
-                                        Text="Remove From Qualifier Details" onclick="btnRemoveQual_Click" />
+                                        Text="Remove From Requirements Details" onclick="btnRemoveQual_Click" />
                                 </td>
                             </tr>
                         </table>
@@ -137,9 +137,9 @@
                 </td>
             </tr>
         </table>
-        <asp:Label ID="lblQualContinue" runat="server" CssClass="label" Text="Please click 'Save Qualifier' if you are ready to submit this qualifier. This will allow you to create other qualifiers as needed."></asp:Label>
+        <asp:Label ID="lblQualContinue" runat="server" CssClass="label" Text="Please click 'Save Requirement' if you are ready to submit this requirement. This will allow you to create other requirements as needed."></asp:Label>
         <br />
-        <asp:Button ID="btnContinue" runat="server" Text="Save Qualifier" Width="100px" onclick="btnSaveQualifier" />
+        <asp:Button ID="btnContinue" runat="server" Text="Save Requirement" Width="120px" onclick="btnSaveQualifier" />
         <asp:Button ID="btnQualCancel" runat="server" Text="Cancel" 
             onclick="btnQualCancel_Click" />
         <br />

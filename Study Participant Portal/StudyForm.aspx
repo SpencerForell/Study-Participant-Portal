@@ -15,7 +15,7 @@
                     <asp:Label ID="lblStdDescriptionHeader" runat="server" Text="Description: " CssClass="label" ></asp:Label>
                     <asp:Label ID="lblStdDescription" runat="server" Text="Study description goes here" TextMode="MultiLine" ></asp:Label>
                                     
-                    <asp:Panel ID="pnlStdQualifiers"  Width="100%" runat="server" GroupingText="Qualifiers"></asp:Panel>
+                    <asp:Panel ID="pnlStdQualifiers"  Width="100%" runat="server" GroupingText="Requirements"></asp:Panel>
                 </asp:Panel>
                 <asp:Button ID="btnFindParticipants" runat="server" Text="Find Participants" onclick="btnFindParticipants_Click" />
             </td>
