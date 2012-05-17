@@ -114,6 +114,14 @@
                                 </td>
                             </tr>      
                         </table>
+                        <asp:Label ID="lblQualContinue" runat="server" CssClass="label" Text="Click 'Save Requirement' if you are ready to submit this requirement. You can create additional requirements after saving this one."></asp:Label>
+                        <br />
+                        <asp:Button ID="btnContinue" runat="server" Text="Save Requirement" Width="120px" onclick="btnSaveQualifier" />
+                        <asp:Button ID="btnQualCancel" runat="server" Text="Cancel" 
+                            onclick="btnQualCancel_Click" />
+                        <br />
+                        <asp:Label ID="lblErrorCont" runat="server" Text="Please make sure all required fields are completed" ForeColor="Red" Visible="false"></asp:Label>
+                        <br />
                     </asp:Panel>
                 </td>
                 <td style="width:40%; vertical-align:top;">
@@ -126,10 +134,8 @@
                                 <td><asp:ListBox ID="lbPreDefinedQuals" runat="server" Height="435px" Width="357px" CssClass="listbox"></asp:ListBox></td>
                             </tr>
                             <tr>
-                                <td><asp:Button ID="btnAddQual" runat="server" Text="Add Qualifier" 
-                                        onclick="btnAddQual_Click" />
-                                    <asp:Button ID="btnRemoveQual" runat="server" 
-                                        Text="Remove From Qualifier Details" onclick="btnRemoveQual_Click" />
+                                <td><asp:Button ID="btnAddQual" runat="server" Text="Add Requirement" onclick="btnAddQual_Click" />
+                                    <asp:Button ID="btnRemoveQual" runat="server" Text="Remove From Requirement Details" onclick="btnRemoveQual_Click" />
                                 </td>
                             </tr>
                         </table>
@@ -137,20 +143,10 @@
                 </td>
             </tr>
         </table>
-        <asp:Label ID="lblQualContinue" runat="server" CssClass="label" Text="Please click 'Save Qualifier' if you are ready to submit this qualifier. This will allow you to create other qualifiers as needed."></asp:Label>
-        <br />
-        <asp:Button ID="btnContinue" runat="server" Text="Save Qualifier" Width="100px" onclick="btnSaveQualifier" />
-        <asp:Button ID="btnQualCancel" runat="server" Text="Cancel" 
-            onclick="btnQualCancel_Click" />
-        <br />
-        <asp:Label ID="lblErrorCont" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red" Visible="false"></asp:Label>
-        <br />
     </asp:Panel>
-
-    
-        <asp:Label ID="lblFinished" runat="server" CssClass="label" Text="Click 'Finished' if you are done modifying this study. "></asp:Label>
+        <asp:Label ID="lblFinished" runat="server" CssClass="label" Text="Click 'Finished' if you are done modifying this study or 'Cancel' to exit without saving."></asp:Label>
         <br />
-        <asp:Button ID="btnFinished" runat="server" Text="Finished" Width="100px" onclick="btnFinished_Click" />
+        <asp:Button ID="btnFinished" runat="server" Text="Finished" Width="120px" onclick="btnFinished_Click" />
         <asp:Button ID="btnStdCancel" runat="server" onclick="BtnStdCancel_Click" Text="Cancel" />
         <asp:Label ID="lblError" runat="server" ForeColor="Red" Visible="false"></asp:Label>
         <asp:Label ID="lblErrorFinish" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red" Visible="false"></asp:Label>
