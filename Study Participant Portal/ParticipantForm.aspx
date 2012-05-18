@@ -10,8 +10,6 @@
     </h2>
     <asp:Button ID="btnParEdit" runat="server" Text="Edit Profile" 
             onclick="btnParEdit_Click" />
-    <asp:Button ID="btnSubmitQuestions" runat="server" Text="Submit" 
-        Visible="false" Enabled="true" onclick="btnSubmitQuestions_Click" />
     <asp:Label ID="lblNoSelection" runat="server" ForeColor="Red" Text="Please select an answer for at least one question and try again." Visible="false" />
     <br />
     <asp:Panel ID="pnlConfirmation" runat="server" Visible="false">
@@ -48,6 +46,8 @@
     <asp:Panel ID="pnlQualList" runat="server" Visible="false" GroupingText="Requirement Questions">
     
     </asp:Panel>
+    <asp:Button ID="btnSubmitQuestions" runat="server" Enabled="true" 
+        onclick="btnSubmitQuestions_Click" Text="Submit" Visible="false" />
     <br />
     <asp:Label ID="lblAnswerError" runat="server" ForeColor="Red" Visible="false"></asp:Label>
 </asp:Panel>

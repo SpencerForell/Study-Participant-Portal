@@ -70,7 +70,8 @@ public partial class CreateStudy : System.Web.UI.Page {
             foreach (Qualifier qual in existingQualList) {
                 temp = new StringBuilder("Answers: \n");
                 foreach (Answer ans in qual.Answers) {
-                    temp.AppendLine(ans.AnswerText);
+                    temp.Append(ans.AnswerText);
+                    temp.AppendLine(" " + "(Rank: [" + ans.Score.ToString() + "])");
                 }
                 ((List<string>)Session["answerText"]).Add(temp.ToString());
                 temp = null;
