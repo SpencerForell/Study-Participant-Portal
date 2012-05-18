@@ -200,7 +200,6 @@ public partial class CreateAccount : System.Web.UI.Page {
                     lblParStatus.Visible = true;
                     return;
                 }
-                }
             }
             
             lblParStatus.Text = "";
