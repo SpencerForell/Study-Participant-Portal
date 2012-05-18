@@ -45,17 +45,14 @@
         <table border="1" class="null">
             <tr>
                 <td>
-                    <asp:Label ID="lblName" runat="server" Text="Name: " CssClass="latestStudyHeader"></asp:Label>
                     <asp:Label ID="lblWeeklyStudyName" runat="server" Width="70%" CssClass="latestStudy"></asp:Label>
                 </td>
                 <td>
-                    <asp:Label ID="lblIncentive" runat="server" Text="Inventive: " CssClass="latestStudyHeader"></asp:Label>
                     <asp:Label ID="lblWeeklyIncentive" runat="server" Width="70%" CssClass="latestStudy"></asp:Label>
                 </td>
             </tr>
             <tr>
                 <td colspan=2 style="vertical-align:top">
-                    <asp:Label ID="lblDescription" runat="server" Text="Description: " CssClass="latestStudyHeader"></asp:Label>
                     <asp:Label ID="lblWeeklyStudyDesc" Width="80%" runat="server" CssClass="latestStudy"></asp:Label>
                 </td>
             </tr>

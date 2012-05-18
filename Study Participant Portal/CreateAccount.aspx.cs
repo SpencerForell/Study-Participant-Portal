@@ -213,15 +213,16 @@ public partial class CreateAccount : System.Web.UI.Page {
                               " (User_Name, First_Name, Last_Name, Email, Password, Num_Ratings)" +
                               " values " +
                               " ('" + tbParUserName.Text + "', '" + tbParFirstName.Text + "','" + tbParLastName.Text + "','" + tbParEmail.Text + "', '" + tbParPassword.Text + "',0)";
+                try {
+                    query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
+                }
+                catch (Exception exception) {
+                    lblParStatus.Text = exception.Message;
+                    lblParStatus.Visible = true;
+                    return;
+                }
             }
-            try {
-                query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
-            }
-            catch (Exception exception) {
-                lblParStatus.Text = exception.Message;
-                lblParStatus.Visible = true;
-                return;
-            }
+            
             lblParStatus.Text = "";
 
             queryString = "select Par_ID from Participant where User_Name = '" + tbParUserName.Text + "'";

@@ -9,10 +9,10 @@ public partial class SiteMaster : System.Web.UI.MasterPage {
     protected void Page_Load(object sender, EventArgs e) {
         if (!IsPostBack) {
             if (Session["user"] == null) {
-                btnLogout.Visible = false;
+                linkbtnLogout.Visible = false;
             }
             else {
-                btnLogout.Visible = true;
+                linkbtnLogout.Visible = true;
             }
         }
     }

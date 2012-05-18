@@ -21,7 +21,7 @@
             </td>
             <td style="width:49%; vertical-align:top;">               
                    <asp:Panel ID="pnlmatchmakingResults" runat="server"  GroupingText="Participants" Visible="false" Width="100%" >
-                       <asp:Label ID="lblNoResults" runat="server" Visible="false" Text="No matches were made. If your study was just created it will email all the participants asking them to answers the requirements you provided. Check back later to see if more Participants are eligible for your study."></asp:Label>
+                       <asp:Label ID="lblNoResults" runat="server" Visible="false" Text="No matches were made. If your study was just created it will email all the participants asking them to answer the requirements you provided. Check back later to see if more Participants are eligible for your study."></asp:Label>
                    </asp:Panel>
                    <asp:Button ID="btnEmailParticipant" runat="server" Text="Get Participant Emails" Visible="false" onclick="btnEmailParticipant_Click" />
                    <br />

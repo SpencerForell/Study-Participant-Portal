@@ -39,7 +39,7 @@ public partial class ParticipantInfo : System.Web.UI.Page {
             pnlQualifiers.Controls.Add(lblQualifier);
             RadioButtonList rblistAnswers = new RadioButtonList();
             foreach (Answer answer in qualifier.Answers) {
-                rblistAnswers.Items.Add(answer.AnswerText);
+                rblistAnswers.Items.Add(answer.AnswerText + "  [" + answer.Score + "]");
                 foreach (Answer participantAnswer in participant.Answers) {
                     if (answer.AnsID == participantAnswer.AnsID) {
                         rblistAnswers.SelectedValue = answer.AnswerText;
