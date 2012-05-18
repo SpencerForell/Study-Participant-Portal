@@ -157,22 +157,11 @@ public partial class CreateAccount : System.Web.UI.Page {
             DatabaseQuery query;
             if (Request.QueryString["edit"] == "true") {
                 int resID = ((Researcher)Session["user"]).UserID;
-                queryString = "update Researcher " +
-                              "set User_Name = '" + tbResUserName.Text + "'," +
-                              "First_Name = '" + tbResFirstName.Text + "'," +
-                              "Last_Name = '" + tbResLastName.Text + "'," +
-                              "Email = '" + tbResEmail.Text + "'," +
-                              "Password = '" + tbResPassword.Text + "' " +
-                              "where Res_ID = " + resID;
-                query = new DatabaseQuery(queryString, DatabaseQuery.Type.Update);
+                DAL.UpdateResearcher(resID, tbResFirstName.Text, tbResLastName.Text, tbResUserName.Text, tbResEmail.Text, tbResPassword.Text);
             }
             else {
-                queryString = "insert into Researcher" +
-                            " (User_Name, First_Name, Last_Name, Email, Password, Num_Ratings)" +
-                            " values " +
-                            " ('" + tbResUserName.Text + "', '" + tbResFirstName.Text + "','" + tbResLastName.Text + "', '" + tbResEmail.Text + "', '" + tbResPassword.Text + "',0)";
                 try {
-                    query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
+                    DAL.InsertResearcher(tbResUserName.Text, tbResFirstName.Text, tbResLastName.Text, tbResEmail.Text, tbResPassword.Text);
                 }
                 catch (Exception exception) {
                     lblParStatus.Text = exception.Message;
@@ -199,28 +188,18 @@ public partial class CreateAccount : System.Web.UI.Page {
             string queryString = "";
             if (Request.QueryString["edit"] == "true") {
                 int parID = ((Participant)Session["user"]).UserID;
-                queryString = "update Participant " +
-                              "set User_Name = '" + tbParUserName.Text + "'," +
-                              "First_Name = '" + tbParFirstName.Text + "'," +
-                              "Last_Name = '" + tbParLastName.Text + "'," +
-                              "Email = '" + tbParEmail.Text + "'," +
-                              "Password = '" + tbParPassword.Text + "' " +
-                              "where Par_ID = " + parID;
-                query = new DatabaseQuery(queryString, DatabaseQuery.Type.Update);
+                DAL.UpdateParticipant(tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text, tbParPassword.Text, parID);
             }
             else {
-                queryString = "insert into Participant" +
-                              " (User_Name, First_Name, Last_Name, Email, Password, Num_Ratings)" +
-                              " values " +
-                              " ('" + tbParUserName.Text + "', '" + tbParFirstName.Text + "','" + tbParLastName.Text + "','" + tbParEmail.Text + "', '" + tbParPassword.Text + "',0)";
-            }
-            try {
-                query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
-            }
-            catch (Exception exception) {
-                lblParStatus.Text = exception.Message;
-                lblParStatus.Visible = true;
-                return;
+                try {
+                    DAL.InsertParticipant(tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text, tbParPassword.Text);
+
+                }
+                catch (Exception exception) {
+                    lblParStatus.Text = exception.Message;
+                    lblParStatus.Visible = true;
+                    return;
+                }
             }
             lblParStatus.Text = "";
 

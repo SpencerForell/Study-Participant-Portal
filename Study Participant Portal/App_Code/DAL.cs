@@ -362,4 +362,54 @@ public static class DAL {
         string queryString = "delete from Study_Qualifiers where Qual_ID = " + qualifier.QualID + " and Study_ID = " + study.StudyID;
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Delete);
     }
+
+    public static void UpdateResearcher(int resID, string firstName, string lastName, string userName, string email, string password) {
+        List<string> scrubbedInput = sanitizeInputs(firstName, lastName, userName, email, password);
+
+        string queryString = "update Researcher " +
+                              "set User_Name = '" + scrubbedInput[2] + "'," +
+                              "First_Name = '" + scrubbedInput[0] + "'," +
+                              "Last_Name = '" + scrubbedInput[1] + "'," +
+                              "Email = '" + scrubbedInput[3] + "'," +
+                              "Password = '" + scrubbedInput[4] + "' " +
+                              "where Res_ID = " + resID;
+
+        DatabaseQuery  query = new DatabaseQuery(queryString, DatabaseQuery.Type.Update);
+    }
+
+    public static void InsertResearcher(string userName, string firstName, string lastName, string email, string password) {
+        List<string> scrubbedInput = sanitizeInputs(userName, firstName, lastName, email, password);
+
+        string queryString = "insert into Researcher" +
+                            " (User_Name, First_Name, Last_Name, Email, Password, Num_Ratings)" +
+                            " values " +
+                            " ('" + scrubbedInput[0] + "', '" + scrubbedInput[1] + "','" + scrubbedInput[2] + "', '" + scrubbedInput[3] + "', '" + scrubbedInput[4] + "',0)";
+
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
+    }
+
+    public static void UpdateParticipant(string userName, string firstName, string lastName, string email, string password, int parID) {
+        List<string> scrubbedInput = sanitizeInputs(userName, firstName, lastName, email, password);
+
+        string queryString = "update Participant " +
+                              "set User_Name = '" + scrubbedInput[0] + "'," +
+                              "First_Name = '" + scrubbedInput[1] + "'," +
+                              "Last_Name = '" + scrubbedInput[2] + "'," +
+                              "Email = '" + scrubbedInput[3] + "'," +
+                              "Password = '" + scrubbedInput[4] + "' " +
+                              "where Par_ID = " + parID;
+
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Update);
+    }
+
+    public static void InsertParticipant(string userName, string firstName, string lastName, string email, string password) {
+        List<string> scrubbedInput = sanitizeInputs(userName, firstName, lastName, email, password);
+
+        string queryString = "insert into Participant" +
+                              " (User_Name, First_Name, Last_Name, Email, Password, Num_Ratings)" +
+                              " values " +
+                              " ('" + scrubbedInput[0] + "', '" + scrubbedInput[1] + "','" + scrubbedInput[2] + "','" + scrubbedInput[3] + "', '" + scrubbedInput[4] + "',0)";
+
+        DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Insert);
+    }
 }
