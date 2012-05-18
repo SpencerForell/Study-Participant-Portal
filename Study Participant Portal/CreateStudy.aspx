@@ -8,7 +8,7 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-<asp:Panel ID="Wrapper" runat="server" cssClass="panel">
+    <asp:Panel ID="Wrapper" runat="server" cssClass="panel">
     <h2>
         Create Your Study
     </h2>
@@ -143,14 +143,6 @@
                 </td>
             </tr>
         </table>
-        <asp:Label ID="lblQualContinue" runat="server" CssClass="label" Text="Please click 'Save Requirement' if you are ready to submit this requirement. This will allow you to create other requirements as needed."></asp:Label>
-        <br />
-        <asp:Button ID="btnContinue" runat="server" Text="Save Requirement" Width="120px" onclick="btnSaveQualifier" />
-        <asp:Button ID="btnQualCancel" runat="server" Text="Cancel" 
-            onclick="btnQualCancel_Click" />
-        <br />
-        <asp:Label ID="lblErrorCont" runat="server" Text="Please make sure all text fields are completed" ForeColor="Red" Visible="false"></asp:Label>
-        <br />
     </asp:Panel>
         <asp:Label ID="lblFinished" runat="server" CssClass="label" Text="Click 'Finished' if you are done modifying this study or 'Cancel' to exit without saving."></asp:Label>
         <br />

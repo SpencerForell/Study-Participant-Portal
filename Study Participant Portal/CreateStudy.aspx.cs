@@ -127,7 +127,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         lbQualifiers.Items.Clear();
         foreach (Qualifier qualifier in study.Qualifiers) {
             pnlExistingQuals.Visible = true;
-            ListItem item = new ListItem(qualifier.Description, qualifier.QualID.ToString());
+            ListItem item = new ListItem(qualifier.Question, qualifier.QualID.ToString());
             lbQualifiers.Items.Add(item);
         }
     }
@@ -283,7 +283,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         List<Answer> answersInListBox = new List<Answer>();
         int studyID;
         //error checking to make sure they filled out all of the forms correctly
-        if (tbQualDesc.Text.Equals(string.Empty) || tbQuestion.Text.Equals(string.Empty) || lbAnswerList.Items.Count == 0) {
+        if (tbQuestion.Text.Equals(string.Empty) || lbAnswerList.Items.Count == 0) {
             lblErrorCont.Visible = true;
             return;
         }
@@ -319,7 +319,7 @@ public partial class CreateStudy : System.Web.UI.Page {
         //end new code
 
         Qualifier qualifier = null;
-        int qualID = -1;
+        int qualID = ((lbQualifiers.Items.Count+1)*-1);
         if (qualEditIndex > -1) {
             qualID = study.Qualifiers[qualEditIndex].QualID;
         }
@@ -566,7 +566,7 @@ public partial class CreateStudy : System.Web.UI.Page {
                 enabled = false;
             }
             fillInQualForms(qualifier, enabled);
-
+            Session["qualIsNew"] = false;
         }
     }
 
@@ -587,10 +587,22 @@ public partial class CreateStudy : System.Web.UI.Page {
         }
 
         if (enabled) {
-            pnlNewQuals.Enabled = true;
+            foreach (Control control in pnlNewQuals.Controls) {
+                if (control is WebControl) {
+                    WebControl webControl = (WebControl) control;
+                    webControl.Enabled = true;
+                }
+            }
         }
         else {
-            pnlNewQuals.Enabled = false;
+            foreach (Control control in pnlNewQuals.Controls) {
+                if (control is WebControl) {
+                    WebControl webControl = (WebControl)control;
+                    if (webControl.ID != btnContinue.ID && webControl.ID != btnQualCancel.ID) {
+                        webControl.Enabled = false;
+                    }
+                }
+            }
         }
     }
 
@@ -668,6 +680,11 @@ public partial class CreateStudy : System.Web.UI.Page {
         tbQuestion.Text = string.Empty;
         tbQualDesc.Text = string.Empty;
         lbAnswerList.Items.Clear();
-        pnlNewQuals.Enabled = true;
+        foreach (Control control in pnlNewQuals.Controls) {
+            if (control is WebControl) {
+                WebControl webControl = (WebControl)control;
+                webControl.Enabled = true;
+            }
+        }
     }
 }

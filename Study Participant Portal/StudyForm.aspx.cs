@@ -97,6 +97,10 @@ public partial class StudyForm : System.Web.UI.Page {
             pnlmatchmakingResults.Controls.Add(tblResults);
         }
 
+        if (matchmaker.Results.Count == 0) {
+            lblNoResults.Visible = true;
+        }
+
         pnlmatchmakingResults.Visible = true;
         btnEmailParticipant.Visible = true;
 
