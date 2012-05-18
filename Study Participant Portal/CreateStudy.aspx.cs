@@ -326,6 +326,7 @@ public partial class CreateStudy : System.Web.UI.Page {
                 Session["qualEditIndex"] = -1;
                 pnlQuals.Visible = false;
                 pnlExistingQuals.Visible = true;
+                
                 return;
             }
         }
@@ -634,6 +635,12 @@ public partial class CreateStudy : System.Web.UI.Page {
         pnlNewQuals.Enabled = true;
         pnlExistingQuals.Visible = false;
         pnlPreExistingQuals.Visible = true;
+        foreach (Control control in pnlNewQuals.Controls) {
+            if (control is WebControl) {
+                WebControl webControl = (WebControl)control;
+                webControl.Enabled = true;
+            }
+        }
     }
 
     /// <summary>
