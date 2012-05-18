@@ -39,10 +39,11 @@ public partial class ParticipantInfo : System.Web.UI.Page {
             pnlQualifiers.Controls.Add(lblQualifier);
             RadioButtonList rblistAnswers = new RadioButtonList();
             foreach (Answer answer in qualifier.Answers) {
-                rblistAnswers.Items.Add(answer.AnswerText + "  [" + answer.Score + "]");
+                ListItem item = new ListItem(answer.AnswerText + "  [" + answer.Score + "]", answer.AnsID.ToString());
+                rblistAnswers.Items.Add(item);
                 foreach (Answer participantAnswer in participant.Answers) {
                     if (answer.AnsID == participantAnswer.AnsID) {
-                        rblistAnswers.SelectedValue = answer.AnswerText;
+                        rblistAnswers.SelectedValue = answer.AnsID.ToString();
                     }
                 }
             }
