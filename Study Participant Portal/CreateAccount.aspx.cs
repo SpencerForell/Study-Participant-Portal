@@ -199,8 +199,7 @@ public partial class CreateAccount : System.Web.UI.Page {
                     lblParStatus.Text = exception.Message;
                     lblParStatus.Visible = true;
                     return;
-                }
-                }
+                }              
             }
             
             lblParStatus.Text = "";
