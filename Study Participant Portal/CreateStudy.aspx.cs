@@ -40,6 +40,19 @@ public partial class CreateStudy : System.Web.UI.Page {
         // Create all of our qualifiers to be used to select from
         existingQualList = ConstructQualifiers(new Dictionary<int, List<List<string>>>());
 
+        // filter out the qualifiers that already exist in the current study.
+        // only required when editing a study.
+        if (isEdit) {
+            for (int i = existingQualList.Count - 1; i >= 0; i--) {
+                foreach (Qualifier qualifier in study.Qualifiers) {
+                    if (existingQualList[i].QualID == qualifier.QualID) {
+                        existingQualList.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+        }
+
         // populate Pre existing qualifier list box
         if (!IsPostBack) {
             foreach (Qualifier qual in existingQualList) {
