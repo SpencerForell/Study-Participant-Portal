@@ -37,12 +37,14 @@ public class DatabaseQuery {
     /// Constructor to run queries from the database
     /// </summary>
     /// <param name="queryString">This should be an actual sql query like "select * from table where id = 1"</param>
-	public DatabaseQuery(String queryString, Type type) {        
-        string MyConString = @"SERVER=mysql.eecs.oregonstate.edu;
-                                DATABASE=cs462-team34;
-                                UID=cs462-team34;
-                                PASSWORD=u4tL9v4cEDjrMjnW;";
-        MySqlConnection connection = new MySqlConnection(MyConString);
+	public DatabaseQuery(String queryString, Type type) {
+
+        System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/Study Participant Portal");
+        System.Configuration.ConnectionStringSettings connString;
+        connString = config.ConnectionStrings.ConnectionStrings["ApplicationServices"];
+        System.Configuration.KeyValueConfigurationElement setting = config.AppSettings.Settings["userName"];
+
+        MySqlConnection connection = new MySqlConnection(connString.ToString());
         MySqlCommand command = connection.CreateCommand();
         MySqlDataReader Reader;
         command.CommandText = queryString;
@@ -81,6 +83,8 @@ public class DatabaseQuery {
                 break;
         }
 
+        //test code
+        
         connection.Close();
         
 	}
