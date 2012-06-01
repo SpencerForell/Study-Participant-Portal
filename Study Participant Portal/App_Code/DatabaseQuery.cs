@@ -33,9 +33,10 @@ public class DatabaseQuery {
     }
 
     /// <summary>
-    /// Constructor that sets up and runs queries from the database.
+    /// Constructor that sets up and runs queries from the database. The database connection is setup in the web.config file.
     /// </summary>
     /// <param name="queryString">This should be an actual sql query like "select * from table where id = 1"</param>
+    /// <param name="type">This is the type of query being executed (select/update/insert/delete)</param>
 	public DatabaseQuery(String queryString, Type type) {
 
         System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/Study Participant Portal");
@@ -50,9 +51,7 @@ public class DatabaseQuery {
         connection.Open();
 
         switch (type) {
-            /*
-             * The select statement populates a list of a list of strings.
-             */
+            //The select statement populates a list of a list of strings.
             case Type.Select:
                 Reader = command.ExecuteReader();
                 while (Reader.Read()) {
@@ -64,6 +63,7 @@ public class DatabaseQuery {
                     results.Add(record);
                 }
                 break;
+            //for an insert, we set the auto increment ID that was inserted into the database as the lastInsertID field so we have access to it in the code.
             case Type.Insert:
                 command.ExecuteNonQuery();
                 connection.Close();
@@ -80,10 +80,7 @@ public class DatabaseQuery {
             case Type.Delete:
                 command.ExecuteNonQuery();
                 break;
-        }
-
-        //test code
-        
+        }        
         connection.Close();
         
 	}

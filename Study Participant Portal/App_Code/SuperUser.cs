@@ -1,14 +1,18 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Parent of both child and researcher so we can reuse code from here
+/// Parent of both participant and researcher. These are the attribtues
+/// that are shared by both types of users
 /// </summary>
 public abstract class SuperUser {
 
-    // Protected variables
+    //*********************
+    //Protected variables
+    //*********************
+
     protected UserType type;
     protected int userID;    
     protected string userName;
@@ -16,7 +20,11 @@ public abstract class SuperUser {
     protected string lastName;
     protected string email;
 
-    // public properties
+    //*********************
+    //Public Properties
+    //*********************
+
+    //The type of user (either researcher or participant)
     public UserType Type {
         get { return type; }
     }
@@ -44,10 +52,4 @@ public abstract class SuperUser {
         Researcher,
         Participant
     }
-        
-    public SuperUser() {
-		//
-		// TODO: Add constructor logic here
-		//
-	}
 }

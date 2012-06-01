@@ -151,6 +151,13 @@ public partial class CreateAccount : System.Web.UI.Page {
         }
     }
 
+    /// <summary>
+    /// Event handler when a researcher is finished creating/editing an account. 
+    /// If there are no errors, the session variable will be set to the user and they
+    /// will be redirected to the researcher form.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnResSubmit_Click(object sender, EventArgs e) {
         if (isFormValid(SuperUser.UserType.Researcher)) {
             string queryString = "";
@@ -182,6 +189,13 @@ public partial class CreateAccount : System.Web.UI.Page {
         }
     }
 
+    /// <summary>
+    /// Event handler when a participant is finished creating/editing an account. 
+    /// If there are no errors, the session variable will be set to the user and they
+    /// will be redirected to the participant form.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnParSubmit_Click(object sender, EventArgs e) {
         if (isFormValid(SuperUser.UserType.Participant)) {
             DatabaseQuery query;

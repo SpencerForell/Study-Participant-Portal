@@ -4,7 +4,8 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for Qualifier
+/// Qualifiers (Also known as requrements) are questions that Researchers setup and Participants
+/// answer to filter and figure out participants to find the best matches.
 /// </summary>
 public class Qualifier {
     private int qualID;
@@ -26,15 +27,25 @@ public class Qualifier {
         get { return description; }
     }
 
+    /// <summary>
+    /// ID of the researcher that created the qualifier
+    /// </summary>
     public int ResID {
         get { return resID; }
     }
 
+    /// <summary>
+    /// All of the answers associated with this qualifier
+    /// </summary>
     public List<Answer> Answers {
         get { return answers; }
         set { answers = value; }
     }
 
+    /// <summary>
+    /// Constructor that queries the database to build the object. The ID must exist in the database.
+    /// </summary>
+    /// <param name="qualID"></param>
     public Qualifier(int qualID) {
         string queryString = "select Question, Description, Res_ID from Qualifiers where Qual_ID = " + qualID;
 
@@ -55,6 +66,14 @@ public class Qualifier {
         }
 	}
 
+    /// <summary>
+    /// Constructor used to manually build a qualifier, however it will still try to query the database to get the answers.
+    /// In general, the other two constructors are more practical to use - this should only be used in specific cases.
+    /// </summary>
+    /// <param name="qualID"></param>
+    /// <param name="question"></param>
+    /// <param name="description"></param>
+    /// <param name="resID"></param>
     public Qualifier(int qualID, string question, string description, int resID) {
         this.qualID = qualID;
         this.question = question;
@@ -72,6 +91,14 @@ public class Qualifier {
         }
     }
 
+    /// <summary>
+    /// Constructor to completely build a Qualifier manually. The list of answers can be assigned to null.
+    /// </summary>
+    /// <param name="qualID"></param>
+    /// <param name="question"></param>
+    /// <param name="description"></param>
+    /// <param name="resID"></param>
+    /// <param name="answers"></param>
     public Qualifier(int qualID, string question, string description, int resID, List<Answer> answers) {
         this.qualID = qualID;
         this.question = question;

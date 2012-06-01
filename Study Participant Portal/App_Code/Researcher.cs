@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for Researcher
+/// Researchers are users that setup Studies and Qualifiers. 
+/// They run the matching algorithm to find the best matches and then can
+/// find the participants they want in their study.
 /// </summary>
 public class Researcher: SuperUser {
     

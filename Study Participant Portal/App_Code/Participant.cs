@@ -4,7 +4,8 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// TODO: complete Class summary
+/// Participants are users that go in and answer qualifiers(requirements) that are setup by researchers
+/// They can be contacted by researchers to come in and do additional work/testing/research with a particular study.
 /// </summary>
 public class Participant: SuperUser {
 

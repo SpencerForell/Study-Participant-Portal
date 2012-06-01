@@ -30,6 +30,9 @@ public partial class _Default : System.Web.UI.Page {
         }
     }
 
+    /// <summary>
+    /// Sets all of the information in the latest study table to the most recently created study.
+    /// </summary>
     private void updateLatestStudy() {
         Study study = DAL.GetLatestStudy();
         lblWeeklyStudyName.Text = "Name: " + study.Name;
@@ -71,6 +74,12 @@ public partial class _Default : System.Web.UI.Page {
         Response.Redirect("CreateAccount.aspx?user=Participant");
     }
 
+    /// <summary>
+    /// Event handler for when a Participant tries to login. 
+    /// On Success they will be directed to the Participant Form.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnParSubmit_Click(object sender, EventArgs e) {
         string queryString = "select Par_ID, user_name, first_name, last_name, email from Participant where user_name = '" + tbParUser.Text + "' and password = '" + tbParPassword.Text + "'";
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
@@ -92,6 +101,12 @@ public partial class _Default : System.Web.UI.Page {
         }
     }
 
+    /// <summary>
+    /// Event handler for when a Researcher tries to login. 
+    /// On Success they will be directed to the Researcher Form.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnResSubmit_Click(object sender, EventArgs e) {
         string queryString = "select Res_ID, user_name, first_name, last_name, email from Researcher where user_name = '" + tbResUser.Text + "' and password = '" + tbResPassword.Text + "'";
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);

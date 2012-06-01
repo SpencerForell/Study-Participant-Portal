@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for Study
+/// A Study contains all the general information for the study the Researcher wants to perform,
+/// as well as the qualifiers(requirements) that are needed to be eligible to participate in the
+/// study. 
 /// </summary>
 public class Study {
     private string name;
@@ -16,14 +18,23 @@ public class Study {
     private int researcherID;
     private List<Qualifier> qualifiers = new List<Qualifier>();
 
+    /// <summary>
+    /// Name of the study
+    /// </summary>
     public string Name {
         get { return name; }
     }
 
+    /// <summary>
+    /// Description of the study
+    /// </summary>
     public string Description {
         get { return description; }
     }
 
+    /// <summary>
+    /// The incentive to get Participants to want to take part in the study.
+    /// </summary>
     public string Incentive {
         get { return incentive; }
     }
@@ -32,6 +43,9 @@ public class Study {
         get { return dateCreated; }
     }
 
+    /// <summary>
+    /// If the study is completed or not
+    /// </summary>
     public bool Expired {
         get { return expired; }
     }
@@ -41,17 +55,26 @@ public class Study {
         set { studyID = value; }
     }
 
+    /// <summary>
+    /// Researcher that created the study's ID
+    /// </summary>
     public int ResearcherID {
         get { return researcherID; }
     }
 
+    /// <summary>
+    /// Qualifiers associated with this study
+    /// </summary>
     public List<Qualifier> Qualifiers {
         get { return qualifiers; }
         set { qualifiers = value; }
     }
 
-   
-
+    /// <summary>
+    /// Constructor that queries the database to get all relevant information about a study
+    /// and create an object out of it.
+    /// </summary>
+    /// <param name="studyID"></param>
     public Study(int studyID) {
         string queryString = "select name, Description, Incentive, Creation_Date, Expired, Res_ID from Study where Study_ID = " + studyID.ToString();
         DatabaseQuery query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
@@ -75,6 +98,17 @@ public class Study {
         }
     }
 
+    /// <summary>
+    /// Constructor that manually builds a Study based on input parameters
+    /// </summary>
+    /// <param name="studyID"></param>
+    /// <param name="name"></param>
+    /// <param name="description"></param>
+    /// <param name="incentive"></param>
+    /// <param name="dateCreated"></param>
+    /// <param name="expired"></param>
+    /// <param name="researcherID"></param>
+    /// <param name="qualifiers"></param>
     public Study(int studyID, string name, string description, string incentive, DateTime dateCreated, bool expired, int researcherID, List<Qualifier> qualifiers) {
         this.studyID = studyID;
         this.name = name;

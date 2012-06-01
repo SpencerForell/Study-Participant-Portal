@@ -8,10 +8,8 @@ using System.Net.Mail;
 /// <summary>
 /// Summary description for EmailSender
 /// </summary>
-public class EmailSender
-{
-	public void sendEmail(string sender, List<string> recipients, string subject, StringBuilder body)
-	{
+public class EmailSender {
+	public void sendEmail(string sender, List<string> recipients, string subject, StringBuilder body) {
         string username = "studyparticipantportal@gmail.com";
         string password = "2012SPP_user";
         // Set the email parameters

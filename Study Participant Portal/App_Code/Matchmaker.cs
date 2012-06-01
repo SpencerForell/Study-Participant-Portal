@@ -139,7 +139,6 @@ public class Matchmaker {
         foreach (Participant p in removeList) {
             results.Remove(p);
         }
-
         
         return results;
     }

@@ -16,5 +16,10 @@
         Computer Science Major <br />
         Oregon State University <br />    
     </asp:Panel>
+    <asp:Panel runat="server" ID="pnl3" GroupingText="Dr. Ron Metoyer" Width="220px">
+        metoyer@eecs.oregonstate.edu <br />
+        Client <br />
+        Oregon State University <br />    
+    </asp:Panel>
 </asp:Content>
 
