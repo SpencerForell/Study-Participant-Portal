@@ -12,12 +12,11 @@ using System.Text.RegularExpressions;
 public class DatabaseQuery {
 
     private string item;
-    private int lastInsertID;
-
+    private int lastInsertID; //Used for insert queries to get back the auto incremement value
     private List<string> record = null;
-
     private List<List<string>> results = new List<List<string>>();
 
+    //Possible types of queries
     public enum Type {
         Select,
         Insert,
@@ -34,7 +33,7 @@ public class DatabaseQuery {
     }
 
     /// <summary>
-    /// Constructor to run queries from the database
+    /// Constructor that sets up and runs queries from the database.
     /// </summary>
     /// <param name="queryString">This should be an actual sql query like "select * from table where id = 1"</param>
 	public DatabaseQuery(String queryString, Type type) {        

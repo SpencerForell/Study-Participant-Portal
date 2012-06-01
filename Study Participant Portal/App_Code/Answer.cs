@@ -4,7 +4,10 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for Answer
+/// This class represents the answers that a qualifier has. Answers are related directly to one qualifier.
+/// Scores are associated with an answer as well, which go into the matchmaking algorithm. A -1 means the
+/// participant is ineligible, a 0 has no affect, and a score of 1 or higher will rank the participant higher
+/// if they selected the answer.
 /// </summary>
 public class Answer {
     private int ansID;
@@ -29,6 +32,11 @@ public class Answer {
         get { return qualifier; }
     }
 
+    /// <summary>
+    /// Constructor used to query the database and create an answer object based on the id
+    /// passed in. The ID must exist in the database or this will fail.
+    /// </summary>
+    /// <param name="ansID"></param>
     public Answer(int ansID) {
         string queryString = "select Answer, Rank from Answers where Ans_ID = " + ansID;
 
@@ -43,6 +51,15 @@ public class Answer {
         this.qualifier = new Qualifier(qualID);
 	}
 
+    /// <summary>
+    /// Constructor to build an answer based only on the parameters given. Use this to create an answer
+    /// based on text fields provided on a web form or when using a large query of answers to be more time 
+    /// efficient. 
+    /// </summary>
+    /// <param name="ansID"></param>
+    /// <param name="answer"></param>
+    /// <param name="score"></param>
+    /// <param name="qualifier"></param>
     public Answer(int ansID, string answer, int score, Qualifier qualifier) {
         this.ansID = ansID;
         this.answerText = answer;
