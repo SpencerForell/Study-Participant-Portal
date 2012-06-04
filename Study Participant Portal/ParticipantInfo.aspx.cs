@@ -15,8 +15,30 @@ public partial class ParticipantInfo : System.Web.UI.Page {
             lblFullName2.Text = participant.FirstName + " " + participant.LastName;
             lblEmail2.Text = participant.Email;
             showStudyInfo(study, participant);
-
         }
+    }
+
+    /// <summary>
+    /// Shows all of the questions/answers for the user
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnShowAll_Click(object sender, EventArgs e) {
+        Participant participant = new Participant(Convert.ToInt32(Request.QueryString["participant_id"]));
+        pnlQualifiers.Controls.Clear();
+        showAllInfo(participant);
+    }
+
+    /// <summary>
+    /// Shows only the quuestions and answers for the current study being viewed
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnShowThisStudy_Click(object sender, EventArgs e) {
+        Study study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
+        Participant participant = new Participant(Convert.ToInt32(Request.QueryString["participant_id"]));
+        pnlQualifiers.Controls.Clear();
+        showStudyInfo(study, participant);
     }
 
     /// <summary>
@@ -50,29 +72,6 @@ public partial class ParticipantInfo : System.Web.UI.Page {
             pnlQualifiers.Controls.Add(rblistAnswers);
             lblQualifier.Text = qualifier.Question;
             rblistAnswers.Enabled = false;
-        }        
-    }
-
-    /// <summary>
-    /// Shows all of the questions/answers for the user
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnShowAll_Click(object sender, EventArgs e) {
-        Participant participant = new Participant(Convert.ToInt32(Request.QueryString["participant_id"]));
-        pnlQualifiers.Controls.Clear();
-        showAllInfo(participant);
-    }
-
-    /// <summary>
-    /// Shows only the quuestions and answers for the current study being viewed
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnShowThisStudy_Click(object sender, EventArgs e) {
-        Study study = new Study(Convert.ToInt32(Request.QueryString["study_id"]));
-        Participant participant = new Participant(Convert.ToInt32(Request.QueryString["participant_id"]));
-        pnlQualifiers.Controls.Clear();
-        showStudyInfo(study, participant);
+        }
     }
 }

@@ -30,16 +30,6 @@ public partial class _Default : System.Web.UI.Page {
         }
     }
 
-    /// <summary>
-    /// Sets all of the information in the latest study table to the most recently created study.
-    /// </summary>
-    private void updateLatestStudy() {
-        Study study = DAL.GetLatestStudy();
-        lblWeeklyStudyName.Text = "Name: " + study.Name;
-        lblWeeklyIncentive.Text = "Incentive: " + study.Incentive;
-        lblWeeklyStudyDesc.Text = "Description: " + study.Description;
-    }
-
     protected void btnResearcher_Click(object sender, EventArgs e) {
         pnlMain.Visible = false;
         pnlResearcher.Visible = true;
@@ -125,5 +115,15 @@ public partial class _Default : System.Web.UI.Page {
         else {
             throw new Exception("submitting user_name: " + tbResUser.Text + " returned incorrect number of rows: " + query.Results.Count);
         }
+    }
+
+    /// <summary>
+    /// Sets all of the information in the latest study table to the most recently created study.
+    /// </summary>
+    private void updateLatestStudy() {
+        Study study = DAL.GetLatestStudy();
+        lblWeeklyStudyName.Text = "Name: " + study.Name;
+        lblWeeklyIncentive.Text = "Incentive: " + study.Incentive;
+        lblWeeklyStudyDesc.Text = "Description: " + study.Description;
     }
 }

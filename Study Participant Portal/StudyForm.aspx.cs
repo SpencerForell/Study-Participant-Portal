@@ -26,29 +26,6 @@ public partial class StudyForm : System.Web.UI.Page {
     }
 
     /// <summary>
-    /// Dynamically creates panels that store each qualifier and answer
-    /// </summary>
-    /// <param name="study"></param>
-    public Panel generateQualifiers(Study study) {
-        Panel pnlQualifer = new Panel();
-        foreach (Qualifier qualifier in study.Qualifiers) {
-            //create a new panel that will hold all the information for this qualifier
-            
-            Label lblQualifier = new Label();
-            RadioButtonList rblistAnswers = new RadioButtonList();
-            foreach (Answer answer in qualifier.Answers) {
-                rblistAnswers.Items.Add(answer.AnswerText);
-            }
-            lblQualifier.Text = qualifier.Question;
-            pnlQualifer.Controls.Add(lblQualifier);
-            rblistAnswers.Enabled = false;
-            pnlQualifer.Controls.Add(rblistAnswers);
-            //add the panel we just made to the form
-        }
-        return pnlQualifer; 
-    }
-
-    /// <summary>
     /// Event triggered to perform the matchmaking algorithm
     /// </summary>
     /// <param name="sender"></param>
@@ -103,9 +80,72 @@ public partial class StudyForm : System.Web.UI.Page {
 
         pnlmatchmakingResults.Visible = true;
         btnEmailParticipant.Visible = true;
-
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnEmailParticipant_Click(object sender, EventArgs e) {
+        List<String> emails = getEmails(Study);
+        btnEmailParticipant.Visible = false;
+        foreach (String email in emails) {
+            tbEmailList.Text = email + ",";
+        }
+
+        //only remove the last comma if there have been some emails inserted in 
+        if (tbEmailList.Text.Length != 0) {
+            tbEmailList.Text = tbEmailList.Text.Remove(tbEmailList.Text.Length - 1);
+        }
+        btnFindParticipants_Click(sender, e);
+    }
+
+    /// <summary>
+    /// Dynamically creates panels that store each qualifier and answer
+    /// </summary>
+    /// <param name="study"></param>
+    public Panel generateQualifiers(Study study) {
+        Panel pnlQualifer = new Panel();
+        foreach (Qualifier qualifier in study.Qualifiers) {
+            //create a new panel that will hold all the information for this qualifier
+
+            Label lblQualifier = new Label();
+            RadioButtonList rblistAnswers = new RadioButtonList();
+            foreach (Answer answer in qualifier.Answers) {
+                rblistAnswers.Items.Add(answer.AnswerText);
+            }
+            lblQualifier.Text = qualifier.Question;
+            pnlQualifer.Controls.Add(lblQualifier);
+            rblistAnswers.Enabled = false;
+            pnlQualifer.Controls.Add(rblistAnswers);
+            //add the panel we just made to the form
+        }
+        return pnlQualifer;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="study"></param>
+    /// <returns></returns>
+    private List<string> getEmails(Study study) {
+        List<String> emails = new List<string>();
+        Matchmaker matchmaker = new Matchmaker(new Study(study.StudyID));
+        foreach (KeyValuePair<Participant, int> result in matchmaker.Results) {
+            emails.Add(result.Key.Email);
+        }
+        tbEmailList.Visible = true;
+        lblEmailStatus.Visible = true;
+        return emails;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="tblResults"></param>
+    /// <param name="row"></param>
+    /// <returns></returns>
     private int getIndexToAdd(Table tblResults, TableRow row) {
         int i = 1; //start at 1 because of the header
         while (i < tblResults.Rows.Count) {
@@ -121,29 +161,5 @@ public partial class StudyForm : System.Web.UI.Page {
             }
         }
         return i;
-    }
-
-    protected void btnEmailParticipant_Click(object sender, EventArgs e) {
-        List<String> emails = getEmails(Study);
-        btnEmailParticipant.Visible = false;
-        foreach (String email in emails) {
-            tbEmailList.Text = email + ",";
-        }
-        //only remove the last comma if there have been some emails inserted in 
-        if (tbEmailList.Text.Length != 0) {
-            tbEmailList.Text = tbEmailList.Text.Remove(tbEmailList.Text.Length - 1);
-        }
-        btnFindParticipants_Click(sender, e);
-    }
-
-    private List<string> getEmails(Study study) {
-        List<String> emails = new List<string>();
-        Matchmaker matchmaker = new Matchmaker(new Study(study.StudyID));
-        foreach (KeyValuePair<Participant, int> result in matchmaker.Results) {
-            emails.Add(result.Key.Email);
-        }
-        tbEmailList.Visible = true;
-        lblEmailStatus.Visible = true;
-        return emails;
     }
 }

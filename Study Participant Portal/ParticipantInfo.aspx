@@ -23,9 +23,7 @@
                <asp:Panel ID="pnlQualifiers" runat="server" GroupingText="Questions/Answers"></asp:Panel>
             </td>
         </tr>
-    
     </table>
-
 </asp:Panel>
 </asp:Content>
 

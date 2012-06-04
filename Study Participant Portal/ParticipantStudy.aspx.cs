@@ -83,37 +83,7 @@ public partial class ParticipantStudy : System.Web.UI.Page {
         }       
     }
 
-    /// <summary>
-    /// This method takes a single qualifier object as a parameter and returns a
-    /// panel control. The function of this method is to create individual question
-    /// and answers. It uses a RadioButtonList as the user functionality. Hence a
-    /// user will only be able to select one answer per question. The panel acts 
-    /// as our container for the controls. We first add the question, and then add
-    /// each ListItem to the RadioButtonList. Once all the answers are in the 
-    /// RadioButtonList, we add that to the wrapper panel. Once our panel is all
-    /// setup we return it.
-    /// </summary>
-    /// <param name="question"></param>
-    /// <returns></returns>
-    private Panel CreateQuestionAnswer(Qualifier question) {
-        Panel panel = new Panel();
-        Label lblQuest = new Label();
-        RadioButtonList rbList = new RadioButtonList();
-        ListItem li = null;
-        rbList.Font.Size = 12;
-        lblQuest.Font.Size = 14;
-        lblQuest.Text = question.Question;
-        panel.Controls.Add(lblQuest);
-        panel.Controls.Add(new LiteralControl("<br />"));
-        for (int i = 0; i < question.Answers.Count; i++) {
-            li = new ListItem();
-            li.Text = question.Answers[i].AnswerText;
-            rbList.Items.Add(li);
-        }
-        panel.Controls.Add(rbList);
-        
-        return panel;
-    }
+    
 
     /// <summary>
     /// A simple method that responds to a button click event. It simply sets the
@@ -164,13 +134,81 @@ public partial class ParticipantStudy : System.Web.UI.Page {
     }
 
     /// <summary>
+    /// button to simply hide the questions if they are visible.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnHide_Click(object sender, EventArgs e) {
+        pnlQuals.Visible = false;
+        btnSubmit.Visible = false;
+        btnHide.Visible = false;
+        if (lblError.Visible == true) {
+            lblError.Visible = false;
+        }
+    }
+
+    /// <summary>
+    /// Button to cancel and return back to the main participant form.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnCancel_Click(object sender, EventArgs e) {
+        Response.Redirect("ParticipantForm.aspx");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnConfirm_Click(object sender, EventArgs e) {
+        Response.Redirect("ParticipantForm.aspx");
+    }
+
+    private void ActivateConfirmationPnl(List<string> answers) {
+
+    }
+
+    /// <summary>
+    /// This method takes a single qualifier object as a parameter and returns a
+    /// panel control. The function of this method is to create individual question
+    /// and answers. It uses a RadioButtonList as the user functionality. Hence a
+    /// user will only be able to select one answer per question. The panel acts 
+    /// as our container for the controls. We first add the question, and then add
+    /// each ListItem to the RadioButtonList. Once all the answers are in the 
+    /// RadioButtonList, we add that to the wrapper panel. Once our panel is all
+    /// setup we return it.
+    /// </summary>
+    /// <param name="question"></param>
+    /// <returns></returns>
+    private Panel CreateQuestionAnswer(Qualifier question) {
+        Panel panel = new Panel();
+        Label lblQuest = new Label();
+        RadioButtonList rbList = new RadioButtonList();
+        ListItem li = null;
+        rbList.Font.Size = 12;
+        lblQuest.Font.Size = 14;
+        lblQuest.Text = question.Question;
+        panel.Controls.Add(lblQuest);
+        panel.Controls.Add(new LiteralControl("<br />"));
+        for (int i = 0; i < question.Answers.Count; i++) {
+            li = new ListItem();
+            li.Text = question.Answers[i].AnswerText;
+            rbList.Items.Add(li);
+        }
+        panel.Controls.Add(rbList);
+
+        return panel;
+    }
+
+    /// <summary>
     /// A helper method for the submit button method. This method takes in the
     /// list of answers that were selected by the user. The method then compares
     /// each answer to the actual answer object and gets the corosponding answer
     /// ID for each answer. These answer IDs along with the Participant ID are 
     /// loaded into the database table using a data layer.
     /// </summary>
-    /// <param name="answers"></param>
+    /// <param name="answers">The list of answers that is used to populate the database</param>
     private void loadAnswers(List<string> answers) {
         if (lblError.Visible == true) {
             lblError.Visible = false;
@@ -194,26 +232,5 @@ public partial class ParticipantStudy : System.Web.UI.Page {
         foreach (int id in ids) {
             DAL.InsertParticipantAnswer(partID, id);
         }
-    }
-
-    protected void btnHide_Click(object sender, EventArgs e) {
-        pnlQuals.Visible = false;
-        btnSubmit.Visible = false;
-        btnHide.Visible = false;
-        if (lblError.Visible == true) {
-            lblError.Visible = false;
-        }
-    }
-
-    protected void btnCancel_Click(object sender, EventArgs e) {
-        Response.Redirect("ParticipantForm.aspx");
-    }
-
-    private void ActivateConfirmationPnl(List<string> answers) {
-
-    }
-
-    protected void btnConfirm_Click(object sender, EventArgs e) {
-        Response.Redirect("ParticipantForm.aspx");
     }
 }

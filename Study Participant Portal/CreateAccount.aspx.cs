@@ -11,6 +11,118 @@ public partial class CreateAccount : System.Web.UI.Page {
 
     bool invalid = false;
 
+    protected void Page_Load(object sender, EventArgs e) {
+        if (!IsPostBack) {
+            string user = Request.QueryString["user"];
+            if (user == SuperUser.UserType.Researcher.ToString()) {
+                pnlResearcher.Visible = true;
+                if (Request.QueryString["edit"] == "true") {
+                    autoFillForms(SuperUser.UserType.Researcher);
+                }
+            }
+            else if (user == SuperUser.UserType.Participant.ToString()) {
+                pnlParticipant.Visible = true;
+                if (Request.QueryString["edit"] == "true") {
+                    autoFillForms(SuperUser.UserType.Participant);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Event handler when a researcher is finished creating/editing an account. 
+    /// If there are no errors, the session variable will be set to the user and they
+    /// will be redirected to the researcher form.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnResSubmit_Click(object sender, EventArgs e) {
+        if (isFormValid(SuperUser.UserType.Researcher)) {
+            string queryString = "";
+            DatabaseQuery query;
+            if (Request.QueryString["edit"] == "true") {
+                int resID = ((Researcher)Session["user"]).UserID;
+                DAL.UpdateResearcher(resID, tbResFirstName.Text, tbResLastName.Text, tbResUserName.Text, tbResEmail.Text, tbResPassword.Text);
+            }
+            else {
+                try {
+                    DAL.InsertResearcher(tbResUserName.Text, tbResFirstName.Text, tbResLastName.Text, tbResEmail.Text, tbResPassword.Text);
+                }
+                catch (Exception exception) {
+                    lblParStatus.Text = exception.Message;
+                    lblParStatus.Visible = true;
+                    return;
+                }
+            }
+            lblResStatus.Text = "";
+
+            queryString = "select Res_ID from Researcher where User_Name = '" + tbResUserName.Text + "'";
+            query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+            int user_id = Convert.ToInt32(query.Results[0][0]);
+
+            Researcher res = new Researcher(user_id, tbResUserName.Text, tbResFirstName.Text, tbResLastName.Text, tbResEmail.Text);
+            Session["user"] = res;
+
+            Response.Redirect("ResearcherForm.aspx");
+        }
+    }
+
+    /// <summary>
+    /// Event handler when a participant is finished creating/editing an account. 
+    /// If there are no errors, the session variable will be set to the user and they
+    /// will be redirected to the participant form.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnParSubmit_Click(object sender, EventArgs e) {
+        if (isFormValid(SuperUser.UserType.Participant)) {
+            DatabaseQuery query;
+            string queryString = "";
+            if (Request.QueryString["edit"] == "true") {
+                int parID = ((Participant)Session["user"]).UserID;
+                DAL.UpdateParticipant(tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text, tbParPassword.Text, parID);
+            }
+            else {
+                try {
+                    DAL.InsertParticipant(tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text, tbParPassword.Text);
+
+                }
+                catch (Exception exception) {
+                    lblParStatus.Text = exception.Message;
+                    lblParStatus.Visible = true;
+                    return;
+                }
+            }
+
+            lblParStatus.Text = "";
+
+            queryString = "select Par_ID from Participant where User_Name = '" + tbParUserName.Text + "'";
+            query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
+            int userID = Convert.ToInt32(query.Results[0][0]);
+
+            Session["user"] = new Participant(userID, tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text, new List<Answer>());
+            Response.Redirect("ParticipantForm.aspx");
+        }
+    }
+
+    /// <summary>
+    /// Button to simply cancel and return to the default page
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnResCancel_Click(object sender, EventArgs e) {
+        Response.Redirect("Default.aspx");
+    }
+
+    /// <summary>
+    /// Button to simply cancel and return to the default page
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnParCancel_Click(object sender, EventArgs e) {
+        Response.Redirect("Default.aspx");
+    }
+
     /// <summary>
     /// Method to try and validate user input for emails (found on http://msdn.microsoft.com/en-us/library/01escwtf.aspx)
     /// </summary>
@@ -133,104 +245,5 @@ public partial class CreateAccount : System.Web.UI.Page {
         }
     }
 
-    protected void Page_Load(object sender, EventArgs e) {
-        if (!IsPostBack) {
-            string user = Request.QueryString["user"];
-            if (user == SuperUser.UserType.Researcher.ToString()) {
-                pnlResearcher.Visible = true;
-                if (Request.QueryString["edit"] == "true") {
-                    autoFillForms(SuperUser.UserType.Researcher);
-                }
-            }
-            else if (user == SuperUser.UserType.Participant.ToString()) {
-                pnlParticipant.Visible = true;
-                if (Request.QueryString["edit"] == "true") {
-                    autoFillForms(SuperUser.UserType.Participant);
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Event handler when a researcher is finished creating/editing an account. 
-    /// If there are no errors, the session variable will be set to the user and they
-    /// will be redirected to the researcher form.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnResSubmit_Click(object sender, EventArgs e) {
-        if (isFormValid(SuperUser.UserType.Researcher)) {
-            string queryString = "";
-            DatabaseQuery query;
-            if (Request.QueryString["edit"] == "true") {
-                int resID = ((Researcher)Session["user"]).UserID;
-                DAL.UpdateResearcher(resID, tbResFirstName.Text, tbResLastName.Text, tbResUserName.Text, tbResEmail.Text, tbResPassword.Text);
-            }
-            else {
-                try {
-                    DAL.InsertResearcher(tbResUserName.Text, tbResFirstName.Text, tbResLastName.Text, tbResEmail.Text, tbResPassword.Text);
-                }
-                catch (Exception exception) {
-                    lblParStatus.Text = exception.Message;
-                    lblParStatus.Visible = true;
-                    return;
-                }
-            }    
-            lblResStatus.Text = "";
-
-            queryString = "select Res_ID from Researcher where User_Name = '" + tbResUserName.Text + "'";
-            query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
-            int user_id = Convert.ToInt32(query.Results[0][0]);
-
-            Researcher res = new Researcher(user_id, tbResUserName.Text, tbResFirstName.Text, tbResLastName.Text, tbResEmail.Text);
-            Session["user"] = res;
-
-            Response.Redirect("ResearcherForm.aspx");
-        }
-    }
-
-    /// <summary>
-    /// Event handler when a participant is finished creating/editing an account. 
-    /// If there are no errors, the session variable will be set to the user and they
-    /// will be redirected to the participant form.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnParSubmit_Click(object sender, EventArgs e) {
-        if (isFormValid(SuperUser.UserType.Participant)) {
-            DatabaseQuery query;
-            string queryString = "";
-            if (Request.QueryString["edit"] == "true") {
-                int parID = ((Participant)Session["user"]).UserID;
-                DAL.UpdateParticipant(tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text, tbParPassword.Text, parID);
-            }
-            else {
-                try {
-                    DAL.InsertParticipant(tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text, tbParPassword.Text);
-
-                }
-                catch (Exception exception) {
-                    lblParStatus.Text = exception.Message;
-                    lblParStatus.Visible = true;
-                    return;
-                }              
-            }
-            
-            lblParStatus.Text = "";
-
-            queryString = "select Par_ID from Participant where User_Name = '" + tbParUserName.Text + "'";
-            query = new DatabaseQuery(queryString, DatabaseQuery.Type.Select);
-            int userID = Convert.ToInt32(query.Results[0][0]);
-
-            Session["user"] = new Participant(userID, tbParUserName.Text, tbParFirstName.Text, tbParLastName.Text, tbParEmail.Text, new List<Answer>());
-            Response.Redirect("ParticipantForm.aspx");
-        }
-    }
-
-    protected void btnResCancel_Click(object sender, EventArgs e) {
-        Response.Redirect("Default.aspx");
-    }
-    protected void btnParCancel_Click(object sender, EventArgs e) {
-        Response.Redirect("Default.aspx");
-    }
+    
 }
