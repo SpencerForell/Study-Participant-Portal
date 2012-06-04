@@ -58,8 +58,7 @@ public partial class _Default : System.Web.UI.Page {
         pnlResearcher.Visible = false;
     }
 
-    protected void btnResCreateAcc_Click(object sender, EventArgs e) {
-        
+    protected void btnResCreateAcc_Click(object sender, EventArgs e) {      
         Response.Redirect("CreateAccount.aspx?user=Researcher"); 
     }
 

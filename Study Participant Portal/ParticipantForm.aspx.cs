@@ -23,6 +23,7 @@ public partial class ParticipantForm: System.Web.UI.Page {
         List<int> ansIDs = DAL.GetParticipantAnswers(part.UserID);
 
         if (!IsPostBack) {
+
             // Populate the list box
             populateListbox(part.UserID);
         }
@@ -34,6 +35,7 @@ public partial class ParticipantForm: System.Web.UI.Page {
 
         // Populate the Qualifier Panel
         for (int i = 0; i < qualifiers.Count; i++) {
+
             // create each individual question and answer
             pnlQualList.Controls.Add(CreateQuestionAnswer(qualifiers[i]));
             pnlQualList.Controls.Add(new LiteralControl("<br />"));
@@ -59,19 +61,21 @@ public partial class ParticipantForm: System.Web.UI.Page {
         RadioButtonList rbList = new RadioButtonList();
         ListItem li = null;
 
-        
+        // Formatting for our radio button list
         rbList.Font.Size = 12;
         lblQuest.Font.Size = 14;
         lblQuest.Text = question.Question;
         panel.Controls.Add(lblQuest);
         panel.Controls.Add(new LiteralControl("<br />"));
 
+        // Add a Radiobutton to the radio button list for each answer
         for (int i = 0; i < question.Answers.Count; i++) {
             li = new ListItem();
             li.Text = question.Answers[i].AnswerText;
             rbList.Items.Add(li);
         }
         
+        // Add each radio button list to the panel
         panel.Controls.Add(rbList);
 
         return panel;
@@ -110,7 +114,7 @@ public partial class ParticipantForm: System.Web.UI.Page {
     }
 
     /// <summary>
-    /// // button to edit that Participant user information
+    /// button to edit that Participant user information
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

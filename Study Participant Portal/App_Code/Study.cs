@@ -39,6 +39,9 @@ public class Study {
         get { return incentive; }
     }
 
+    /// <summary>
+    /// The datetime that the study was created.
+    /// </summary>
     public DateTime DateCreated {
         get { return dateCreated; }
     }
@@ -50,6 +53,9 @@ public class Study {
         get { return expired; }
     }
 
+    /// <summary>
+    /// The primary key study ID.
+    /// </summary>
     public int StudyID {
         get { return studyID; }
         set { studyID = value; }
@@ -72,7 +78,8 @@ public class Study {
 
     /// <summary>
     /// Constructor that queries the database to get all relevant information about a study
-    /// and create an object out of it.
+    /// and create an object out of it. this constructor uses significantly more overhead than
+    /// the following one so it should only be used if it is not feasible to use the other one.
     /// </summary>
     /// <param name="studyID"></param>
     public Study(int studyID) {
