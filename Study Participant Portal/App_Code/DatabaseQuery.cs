@@ -12,7 +12,8 @@ using System.Text.RegularExpressions;
 public class DatabaseQuery {
 
     private string item;
-    private int lastInsertID; //Used for insert queries to get back the auto incremement value
+    //Used for insert queries to get back the auto incremement value
+    private int lastInsertID; 
     private List<string> record = null;
     private List<List<string>> results = new List<List<string>>();
 
@@ -33,13 +34,15 @@ public class DatabaseQuery {
     }
 
     /// <summary>
-    /// Constructor that sets up and runs queries from the database. The database connection is setup in the web.config file.
+    /// Constructor that sets up and runs queries from the database. 
+    /// The database connection is setup in the web.config file.
     /// </summary>
     /// <param name="queryString">This should be an actual sql query like "select * from table where id = 1"</param>
     /// <param name="type">This is the type of query being executed (select/update/insert/delete)</param>
 	public DatabaseQuery(String queryString, Type type) {
 
-        System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/Study Participant Portal");
+        System.Configuration.Configuration config = 
+            System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/Study Participant Portal");
         System.Configuration.ConnectionStringSettings connString;
         connString = config.ConnectionStrings.ConnectionStrings["ApplicationServices"];
         System.Configuration.KeyValueConfigurationElement setting = config.AppSettings.Settings["userName"];
@@ -63,7 +66,8 @@ public class DatabaseQuery {
                     results.Add(record);
                 }
                 break;
-            //for an insert, we set the auto increment ID that was inserted into the database as the lastInsertID field so we have access to it in the code.
+            //for an insert, we set the auto increment ID that was inserted into the database 
+            // as the lastInsertID field so we have access to it in the code.
             case Type.Insert:
                 command.ExecuteNonQuery();
                 connection.Close();
